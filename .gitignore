@@ -1,0 +1,53 @@
+# ==========================================
+# EQUINELEAD - GLOBAL GITIGNORE (ROOT)
+# ==========================================
+
+# --- Sistemas Operativos ---
+.DS_Store
+Thumbs.db
+*.swp
+Desktop.ini
+
+# --- Entornos de Desarrollo (IDEs) ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.visualstudio/
+.history/
+
+# --- Secretos y Seguridad (CRÍTICO) ---
+.env
+.env.*
+*.pem
+*.key
+*.pub
+credentials.json
+secrets.yaml
+
+# --- Entornos Virtuales y Dependencias (Python/DS) ---
+venv/
+.venv/
+env/
+.env/
+__pycache__/
+*.py[cod]
+
+# --- Archivos Temporales y Logs ---
+*.log
+logs/
+tmp/
+temp/
+*.bak
+*.tmp
+
+# --- Automatización y CI/CD (Jenkins) ---
+# Ignora archivos temporales de Jenkins pero MANTIENE el Jenkinsfile
+.jenkins/
+pipeline_logs/
+
+# --- Paquetes y Dependencias Globales ---
+node_modules/
+dist/
+build/
+out/
