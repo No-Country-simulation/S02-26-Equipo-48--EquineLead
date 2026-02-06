@@ -75,17 +75,24 @@ Frontend (Web / Mobile)
 
 ## 📁 Project Structure
 
-```
-equinelead-growth-engine/
-│
-├── backend/           # C# API
-├── ml/                # Sentiment analysis & lead scoring
-├── rust-workers/      # Scraping & pipelines
-├── frontend/          # Web interface
-├── mobile/            # iOS & Android apps
-├── devops/            # Jenkins & Docker
-├── docs/              # Documentation
-└── README.md
+```bash
+equine-lead/
+├── ci-cd/                  # Automatización y Despliegue Continuo
+│   └── jenkins/            # Configuraciones y scripts para el servidor Jenkins
+├── docs/                   # Documentación técnica y de negocio
+│   └── data-dictionary/    # Definiciones de variables de Scoring y negocio ecuestre
+├── infrastructure/         # Configuración de la Nube (Oracle Cloud)
+│   ├── docker/             # Archivos para empaquetar las APIs en contenedores
+│   ├── oci-setup/          # Configuración de red (VCN) y seguridad de Oracle
+│   └── terraform/          # Infraestructura como código para la instancia de OCI
+├── src/                    # Código fuente del sistema (por responsabilidad)
+│   ├── backend-csharp/     # Orquestador: API central, limpieza y gestión de base de datos
+│   ├── data-science/       # Cerebro: Inteligencia con FastAPI, Lead Scoring y Segmentación
+│   ├── mobile-apps/        # Interfaces: Aplicaciones para el equipo de ventas (Swift/Kotlin)
+│   └── scrapper-rust/      # Captación: Extracción masiva de datos a alta velocidad
+├── Jenkinsfile             # Archivo maestro de orquestación de la automatización
+├── .gitignore              # Filtro global (Sistemas operativos, IDEs, Secretos)
+└── README.md               # Guía principal del proyecto
 ```
 
 ---
