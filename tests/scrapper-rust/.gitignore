@@ -1,0 +1,14 @@
+# Rust compiled files
+target/
+**/*.rs.bk
+*.pdb
+
+# Cargo lock file (keep for applications, ignore for libraries)
+# Cargo.lock
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

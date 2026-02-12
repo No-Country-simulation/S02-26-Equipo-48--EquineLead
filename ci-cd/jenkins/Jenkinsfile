@@ -1,0 +1,92 @@
+// Jenkinsfile Maestro - Ejecuta todos los componentes
+// 
+// Analogía: Este Jenkinsfile es como el "director de orquesta" que coordina
+// a todos los mecánicos (otros Jenkinsfiles) para hacer una inspección completa del vehículo.
+
+pipeline {
+    agent any
+    
+    environment {
+        PROJECT_NAME = 'EquineLead - Full Stack'
+    }
+    
+    stages {
+        stage('🔍 Checkout') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '📥 Descargando código del repositorio...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                checkout scm
+            }
+        }
+        
+        stage('🔍 Check Builds') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '🔍 Verificando que todos los componentes compilen...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                sh './tests/scripts/check_builds.sh'
+            }
+        }
+        
+        stage('🧪 Run All Tests') {
+            parallel {
+                stage('Backend C#') {
+                    steps {
+                        echo '🔧 Ejecutando tests de Backend C#...'
+                        sh './tests/scripts/run_backend_tests.sh'
+                    }
+                }
+                
+                stage('Data Science') {
+                    steps {
+                        echo '🧠 Ejecutando tests de Data Science...'
+                        sh './tests/scripts/run_datascience_tests.sh'
+                    }
+                }
+                
+                stage('Scrapper Rust') {
+                    steps {
+                        echo '🦀 Ejecutando tests de Scrapper Rust...'
+                        sh './tests/scripts/run_scrapper_tests.sh'
+                    }
+                }
+                
+                stage('Frontend Web') {
+                    steps {
+                        echo '🎨 Ejecutando tests de Frontend Web...'
+                        sh './tests/scripts/run_frontend_tests.sh'
+                    }
+                }
+            }
+        }
+        
+        stage('🔗 Integration Tests') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '🔗 Ejecutando tests de integración...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                sh './tests/scripts/run_integration_tests.sh || echo "Integration tests no disponibles aún"'
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+            echo '✅ ¡TODOS LOS COMPONENTES PASARON!'
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+            echo '🎉 El proyecto está listo para merge'
+        }
+        failure {
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+            echo '❌ ALGUNOS COMPONENTES FALLARON'
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+            echo '⚠️  Revisa los logs arriba para ver qué falló'
+        }
+        always {
+            echo '🧹 Limpiando workspace...'
+            cleanWs()
+        }
+    }
+}

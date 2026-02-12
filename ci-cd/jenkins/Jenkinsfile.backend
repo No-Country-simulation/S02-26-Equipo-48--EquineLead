@@ -1,0 +1,68 @@
+// Jenkinsfile for Backend C# Component
+// 
+// Analogía: Este Jenkinsfile es como el "manual de inspección del motor" que sigue
+// el mecánico automático (Jenkins) cada vez que hay cambios en el código.
+
+pipeline {
+    agent any
+    
+    environment {
+        PROJECT_NAME = 'EquineLead Backend C#'
+        DOTNET_CLI_TELEMETRY_OPTOUT = '1'
+    }
+    
+    stages {
+        stage('🔍 Checkout') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '📥 Descargando código del repositorio...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                checkout scm
+            }
+        }
+        
+        stage('🔨 Build') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '🔨 Compilando Backend C#...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                script {
+                    if (fileExists('src/backend-csharp')) {
+                        dir('src/backend-csharp') {
+                            sh 'dotnet restore'
+                            sh 'dotnet build --configuration Release --no-restore'
+                        }
+                    } else {
+                        echo '⚠️  Directorio src/backend-csharp no encontrado'
+                    }
+                }
+            }
+        }
+        
+        stage('🧪 Test') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '🧪 Ejecutando tests...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                sh './tests/scripts/run_backend_tests.sh'
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+            echo '✅ Backend C# - BUILD Y TESTS EXITOSOS'
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+        }
+        failure {
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+            echo '❌ Backend C# - BUILD O TESTS FALLARON'
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+        }
+        always {
+            echo '🧹 Limpiando workspace...'
+            cleanWs()
+        }
+    }
+}

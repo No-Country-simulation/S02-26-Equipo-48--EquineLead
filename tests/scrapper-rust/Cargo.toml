@@ -1,0 +1,13 @@
+[package]
+name = "scrapper-tests"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "health_test.rs"
+
+[dependencies]
+# No dependencies needed for basic health check tests
+
+[dev-dependencies]
+# Test dependencies will go here when needed
