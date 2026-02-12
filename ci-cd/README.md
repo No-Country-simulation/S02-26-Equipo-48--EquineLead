@@ -1,5 +1,9 @@
 # 🚀 Guía Maestra de DevOps y Automatización (EquineLead)
 
+> 📍 **Navegación**: [🏠 Inicio](../README.md) → CI/CD y DevOps
+
+> **🏁 Analogía**: Este documento es el **manual del mecánico jefe** del taller de EquineLead. Explica cómo funciona toda la maquinaria técnica que permite que nuestro auto de carreras (el sistema) pase de la fase de construcción a la pista de producción.
+
 ¡Bienvenido al corazón logístico del proyecto! Este documento explica, paso a paso y "nivel dummie", cómo funciona toda la maquinaria técnica que permite que **EquineLead** identifique caballos de $50,000 USD y los ponga en la palma de la mano de un vendedor.
 
 ---
@@ -76,6 +80,66 @@ Para este proyecto, hemos decidido la ruta más segura y rápida:
 ## 🛠️ Tu responsabilidad como integrante
 - **Si eres Developer:** Tu código debe estar en la rama correcta. Jenkins se encarga del resto.
 - **Si eres DevOps (Dueño de esta carpeta):** Tu misión es que Jenkins nunca duerma y que la "cocina" (OCI) tenga siempre gas y fuego (recursos y conectividad).
+
+---
+
+## 🧪 Infraestructura de Testing
+
+Antes de que Jenkins pueda validar el código, necesita ejecutar tests. EquineLead cuenta con una infraestructura completa de testing:
+
+### **¿Qué tests ejecuta Jenkins?**
+
+Jenkins ejecuta el script maestro que coordina todos los tests:
+```bash
+./tests/scripts/run_all_tests.sh
+```
+
+Este script ejecuta:
+- ✅ **Backend C#**: Tests unitarios con xUnit
+- ✅ **Data Science**: Tests con pytest
+- ✅ **Scrapper Rust**: Tests con cargo test
+- ✅ **Frontend Web**: Tests con Jest
+
+### **¿Dónde están los tests?**
+
+```
+tests/
+├── backend-csharp/     # Tests del motor (Backend)
+├── data-science/       # Tests del cerebro (ML/IA)
+├── scrapper-rust/      # Tests de sensores (Scrapper)
+├── frontend-web/       # Tests del tablero (Frontend)
+└── scripts/            # Scripts de automatización
+    └── run_all_tests.sh  ← Jenkins ejecuta este script
+```
+
+### **Flujo completo: Código → Tests → Jenkins**
+
+```
+1. Developer escribe código
+   ↓
+2. Developer ejecuta tests localmente
+   ./tests/scripts/run_all_tests.sh
+   ↓
+3. Developer hace push
+   ↓
+4. Jenkins detecta el cambio (webhook)
+   ↓
+5. Jenkins ejecuta ./tests/scripts/run_all_tests.sh
+   ↓
+6. Jenkins reporta resultados en GitHub
+```
+
+📖 **Guía completa de testing**: [tests/README.md](../tests/README.md)  
+📖 **Scripts de automatización**: [tests/scripts/README.md](../tests/scripts/README.md)
+
+---
+
+## 🔗 Enlaces Relacionados
+
+- [🏠 **README Principal**](../README.md) - Visión general del proyecto
+- [🧪 **Infraestructura de Testing**](../tests/README.md) - Guía completa de tests
+- [🤖 **Jenkins Pipelines**](./jenkins/README.md) - Configuración detallada de Jenkinsfiles
+- [🏗️ **Infraestructura**](../infrastructure/README.md) - Terraform, Docker, y arquitectura
 
 ---
 

@@ -1,8 +1,51 @@
 # 🧪 EquineLead - Testing Infrastructure
 
+> 📍 **Navegación**: [🏠 Inicio](../README.md) → Testing Infrastructure
+
 > **Analogía Central**: Imagina que EquineLead es un **auto de carreras de alta tecnología**.<br> 
 Antes de que salga a la pista (producción), necesitamos que pase por una **inspección técnica completa**. <br>
 Esta carpeta `tests/` contiene todos los **manuales de inspección** y **herramientas de diagnóstico** que usan nuestros "mecánicos automáticos" (Jenkins) para verificar que cada componente funcione perfectamente.
+
+---
+
+## 🔗 **¿Cómo encaja esto en el proyecto?**
+
+Esta infraestructura de testing es la **capa de calidad** que conecta el desarrollo con el deployment:
+
+```
+Developer escribe código → Tests locales → Push → Jenkins ejecuta tests → Deploy
+```
+
+- **Localmente**: Developers ejecutan `./tests/scripts/run_all_tests.sh` antes de push
+- **En CI/CD**: Jenkins ejecuta automáticamente estos mismos tests en cada PR
+- **Resultado**: Solo código validado llega a producción
+
+📖 **Ver flujo completo**: [Infrastructure README](../infrastructure/README.md)  
+📖 **Ver configuración de Jenkins**: [ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md)
+
+---
+
+## 📞 **Soporte**
+
+Si tienes problemas con testing, consulta estos recursos:
+
+- **Tests fallando localmente**: Revisar sección [Troubleshooting](#-troubleshooting) arriba
+- **Jenkins no ejecuta tests**: Ver [ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md)
+- **Configuración de ambiente**: Ver [scripts/README.md](./scripts/README.md)
+
+---
+
+## 🔗 **Enlaces Relacionados**
+
+- [🏠 **README Principal**](../README.md) - Visión general del proyecto
+- [🏗️ **Infraestructura**](../infrastructure/README.md) - Arquitectura y deployment
+- [🤖 **CI/CD y DevOps**](../ci-cd/README.md) - Guía maestra de automatización
+- [🔧 **Jenkins Pipelines**](../ci-cd/jenkins/README.md) - Configuración de pipelines
+- [📜 **Scripts de Testing**](./scripts/README.md) - Scripts de automatización
+
+---
+
+> **Recuerda**: Los tests son la red de seguridad del proyecto. Un auto de carreras sin inspección técnica es un peligro en la pista. ¡Escribe tests! 🏁✨
 
 ---
 

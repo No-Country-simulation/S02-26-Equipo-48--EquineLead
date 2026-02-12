@@ -1,5 +1,7 @@
 # 🤖 Scripts de Automatización - Tests
 
+> 📍 **Navegación**: [🏠 Inicio](../../README.md) → [Testing](../README.md) → Scripts de Automatización
+
 > **Analogía**: Estos scripts son los **mecánicos automáticos** del taller de EquineLead. Cada script es como un mecánico especializado que sabe exactamente qué inspeccionar y cómo hacerlo, trabajando sin descanso para asegurar que el auto de carreras esté en perfecto estado.
 
 ---
@@ -354,12 +356,15 @@ fi
 
 ## 🔗 **Enlaces Relacionados**
 
-- [⬆️ Volver a Tests Principal](../README.md)
-- [📖 Backend C# Tests](../backend-csharp/README.md)
-- [📖 Data Science Tests](../data-science/README.md)
-- [📖 Scrapper Rust Tests](../scrapper-rust/README.md)
-- [📖 Frontend Web Tests](../frontend-web/README.md)
-- [📖 Jenkins CI/CD](../../ci-cd/jenkins/README.md)
+- [🏠 **README Principal**](../../README.md) - Visión general del proyecto
+- [🏗️ **Infraestructura**](../../infrastructure/README.md) - Arquitectura y deployment
+- [🤖 **CI/CD y DevOps**](../../ci-cd/README.md) - Guía maestra de automatización
+- [🔧 **Jenkins Pipelines**](../../ci-cd/jenkins/README.md) - Configuración de pipelines
+- [🧪 **Infraestructura de Testing**](../README.md) - Guía completa de tests
+- [📖 **Backend C# Tests**](../backend-csharp/README.md)
+- [📖 **Data Science Tests**](../data-science/README.md)
+- [📖 **Scrapper Rust Tests**](../scrapper-rust/README.md)
+- [📖 **Frontend Web Tests**](../frontend-web/README.md)
 
 ---
 

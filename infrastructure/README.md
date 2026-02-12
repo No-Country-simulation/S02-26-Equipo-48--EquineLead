@@ -1,5 +1,9 @@
 # 🏗️ EquineLead - Infraestructura
 
+> 📍 **Navegación**: [🏠 Inicio](../README.md) → Infraestructura
+
+> **🏁 Analogía**: Esta carpeta es el **garaje y taller mecánico** donde se construye y mantiene nuestro auto de carreras (EquineLead). Aquí definimos las especificaciones del vehículo (Terraform) y cómo empaquetar cada componente para el transporte (Docker).
+
 Este directorio contiene toda la configuración de infraestructura del proyecto EquineLead, organizada en dos grandes áreas: **provisión de recursos en la nube** (Terraform) y **configuración de servicios** (Docker).
 
 ---
@@ -103,6 +107,7 @@ git push origin feature/branch-name
 **Paso 2: Pull Request hacia `dev`**
 1. Developer crea PR en GitHub: `feature/branch-name` → `dev`
 2. **Jenkins automáticamente:**
+   - ✅ Ejecuta `./tests/scripts/run_all_tests.sh` - Script maestro que coordina todos los tests
    - ✅ Ejecuta tests unitarios - Valida que el código no rompa funcionalidades existentes
    - ✅ Verifica linting - Asegura que el código cumple con estándares de estilo
    - ✅ Construye la aplicación - Comprueba que el código compila sin errores
@@ -114,6 +119,8 @@ git push origin feature/branch-name
 4. **Si Jenkins falla ❌:**
    - El PR queda bloqueado
    - Developer corrige errores y hace push nuevamente
+
+📖 **Ver detalles de tests**: [tests/README.md](../tests/README.md)
 
 **Paso 3: Despliegue automático a Staging**
 - Al hacer merge a `dev`, Jenkins automáticamente despliega en ambiente de pruebas - Actualiza el entorno de staging con los últimos cambios
@@ -195,9 +202,13 @@ Código en /ci-cd/jenkins/ → Jenkins lee y ejecuta → Despliega en App Server
 
 ## 📚 Documentación Relacionada
 
-- [Guía Completa de Terraform](./terraform/docs/Gestión%20de%20Infraestructura%20-%20Terraform.md)
-- [Guía Maestra de DevOps](../ci-cd/README.md)
-- [Módulo Jenkins](./terraform/modules/jenkins/README.md)
+- [🏠 **README Principal**](../README.md) - Visión general del proyecto
+- [🧪 **Infraestructura de Testing**](../tests/README.md) - Guía completa de tests
+- [📜 **Scripts de Testing**](../tests/scripts/README.md) - Scripts de automatización
+- [🤖 **CI/CD y DevOps**](../ci-cd/README.md) - Guía maestra de automatización
+- [🔧 **Jenkins Pipelines**](../ci-cd/jenkins/README.md) - Configuración de pipelines
+- [📖 **Guía Completa de Terraform**](./terraform/docs/Gestión%20de%20Infraestructura%20-%20Terraform.md)
+- [📖 **Módulo Jenkins**](./terraform/modules/jenkins/README.md)
 
 ---
 

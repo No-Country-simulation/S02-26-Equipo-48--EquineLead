@@ -1,5 +1,7 @@
 # 🤖 Jenkins CI/CD - Configuración
 
+> 📍 **Navegación**: [🏠 Inicio](../../README.md) → [CI/CD](../README.md) → Jenkins Pipelines
+
 > **Analogía**: Jenkins es el **director del taller mecánico** de EquineLead. Coordina a todos los mecánicos automáticos (scripts), decide cuándo inspeccionar el auto (ejecutar tests), y asegura que solo vehículos en perfecto estado salgan a la pista (producción).
 
 ---
@@ -392,12 +394,15 @@ Configurar en GitHub para requerir que Jenkins pase:
 
 ## 🔗 **Enlaces Relacionados**
 
-- [⬆️ Volver a Tests Principal](../../tests/README.md)
-- [📖 Scripts de Automatización](../../tests/scripts/README.md)
-- [📖 Backend C# Tests](../../tests/backend-csharp/README.md)
-- [📖 Data Science Tests](../../tests/data-science/README.md)
-- [📖 Scrapper Rust Tests](../../tests/scrapper-rust/README.md)
-- [📖 Frontend Web Tests](../../tests/frontend-web/README.md)
+- [🏠 **README Principal**](../../README.md) - Visión general del proyecto
+- [🏗️ **Infraestructura**](../../infrastructure/README.md) - Arquitectura y deployment
+- [🤖 **CI/CD y DevOps**](../README.md) - Guía maestra de automatización
+- [🧪 **Infraestructura de Testing**](../../tests/README.md) - Guía completa de tests
+- [📜 **Scripts de Automatización**](../../tests/scripts/README.md) - Scripts bash
+- [📖 **Backend C# Tests**](../../tests/backend-csharp/README.md)
+- [📖 **Data Science Tests**](../../tests/data-science/README.md)
+- [📖 **Scrapper Rust Tests**](../../tests/scrapper-rust/README.md)
+- [📖 **Frontend Web Tests**](../../tests/frontend-web/README.md)
 
 ---
 
