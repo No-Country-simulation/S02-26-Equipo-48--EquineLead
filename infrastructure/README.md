@@ -103,10 +103,10 @@ git push origin feature/branch-name
 **Paso 2: Pull Request hacia `dev`**
 1. Developer crea PR en GitHub: `feature/branch-name` → `dev`
 2. **Jenkins automáticamente:**
-   - ✅ Ejecuta tests unitarios
-   - ✅ Verifica linting
-   - ✅ Construye la aplicación
-   - ✅ Reporta resultados en el PR
+   - ✅ Ejecuta tests unitarios - Valida que el código no rompa funcionalidades existentes
+   - ✅ Verifica linting - Asegura que el código cumple con estándares de estilo
+   - ✅ Construye la aplicación - Comprueba que el código compila sin errores
+   - ✅ Reporta resultados en el PR - Muestra el estado de las validaciones en GitHub
 3. **Si Jenkins pasa ✅:**
    - **Code Review en GitHub:** Otros developers revisan el código en la interfaz del PR
    - Dejan comentarios, aprueban o solicitan cambios
@@ -116,17 +116,17 @@ git push origin feature/branch-name
    - Developer corrige errores y hace push nuevamente
 
 **Paso 3: Despliegue automático a Staging**
-- Al hacer merge a `dev`, Jenkins automáticamente despliega en ambiente de pruebas
-- El equipo valida la funcionalidad
+- Al hacer merge a `dev`, Jenkins automáticamente despliega en ambiente de pruebas - Actualiza el entorno de staging con los últimos cambios
+- El equipo valida la funcionalidad - Realiza pruebas manuales y de integración en un ambiente similar a producción
 
 **Paso 4: Pull Request hacia `main` (Producción)**
 1. Cuando `dev` está estable, se crea PR: `dev` → `main`
 2. **Jenkins ejecuta suite completa:**
-   - ✅ Tests unitarios + integración
-   - ✅ Security scans
-   - ✅ Performance tests
-3. **Aprobación final del equipo en GitHub**
-4. Merge a `main` → Jenkins despliega en **producción** (App Server 6GB)
+   - ✅ Tests unitarios + integración - Verifica funcionalidad individual y comunicación entre componentes
+   - ✅ Security scans - Detecta vulnerabilidades y problemas de seguridad en el código
+   - ✅ Performance tests - Evalúa tiempos de respuesta y uso de recursos bajo carga
+3. **Aprobación final del equipo en GitHub** - Revisión crítica antes de afectar producción
+4. Merge a `main` → Jenkins despliega en **producción** (App Server 6GB) - Actualiza la aplicación en el servidor de producción
 
 #### ⚙️ Configuración de Jenkins por Rama
 

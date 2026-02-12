@@ -49,7 +49,7 @@ Jenkins es un programa que vive en tu servidor de Oracle y hace el trabajo pesad
 3.  **Limpieza y Pruebas:** Revisa que el código no tenga errores. Si algo está mal, manda una alerta roja 🔴.
 4.  **Construcción (Building):**
     *   Para el **Backend**, crea "contenedores" (Docker) que se quedan viviendo en el servidor.
-    *   Para las **Apps Móviles**, fabrica los archivos de instalación (`.apk` para Android y un archivo para iOS).
+    *   Para las **Apps Móviles**, fabrica los artefactos o archivos de instalación (`.apk` para Android y un archivo para iOS).
 
 ---
 
