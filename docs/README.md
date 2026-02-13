@@ -619,8 +619,8 @@ equine-lead/
 ## 📚 Hub de Documentación
 
 ### **🎓 Para Nuevos Developers**
-- **[Guía de Onboarding](./docs/readmewebsite/docs/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
-- **[Mapa de Documentación](./docs/readmewebsite/docs/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
+- **[Guía de Onboarding](./docs/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
+- **[Mapa de Documentación](./docs/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
 
 ### **🏗️ Infraestructura y Deployment**
 - **[Infrastructure README](./infrastructure/README.md)** - Configuración de Oracle Cloud, Terraform, Docker
