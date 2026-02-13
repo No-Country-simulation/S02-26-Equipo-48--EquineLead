@@ -67,7 +67,7 @@ if [ -f "health_check.test.js" ]; then
     if [ $? -eq 0 ]; then
         echo ""
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-        echo -e "${GREEN}✅ TODOS LOS TESTS PASARON EXITOSAMENTE${NC}"
+        echo -e "${GREEN}✅ [Frontend Web] MÓDULO VERIFICADO EXITOSAMENTE${NC}"
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
         exit 0
     else

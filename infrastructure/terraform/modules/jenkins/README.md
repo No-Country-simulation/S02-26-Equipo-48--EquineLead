@@ -14,7 +14,13 @@
   - Jenkins (última versión estable)
   - Docker Engine + Docker Compose
   - Git
-  - OpenJDK 17
+  - **OpenJDK 21**
+  - **Swap File (2GB)**: Para estabilidad en compilaciones pesadas
+  - **Herramientas CI/CD**:
+    - .NET SDK 8.0
+    - Node.js 20.x
+    - Rust/Cargo (vía rustup - **Acceso Global**)
+    - Python Pip & Venv
 
 ## Uso
 

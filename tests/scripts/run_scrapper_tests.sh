@@ -31,9 +31,30 @@ echo ""
 
 # Verificar si Rust está instalado
 if ! command -v cargo &> /dev/null; then
-    echo -e "${RED}❌ Error: Rust/Cargo no está instalado${NC}"
-    echo "Instala Rust desde: https://rustup.rs/"
-    exit 1
+    echo -e "${YELLOW}⚠️  Cargo no encontrado en el PATH estándar. Buscando en rutas comunes...${NC}"
+    
+    # Lista de posibles rutas para cargo
+    POSSIBLE_CARGO_PATHS=(
+        "$HOME/.cargo/bin/cargo"
+        "/var/lib/jenkins/.cargo/bin/cargo"
+        "/home/ubuntu/.cargo/bin/cargo"
+        "/usr/local/cargo/bin/cargo"
+    )
+    
+    for cargo_path in "${POSSIBLE_CARGO_PATHS[@]}"; do
+        if [ -f "$cargo_path" ]; then
+            cargo_dir=$(dirname "$cargo_path")
+            export PATH="$cargo_dir:$PATH"
+            echo -e "${YELLOW}✅ Cargo encontrado en: $cargo_path. Añadido al PATH.${NC}"
+            break
+        fi
+    done
+    
+    if ! command -v cargo &> /dev/null; then
+        echo -e "${RED}❌ Error: Rust/Cargo no está instalado o no se encuentra en las rutas conocidas.${NC}"
+        echo "Instala Rust desde: https://rustup.rs/"
+        exit 1
+    fi
 fi
 
 echo -e "${GREEN}✅ Rust encontrado:${NC}"
@@ -68,7 +89,7 @@ if [ -f "Cargo.toml" ]; then
     if [ $? -eq 0 ]; then
         echo ""
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-        echo -e "${GREEN}✅ TODOS LOS TESTS PASARON EXITOSAMENTE${NC}"
+        echo -e "${GREEN}✅ [Scrapper Rust] MÓDULO VERIFICADO EXITOSAMENTE${NC}"
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
         exit 0
     else

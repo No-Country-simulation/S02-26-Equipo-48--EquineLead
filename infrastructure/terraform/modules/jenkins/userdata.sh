@@ -46,7 +46,7 @@ PUBLIC_IP=$(curl -s ifconfig.me || echo "No disponible")
 echo "IP Pública: $PUBLIC_IP"
 echo ""
 echo "Componentes a instalar:"
-echo "  - OpenJDK 17"
+echo "  - OpenJDK 21"
 echo "  - Jenkins (última versión estable)"
 echo "  - Docker Engine + Docker Compose"
 echo "  - Git"
@@ -57,7 +57,7 @@ echo "============================================"
 echo ""
 
 # ============================================
-# 1. Configuración de Firewall (Limpieza de iptables)
+# 1. Configuración de Firewall (Persistencia)
 # ============================================
 echo "[INFO] Configurando firewall (abriendo puertos 8080, 8000, 3000)..."
 # OCI Ubuntu images often have restrictive default iptables rules.
@@ -70,10 +70,11 @@ sudo iptables -P INPUT ACCEPT
 sudo iptables -P FORWARD ACCEPT
 sudo iptables -P OUTPUT ACCEPT
 
-# Alternativamente, si se prefiere mantener reglas específicas:
-# sudo iptables -I INPUT 5 -p tcp --dport 8080 -j ACCEPT
-# sudo iptables -I INPUT 6 -p tcp --dport 3000 -j ACCEPT
-# sudo iptables -I INPUT 7 -p tcp --dport 8000 -j ACCEPT
+# Instalamos persistencia para que sobreviva a reinicios
+echo "[INFO] Instalando iptables-persistent para persistencia..."
+sudo apt-get update -y  # Asegurar que los repositorios están listos
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y iptables-persistent
+sudo netfilter-persistent save
 
 # ============================================
 # 2. Actualización del Sistema
@@ -100,8 +101,8 @@ sudo apt-get install -y \
 # ============================================
 # 3. Instalación de Java (Requerido para Jenkins)
 # ============================================
-echo "[INFO] Instalando OpenJDK 17..."
-sudo apt-get install -y openjdk-17-jdk
+echo "[INFO] Instalando OpenJDK 21..."
+sudo apt-get install -y openjdk-21-jdk
 
 # Verificar instalación
 java -version
@@ -163,6 +164,40 @@ sudo usermod -aG docker ubuntu
 # ============================================
 echo "[INFO] Instalando Docker Compose..."
 sudo apt-get install -y docker-compose
+
+# ============================================
+# AÑADIDO: Instalación de Build Tools para CI/CD
+# ============================================
+echo "[INFO] Instalando herramientas de compilación (.NET, Node, Rust, Python)..."
+
+# .NET SDK 8.0
+log "[INFO] Instalando .NET SDK 8.0..."
+sudo apt-get install -y dotnet-sdk-8.0
+
+# Node.js 20.x (LTS)
+log "[INFO] Instalando Node.js 20.x..."
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Python Pip y Venv
+log "[INFO] Instalando Python Pip y Venv..."
+sudo apt-get install -y python3-pip python3-venv
+
+# Rust (Instalación para Jenkins y usuario ubuntu)
+log "[INFO] Instalando Rust/Cargo..."
+# Instalación para el usuario ubuntu
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+echo 'source $HOME/.cargo/env' >> /home/ubuntu/.bashrc
+
+# 1. Instalación para Jenkins (con su propio HOME)
+log "[INFO] Instalando Rust para el usuario jenkins..."
+sudo -u jenkins HOME=/var/lib/jenkins bash -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
+
+# 2. Creación de enlaces globales (lo que hiciste manualmente)
+log "[INFO] Creando enlaces simbólicos para Cargo y Rustc..."
+sudo ln -sf /var/lib/jenkins/.cargo/bin/cargo /usr/local/bin/cargo
+sudo ln -sf /var/lib/jenkins/.cargo/bin/rustc /usr/local/bin/rustc
+sudo ln -sf /var/lib/jenkins/.cargo/bin/rustup /usr/local/bin/rustup
 
 # ============================================
 # 7. Configuración de Git con Token

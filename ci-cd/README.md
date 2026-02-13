@@ -139,6 +139,7 @@ tests/
 - [🏠 **README Principal**](../README.md) - Visión general del proyecto
 - [🧪 **Infraestructura de Testing**](../tests/README.md) - Guía completa de tests
 - [🤖 **Jenkins Pipelines**](./jenkins/README.md) - Configuración detallada de Jenkinsfiles
+- [📖 **Jenkins Paso a Paso**](./jenkins/CONFIGURACION_PASO_A_PASO.md) - Guía rápida de configuración y desbloqueo
 - [🏗️ **Infraestructura**](../infrastructure/README.md) - Terraform, Docker, y arquitectura
 
 ---

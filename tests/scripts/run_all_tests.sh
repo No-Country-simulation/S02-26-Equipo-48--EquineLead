@@ -89,12 +89,12 @@ echo ""
 # Determinar código de salida
 if [ $FAILED_TESTS -eq 0 ]; then
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}🎉 ¡TODOS LOS TESTS PASARON EXITOSAMENTE!${NC}"
+    echo -e "${GREEN}✅ TODOS LOS TESTS FUERON EJECUTADOS EXITOSAMENTE${NC}"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 0
 else
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${RED}⚠️  ALGUNOS TESTS FALLARON - Revisa los logs arriba${NC}"
+    echo -e "${RED}⚠️  TODOS LOS TESTS FUERON EJECUTADOS PERO HUBO ERRORES${NC}"
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 1
 fi

@@ -8,7 +8,7 @@
 # Verifica que todo esté listo antes de despegar (antes de correr tests).
 ###############################################################################
 
-set -e  # Detener si hay errores
+# set -e  # Deshabilitado para permitir el reporte completo de builds en fase MVP
 
 echo "🔍 EquineLead - Verificando compilación de todos los componentes"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -28,6 +28,7 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 TOTAL_COMPONENTS=4
 PASSED_BUILDS=0
 FAILED_BUILDS=0
+SKIPPED_BUILDS=0
 
 # Array para almacenar resultados
 declare -a BUILD_RESULTS
@@ -57,13 +58,29 @@ check_build() {
             BUILD_RESULTS+=("✅ $component_name: BUILD EXITOSO")
             ((PASSED_BUILDS++))
         else
-            echo -e "${RED}❌ $component_name: BUILD FALLÓ${NC}"
-            BUILD_RESULTS+=("❌ $component_name: BUILD FALLÓ")
-            ((FAILED_BUILDS++))
+            # Verificar si el fallo es por falta de código (Caso MVP)
+            local has_code=false
+            case "$component_name" in
+                "Backend C#") ls *.csproj &>/dev/null && has_code=true || has_code=false ;;
+                "Data Science") ls *.py &>/dev/null && has_code=true || has_code=false ;;
+                "Scrapper Rust") ls Cargo.toml &>/dev/null && has_code=true || has_code=false ;;
+                "Frontend Web") ls package.json &>/dev/null && has_code=true || has_code=false ;;
+            esac
+
+            if [ "$has_code" = false ]; then
+                echo -e "${YELLOW}⚠️  $component_name: Sin archivos de proyecto (saltando)${NC}"
+                BUILD_RESULTS+=("⚠️  $component_name: SIN CÓDIGO (SKIP)")
+                ((SKIPPED_BUILDS++))
+            else
+                echo -e "${RED}❌ $component_name: BUILD FALLÓ${NC}"
+                BUILD_RESULTS+=("❌ $component_name: BUILD FALLÓ")
+                ((FAILED_BUILDS++))
+            fi
         fi
     else
         echo -e "${YELLOW}⚠️  $component_name: Directorio no encontrado (saltando)${NC}"
         BUILD_RESULTS+=("⚠️  $component_name: NO ENCONTRADO")
+        ((SKIPPED_BUILDS++))
     fi
     
     echo ""
@@ -71,13 +88,13 @@ check_build() {
 
 # Verificar cada componente
 check_build "Backend C#" "dotnet build" "$PROJECT_ROOT/src/backend-csharp"
-check_build "Data Science" "python3 -m py_compile *.py 2>/dev/null || true" "$PROJECT_ROOT/src/data-science"
+check_build "Data Science" "python3 -m py_compile *.py 2>/dev/null" "$PROJECT_ROOT/src/data-science"
 check_build "Scrapper Rust" "cargo build" "$PROJECT_ROOT/src/scrapper-rust"
 check_build "Frontend Web" "npm install && npm run build" "$PROJECT_ROOT/src/frontend-web"
 
 # Mostrar resumen
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo -e "${BLUE}📊 RESUMEN DE BUILDS${NC}"
+echo -e "${BLUE}📊 RESUMEN DE AUDITORÍA DE COMPILACIÓN${NC}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
@@ -88,18 +105,23 @@ done
 echo ""
 echo "Total: $TOTAL_COMPONENTS componentes"
 echo -e "${GREEN}Exitosos: $PASSED_BUILDS${NC}"
+echo -e "${YELLOW}En espera (Skip): $SKIPPED_BUILDS${NC}"
 echo -e "${RED}Fallados: $FAILED_BUILDS${NC}"
 echo ""
 
 # Determinar código de salida
 if [ $FAILED_BUILDS -eq 0 ]; then
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}🎉 ¡TODOS LOS COMPONENTES COMPILARON EXITOSAMENTE!${NC}"
+    if [ $SKIPPED_BUILDS -gt 0 ]; then
+        echo -e "${GREEN}✅ AUDITORÍA FINALIZADA - COMPONENTES LISTOS O EN ESPERA DE CÓDIGO${NC}"
+    else
+        echo -e "${GREEN}🎉 ¡TODOS LOS COMPONENTES COMPILARON EXITOSAMENTE!${NC}"
+    fi
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 0
 else
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${RED}⚠️  ALGUNOS COMPONENTES NO COMPILARON${NC}"
+    echo -e "${RED}⚠️  ERROR: ALGUNOS COMPONENTES PRESENTAN FALLOS DE COMPILACIÓN${NC}"
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 1
 fi

@@ -69,7 +69,7 @@ if [ -d "$TEST_PROJECT_DIR" ] && [ -f "$TEST_PROJECT_DIR/backend-tests.csproj" ]
     if [ $? -eq 0 ]; then
         echo ""
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-        echo -e "${GREEN}✅ TODOS LOS TESTS PASARON EXITOSAMENTE${NC}"
+        echo -e "${GREEN}✅ [Backend C#] MÓDULO VERIFICADO EXITOSAMENTE${NC}"
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
         exit 0
     else
