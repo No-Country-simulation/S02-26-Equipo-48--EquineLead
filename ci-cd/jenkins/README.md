@@ -1,6 +1,7 @@
 # 🤖 Jenkins CI/CD - Configuración
 
 > 📍 **Navegación**: [🏠 Inicio](../../README.md) → [CI/CD](../README.md) → Jenkins Pipelines
+> 📖 **Guía Rápida**: [Configuración Paso a Paso (Unlock, Secrets, Webhooks)](./CONFIGURACION_PASO_A_PASO.md)
 
 > **Analogía**: Jenkins es el **director del taller mecánico** de EquineLead. Coordina a todos los mecánicos automáticos (scripts), decide cuándo inspeccionar el auto (ejecutar tests), y asegura que solo vehículos en perfecto estado salgan a la pista (producción).
 

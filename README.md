@@ -168,7 +168,7 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 - **Testing**: Framework de testing integrado de Rust ✅
 
 ### **Frontend Web**
-- **Runtime**: Node.js 18.19.1 ✅
+- **Runtime**: Node.js 20.x (LTS) ✅
 - **Framework**: React 18.2+ 💡 _(pendiente de confirmación)_
 - **Gestión de Estado**: Redux Toolkit 💡 _(pendiente de confirmación)_
 - **Librería UI**: Material-UI (MUI) 5.0+ 💡 _(pendiente de confirmación)_
@@ -186,7 +186,8 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 - **Cola de Mensajes**: RabbitMQ 3.12+ 💡 _(pendiente de confirmación)_
 
 ### **DevOps & Infraestructura**
-- **CI/CD**: Jenkins ✅ (en uso activo en OCI)
+- **CI/CD**: Jenkins ✅ (Actualizado a Java 21 para soporte LTSC)
+- **Memoria Virtual**: Swap File 2GB ✅ (Estabilidad garantizada en OCI)
 - **Containerización**: Docker 💡 _(pendiente de confirmación de versión)_
 - **Orquestación**: Docker Compose ✅ _(configuración pendiente de aprobación de PR)_
 - **IaC**: Terraform ✅ (en uso activo)
@@ -626,6 +627,7 @@ equine-lead/
 - **[Infrastructure README](./infrastructure/README.md)** - Configuración de Oracle Cloud, Terraform, Docker
 - **[CI/CD README](./ci-cd/README.md)** - Automatización y procesos de deployment
 - **[Jenkins Pipelines](./ci-cd/jenkins/README.md)** - Configuración detallada de pipelines
+- **[Jenkins Paso a Paso](./ci-cd/jenkins/CONFIGURACION_PASO_A_PASO.md)** - Guía rápida de configuración y desbloqueo
 
 ### **🧪 Testing y Calidad**
 - **[Testing README](./tests/README.md)** - Guía completa de testing, health checks, y scripts
@@ -696,7 +698,7 @@ Según tu componente, necesitarás:
 - **.NET 8.0 SDK** (Backend)
 - **Python 3.12.3** (Data Science)
 - **Rust 1.75.0** (Scrapper)
-- **Node.js 18.19.1** (Frontend)
+- **Node.js 20.x** (Frontend)
 - **Docker** (Todos)
 
 ### **Setup Rápido**

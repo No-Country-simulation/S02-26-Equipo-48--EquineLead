@@ -119,7 +119,8 @@ El módulo Jenkins provisiona una instancia de 1GB con:
 - **Jenkins** (última versión estable)
 - **Docker Engine + Docker Compose**
 - **Git**
-- **OpenJDK 17**
+- **OpenJDK 21** (Actualizado para soporte Long Term)
+- **Swap File (2GB)**: Memoria virtual para mayor estabilidad
 
 ### Acceso Post-Instalación
 1. Esperar ~5 minutos a que Jenkins termine de instalarse

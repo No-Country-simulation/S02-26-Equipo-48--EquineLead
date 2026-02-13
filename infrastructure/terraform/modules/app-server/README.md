@@ -1,6 +1,6 @@
 # Módulo: Application Server (6GB)
 
-## Estado: ⚠️ Preparado - Pendiente de Coordinación
+## Estado: 🛠️ En Configuración - Estructura Base Lista
 
 **Responsable**: Diego (infraestructura) + Equipos de desarrollo
 
@@ -23,7 +23,7 @@ Este módulo deberá contener:
 - `main.tf`: Definición de la instancia de 6GB
 - `variables.tf`: Variables específicas del servidor de aplicaciones
 - `outputs.tf`: IPs, endpoints, etc.
-- `userdata.sh`: Script de instalación de Docker y despliegue de contenedores
+- **userdata.sh**: ✅ Creado (Instalación de Docker e iptables-persistent para persistencia de firewall lista)
 - `README.md`: Documentación del módulo
 
 ## Shape Recomendado:
