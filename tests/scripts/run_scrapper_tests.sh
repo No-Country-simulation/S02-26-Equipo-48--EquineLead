@@ -31,9 +31,15 @@ echo ""
 
 # Verificar si Rust está instalado
 if ! command -v cargo &> /dev/null; then
-    echo -e "${RED}❌ Error: Rust/Cargo no está instalado${NC}"
-    echo "Instala Rust desde: https://rustup.rs/"
-    exit 1
+    # Intentar buscar en el home del usuario (común en CI con rustup)
+    if [ -f "$HOME/.cargo/bin/cargo" ]; then
+        export PATH="$HOME/.cargo/bin:$PATH"
+        echo -e "${YELLOW}⚠️  Cargo no estaba en el PATH, pero se encontró en $HOME/.cargo/bin. Añadiendo al PATH...${NC}"
+    else
+        echo -e "${RED}❌ Error: Rust/Cargo no está instalado${NC}"
+        echo "Instala Rust desde: https://rustup.rs/"
+        exit 1
+    fi
 fi
 
 echo -e "${GREEN}✅ Rust encontrado:${NC}"

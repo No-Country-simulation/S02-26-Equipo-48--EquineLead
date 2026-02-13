@@ -57,7 +57,7 @@ echo "============================================"
 echo ""
 
 # ============================================
-# 1. Configuración de Firewall (Limpieza de iptables)
+# 1. Configuración de Firewall (Persistencia)
 # ============================================
 echo "[INFO] Configurando firewall (abriendo puertos 8080, 8000, 3000)..."
 # OCI Ubuntu images often have restrictive default iptables rules.
@@ -70,10 +70,11 @@ sudo iptables -P INPUT ACCEPT
 sudo iptables -P FORWARD ACCEPT
 sudo iptables -P OUTPUT ACCEPT
 
-# Alternativamente, si se prefiere mantener reglas específicas:
-# sudo iptables -I INPUT 5 -p tcp --dport 8080 -j ACCEPT
-# sudo iptables -I INPUT 6 -p tcp --dport 3000 -j ACCEPT
-# sudo iptables -I INPUT 7 -p tcp --dport 8000 -j ACCEPT
+# Instalamos persistencia para que sobreviva a reinicios
+echo "[INFO] Instalando iptables-persistent para persistencia..."
+sudo apt-get update -y  # Asegurar que los repositorios están listos
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y iptables-persistent
+sudo netfilter-persistent save
 
 # ============================================
 # 2. Actualización del Sistema

@@ -46,7 +46,10 @@ if [ -z "$VIRTUAL_ENV" ]; then
         source "$PROJECT_ROOT/venv/bin/activate"
     else
         echo -e "${YELLOW}⚠️  No se detectó un entorno virtual activo ni la carpeta venv en la raíz.${NC}"
-        echo -e "   Se recomienda usar: python3 -m venv venv && source venv/bin/activate"
+        echo -e "   Creando entorno virtual automáticamente...${NC}"
+        python3 -m venv "$PROJECT_ROOT/venv"
+        source "$PROJECT_ROOT/venv/bin/activate"
+        echo -e "${GREEN}✅ Entorno virtual creado y activado.${NC}"
     fi
 fi
 
