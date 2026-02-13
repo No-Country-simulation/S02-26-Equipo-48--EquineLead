@@ -19,7 +19,7 @@
   - **Herramientas CI/CD**:
     - .NET SDK 8.0
     - Node.js 20.x
-    - Rust/Cargo (vía rustup)
+    - Rust/Cargo (vía rustup - **Acceso Global**)
     - Python Pip & Venv
 
 ## Uso

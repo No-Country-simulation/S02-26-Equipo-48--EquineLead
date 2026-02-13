@@ -185,13 +185,19 @@ sudo apt-get install -y python3-pip python3-venv
 
 # Rust (Instalación para Jenkins y usuario ubuntu)
 log "[INFO] Instalando Rust/Cargo..."
-# Instalamos rustup de forma que sea accesible. 
-# Nota: En un servidor CI real, a veces es mejor usar paquetes de sistema o contenedores.
+# Instalación para el usuario ubuntu
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-# Añadir Rust al PATH global para futuros logins
 echo 'source $HOME/.cargo/env' >> /home/ubuntu/.bashrc
-# Intentar que Jenkins también lo tenga (vía symlink o re-install)
-sudo -u jenkins bash -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
+
+# 1. Instalación para Jenkins (con su propio HOME)
+log "[INFO] Instalando Rust para el usuario jenkins..."
+sudo -u jenkins HOME=/var/lib/jenkins bash -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
+
+# 2. Creación de enlaces globales (lo que hiciste manualmente)
+log "[INFO] Creando enlaces simbólicos para Cargo y Rustc..."
+sudo ln -sf /var/lib/jenkins/.cargo/bin/cargo /usr/local/bin/cargo
+sudo ln -sf /var/lib/jenkins/.cargo/bin/rustc /usr/local/bin/rustc
+sudo ln -sf /var/lib/jenkins/.cargo/bin/rustup /usr/local/bin/rustup
 
 # ============================================
 # 7. Configuración de Git con Token

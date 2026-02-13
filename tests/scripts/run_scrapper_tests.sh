@@ -31,12 +31,27 @@ echo ""
 
 # Verificar si Rust está instalado
 if ! command -v cargo &> /dev/null; then
-    # Intentar buscar en el home del usuario (común en CI con rustup)
-    if [ -f "$HOME/.cargo/bin/cargo" ]; then
-        export PATH="$HOME/.cargo/bin:$PATH"
-        echo -e "${YELLOW}⚠️  Cargo no estaba en el PATH, pero se encontró en $HOME/.cargo/bin. Añadiendo al PATH...${NC}"
-    else
-        echo -e "${RED}❌ Error: Rust/Cargo no está instalado${NC}"
+    echo -e "${YELLOW}⚠️  Cargo no encontrado en el PATH estándar. Buscando en rutas comunes...${NC}"
+    
+    # Lista de posibles rutas para cargo
+    POSSIBLE_CARGO_PATHS=(
+        "$HOME/.cargo/bin/cargo"
+        "/var/lib/jenkins/.cargo/bin/cargo"
+        "/home/ubuntu/.cargo/bin/cargo"
+        "/usr/local/cargo/bin/cargo"
+    )
+    
+    for cargo_path in "${POSSIBLE_CARGO_PATHS[@]}"; do
+        if [ -f "$cargo_path" ]; then
+            cargo_dir=$(dirname "$cargo_path")
+            export PATH="$cargo_dir:$PATH"
+            echo -e "${YELLOW}✅ Cargo encontrado en: $cargo_path. Añadido al PATH.${NC}"
+            break
+        fi
+    done
+    
+    if ! command -v cargo &> /dev/null; then
+        echo -e "${RED}❌ Error: Rust/Cargo no está instalado o no se encuentra en las rutas conocidas.${NC}"
         echo "Instala Rust desde: https://rustup.rs/"
         exit 1
     fi

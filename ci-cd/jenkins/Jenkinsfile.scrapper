@@ -8,7 +8,6 @@ pipeline {
     
     environment {
         PROJECT_NAME = 'EquineLead Scrapper Rust'
-        CARGO_HOME = "${WORKSPACE}/.cargo"
     }
     
     stages {
