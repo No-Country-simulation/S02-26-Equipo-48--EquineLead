@@ -39,15 +39,27 @@ echo -e "${GREEN}✅ Python encontrado:${NC}"
 python3 --version
 echo ""
 
-# Verificar si pytest está instalado
-if ! python3 -m pytest --version &> /dev/null; then
-    echo -e "${YELLOW}⚠️  pytest no está instalado. Instalando...${NC}"
-    pip install pytest
+# Verificar si estamos en un entorno virtual o si existe uno en la raíz
+if [ -z "$VIRTUAL_ENV" ]; then
+    if [ -d "$PROJECT_ROOT/venv" ]; then
+        echo -e "${BLUE}venv encontrado en la raíz. Activándolo...${NC}"
+        source "$PROJECT_ROOT/venv/bin/activate"
+    else
+        echo -e "${YELLOW}⚠️  No se detectó un entorno virtual activo ni la carpeta venv en la raíz.${NC}"
+        echo -e "   Se recomienda usar: python3 -m venv venv && source venv/bin/activate"
+    fi
 fi
 
-echo -e "${GREEN}✅ pytest encontrado:${NC}"
-python3 -m pytest --version
-echo ""
+# Verificar si pytest está instalado
+if ! python3 -m pytest --version &> /dev/null; then
+    echo -e "${YELLOW}⚠️  pytest no está instalado en el entorno actual.${NC}"
+    echo -e "   Intentando instalarlo...${NC}"
+    pip install pytest || {
+        echo -e "${RED}❌ Error: No se pudo instalar pytest.${NC}"
+        echo -e "   Es probable que necesites activar tu entorno virtual (source venv/bin/activate)"
+        exit 1
+    }
+fi
 
 # Paso 1: Instalar dependencias (si existen)
 # NOTA: Esta sección está comentada porque aún no existe código fuente en src/data-science/
@@ -75,7 +87,7 @@ if [ -f "test_health.py" ]; then
     if [ $? -eq 0 ]; then
         echo ""
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-        echo -e "${GREEN}✅ TODOS LOS TESTS PASARON EXITOSAMENTE${NC}"
+        echo -e "${GREEN}✅ [Data Science] MÓDULO VERIFICADO EXITOSAMENTE${NC}"
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
         exit 0
     else
