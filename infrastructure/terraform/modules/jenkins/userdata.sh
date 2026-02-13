@@ -46,7 +46,7 @@ PUBLIC_IP=$(curl -s ifconfig.me || echo "No disponible")
 echo "IP Pública: $PUBLIC_IP"
 echo ""
 echo "Componentes a instalar:"
-echo "  - OpenJDK 17"
+echo "  - OpenJDK 21"
 echo "  - Jenkins (última versión estable)"
 echo "  - Docker Engine + Docker Compose"
 echo "  - Git"
@@ -100,8 +100,8 @@ sudo apt-get install -y \
 # ============================================
 # 3. Instalación de Java (Requerido para Jenkins)
 # ============================================
-echo "[INFO] Instalando OpenJDK 17..."
-sudo apt-get install -y openjdk-17-jdk
+echo "[INFO] Instalando OpenJDK 21..."
+sudo apt-get install -y openjdk-21-jdk
 
 # Verificar instalación
 java -version
@@ -163,6 +163,34 @@ sudo usermod -aG docker ubuntu
 # ============================================
 echo "[INFO] Instalando Docker Compose..."
 sudo apt-get install -y docker-compose
+
+# ============================================
+# AÑADIDO: Instalación de Build Tools para CI/CD
+# ============================================
+echo "[INFO] Instalando herramientas de compilación (.NET, Node, Rust, Python)..."
+
+# .NET SDK 8.0
+log "[INFO] Instalando .NET SDK 8.0..."
+sudo apt-get install -y dotnet-sdk-8.0
+
+# Node.js 20.x (LTS)
+log "[INFO] Instalando Node.js 20.x..."
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Python Pip y Venv
+log "[INFO] Instalando Python Pip y Venv..."
+sudo apt-get install -y python3-pip python3-venv
+
+# Rust (Instalación para Jenkins y usuario ubuntu)
+log "[INFO] Instalando Rust/Cargo..."
+# Instalamos rustup de forma que sea accesible. 
+# Nota: En un servidor CI real, a veces es mejor usar paquetes de sistema o contenedores.
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+# Añadir Rust al PATH global para futuros logins
+echo 'source $HOME/.cargo/env' >> /home/ubuntu/.bashrc
+# Intentar que Jenkins también lo tenga (vía symlink o re-install)
+sudo -u jenkins bash -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
 
 # ============================================
 # 7. Configuración de Git con Token
