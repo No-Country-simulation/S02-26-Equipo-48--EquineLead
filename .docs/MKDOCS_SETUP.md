@@ -89,18 +89,3 @@ Contamos con un script de automatización que prepara el entorno de staging (cop
 3.  **Sincroniza Activos**: Prepara la carpeta `.docs_staging` necesaria para que el tema Material cargue correctamente los estilos `extra.css`.
 4.  **Lanza Servidor**: Inicia la previsualización en `http://localhost:8006`.
 
----
-
-## 🐍 5. Comandos Manuales (Alternativa)
-
-Si no deseas usar el script, puedes hacerlo manualmente (requiere Python 3):
-
-```bash
-# 1. Instalar dependencias
-pip install mkdocs-material mkdocs-mermaid2-plugin mkdocs-exclude
-
-# 2. Levantar servidor local (sin estilos personalizados avanzados)
-mkdocs serve
-```
-
-La web estará disponible por defecto en `http://127.0.0.1:8000`.
