@@ -51,12 +51,30 @@ Esta configuración se debe realizar **una sola vez** después de subir los arch
     *   Selecciona `gh-pages` (Esta rama es creada automáticamente por nuestro bot después del primer push exitoso).
     *   Carpeta: `/(root)`.
 6.  Haz clic en **Save**.
+7.  GitHub te mostrará una barra azul arriba que dice "GitHub Pages is currently being built from the branch...".
+8. En 1 o 2 minutos, la barra cambiará a verde y te dará el enlace: "Your site is live at ...".
 
 > ⏳ **Nota**: Si la rama `gh-pages` no aparece, espera unos minutos a que termine de ejecutarse el Action "Deploy Documentation" en la pestaña **Actions**.
 
 ---
 
-## 🔄 3. Flujo de Actualización Automática
+## � 3. Requisitos del Token de GitHub (PAT)
+
+Si estás usando un **Personal Access Token (PAT)** para autenticarte por HTTPS en lugar de SSH, debes asegurarte de que tu token tenga los permisos correctos.
+
+### **Permiso Crítico: `workflow`**
+GitHub requiere explícitamente el permiso **`workflow`** para permitir cualquier "push" que incluya cambios dentro de la carpeta `.github/workflows/`.
+
+**¿Por qué es necesario en EquineLead?**
+1.  **Protección de CI/CD**: El archivo `.github/workflows/docs.yml` reside en esa carpeta protegida.
+2.  **Seguridad**: GitHub evita que aplicaciones o scripts maliciosos modifiquen tus flujos de trabajo de automatización sin un permiso específico de alto nivel.
+
+> [!IMPORTANT]
+> Si recibes un error tipo `refusing to allow a Personal Access Token to create or update workflow...`, edita tu token en GitHub (Developer Settings) y marca la casilla **`workflow`**.
+
+---
+
+## �🔄 3. Flujo de Actualización Automática
 
 No necesitas hacer nada manual para actualizar la web. El proceso es:
 
