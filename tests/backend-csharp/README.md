@@ -1,4 +1,4 @@
-# 🔧 Backend C# - Tests
+# 03.2. 🔧 Backend C# - Tests
 
 > **Analogía**: El Backend C# es el **motor** del auto de carreras EquineLead. Estos tests verifican que el motor arranque correctamente, responda a comandos, y funcione sin fallos antes de salir a la pista.
 
@@ -46,7 +46,7 @@ backend-csharp/
 
 ## 🚀 **Cómo Ejecutar los Tests**
 
-### **Opción 1: Usando el script de automatización** (Recomendado)
+### **Usando el script de automatización**
 
 ```bash
 # Desde la raíz del proyecto
@@ -61,7 +61,7 @@ Este script:
 
 ---
 
-### **Opción 2: Manualmente con dotnet**
+### **Manualmente con dotnet**
 
 ```bash
 # Navegar a la carpeta de tests
@@ -99,7 +99,7 @@ dotnet --version
 
 ## 🧪 **Tests Actuales**
 
-### **1. Health Check Test** ✅
+### **Health Check Test**
 
 **Archivo**: `health_check_test.cs`
 
@@ -164,7 +164,7 @@ Ejemplos:
 
 ## 📊 **Tipos de Tests**
 
-### **1. Tests Unitarios** (Unit Tests)
+### **Tests Unitarios**
 
 **Qué prueban**: Una función o método individual, aislado.
 
@@ -187,7 +187,7 @@ public void CalculateLeadScore_WithHighEngagement_ReturnsHighScore()
 
 ---
 
-### **2. Tests de Integración** (Integration Tests)
+### **Tests de Integración**
 
 **Qué prueban**: Varios componentes trabajando juntos (API + DB).
 
@@ -235,7 +235,7 @@ Ver: [Jenkinsfile.backend](../../ci-cd/jenkins/Jenkinsfile.backend)
 
 ## 🐛 **Troubleshooting**
 
-### **Error: "dotnet: command not found"**
+### **dotnet: command not found**
 
 **Solución**: Instala .NET SDK
 ```bash
@@ -245,7 +245,7 @@ chmod +x dotnet-install.sh
 ./dotnet-install.sh --channel 6.0
 ```
 
-### **Error: "No test is available"**
+### **No test is available**
 
 **Solución**: Verifica que el archivo tenga `[Fact]` o `[Theory]`
 ```csharp

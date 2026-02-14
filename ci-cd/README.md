@@ -1,4 +1,4 @@
-# 🚀 Guía Maestra de DevOps y Automatización (EquineLead)
+# 04. 🤖 Guía Maestra de DevOps y Automatización (EquineLead)
 
 > 📍 **Navegación**: [🏠 Inicio](../README.md) → CI/CD y DevOps
 
@@ -30,14 +30,14 @@ Para que esto funcione, usamos tres grandes piezas:
 
 No todo el código "corre" en el mismo lugar:
 
-### En el Servidor de Oracle (OCI) viven:
+### **En el Servidor de Oracle (OCI) viven**
 *   **API en C#:** Recibe y organiza los datos.
 *   **FastAPI (Python):** Le da el "puntaje" a los leads (Lead Scoring).
 *   **Scraper en Rust:** El robot que busca en internet.
 *   **Base de Datos:** El archivo gigante donde guardamos todo.
 *   **Jenkins:** Nuestro robot mayordomo (DevOps).
 
-### En los Teléfonos de los usuarios viven:
+### **En los Teléfonos de los usuarios viven**
 *   **La App de Android (AQUÍ NO CORRE C# ni PYTHON).**
 *   **La App de iOS (AQUÍ NO CORRE RUST).**
 *   *Nota:* Las apps solo muestran pantallas bonitas y le preguntan datos al servidor de Oracle.

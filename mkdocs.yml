@@ -1,0 +1,114 @@
+site_name: EquineLead Documentation
+site_description: Motor de Crecimiento Basado en Datos para la Industria Ecuestre
+site_author: EquineLead Team
+repo_url: https://github.com/No-Country-simulation/equine-lead
+repo_name: equine-lead
+
+theme:
+  name: material
+  custom_dir: .docs
+  language: es
+  palette:
+    - scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+extra_css:
+  - custom.css
+
+plugins:
+  - search
+  - mermaid2
+  - exclude:
+      glob:
+        - "*.py"
+        - "*.cs"
+        - "*.rs"
+        - "*.sh"
+        - "*.json"
+        - "*.yaml"
+        - "*.yml"
+        - "*.toml"
+        - "*.tf"
+        - "*.tfvars"
+        - "*.txt"
+        - "Makefile"
+        - "Dockerfile"
+        - "Jenkinsfile*"
+        - ".github/**/*"
+        - ".git/**/*"
+        - ".idea/**/*"
+        - ".vscode/**/*"
+        - "venv/**/*"
+        - "node_modules/**/*"
+        - "dist/**/*"
+        - "build/**/*"
+        - "__pycache__/**/*"
+        - "terraform.tfstate*"
+        - ".terraform/**/*"
+
+markdown_extensions:
+  - attr_list
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - toc:
+      permalink: true
+
+docs_dir: .docs_staging
+
+nav:
+  - "01. Inicio": README.md
+  - "02. Infraestructura":
+    - "General": infrastructure/README.md
+    - "Terraform (IaC)": infrastructure/terraform/README.md
+    - "Jenkins Module": infrastructure/terraform/modules/jenkins/README.md
+    - "App Server Module": infrastructure/terraform/modules/app-server/README.md
+  - "03. Testing":
+    - "General": tests/README.md
+    - "03.1. Scripts": tests/scripts/README.md
+    - "03.2. Backend Tests": tests/backend-csharp/README.md
+    - "03.3. Data Science Tests": tests/data-science/README.md
+    - "03.4. Scrapper Tests": tests/scrapper-rust/README.md
+    - "03.5. Frontend Tests": tests/frontend-web/README.md
+  - "04. CI/CD & DevOps":
+    - "Guía Maestra": ci-cd/README.md
+    - "05. Jenkins Pipelines": ci-cd/jenkins/README.md
+  - "Componentes (Source)":
+    - "Backend C#": src/backend-csharp/README.md
+    - "Data Science": src/data-science/README.md
+    - "Scrapper Rust": src/scrapper-rust/README.md
+    - "Mobile Apps": src/mobile-apps/README.md
+    - "Frontend Web": src/frontend-web/README.md
+  - "Documentación":
+    - "06. Onboarding": docs/DEVELOPER_ONBOARDING.md
+    - "07. Mapa de Flujo": docs/DOCUMENTATION_FLOW.md
+    - "08. Referencia Técnica": docs/README.md
+

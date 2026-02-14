@@ -51,3 +51,9 @@ node_modules/
 dist/
 build/
 out/
+# --- MkDocs (Static Site Generator) ---
+site/
+.cache/
+
+# --- MkDocs Staging (Technical) ---
+.docs_staging/

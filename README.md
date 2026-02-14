@@ -1,4 +1,4 @@
-# EquineLead – Motor de Crecimiento Basado en Datos para la Industria Ecuestre
+# 01. 🏠 EquineLead – Motor de Crecimiento Basado en Datos para la Industria Ecuestre
 
 > **📌 Versión 2.0 - Documentación Técnica**  
 > Este README presenta la arquitectura técnica planificada y las tecnologías seleccionadas para EquineLead.  
@@ -561,7 +561,7 @@ VITE_ENABLE_CHAT=false
 
 ---
 
-### **⚠️ Notas de Seguridad**
+### **Notas de Seguridad**
 
 1. **Nunca commitear archivos `.env`** - Ya están en `.gitignore`
 2. **Usar secrets diferentes** para dev/staging/producción
@@ -619,21 +619,21 @@ equine-lead/
 
 ## 📚 Hub de Documentación
 
-### **🎓 Para Nuevos Developers**
-- **[Guía de Onboarding](./docs/readmewebsite/docs/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
-- **[Mapa de Documentación](./docs/readmewebsite/docs/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
+### **Para Nuevos Developers**
+- **[Guía de Onboarding](./docs/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
+- **[Mapa de Documentación](./docs/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
 
-### **🏗️ Infraestructura y Deployment**
+### **Infraestructura y Deployment**
 - **[Infrastructure README](./infrastructure/README.md)** - Configuración de Oracle Cloud, Terraform, Docker
 - **[CI/CD README](./ci-cd/README.md)** - Automatización y procesos de deployment
 - **[Jenkins Pipelines](./ci-cd/jenkins/README.md)** - Configuración detallada de pipelines
 - **[Jenkins Paso a Paso](./ci-cd/jenkins/CONFIGURACION_PASO_A_PASO.md)** - Guía rápida de configuración y desbloqueo
 
-### **🧪 Testing y Calidad**
+### **Testing y Calidad**
 - **[Testing README](./tests/README.md)** - Guía completa de testing, health checks, y scripts
 - **[Test Scripts](./tests/scripts/README.md)** - Automatización de tests locales
 
-### **💻 Componentes Específicos**
+### **Componentes Específicos**
 
 > **⚠️ Nota**: Los READMEs de componentes individuales están en desarrollo o pendientes de creación. Los enlaces a continuación apuntan a las ubicaciones planificadas.
 
@@ -753,7 +753,7 @@ cd equine-lead
 | **Integration Tests** | Tests de integración entre servicios | `tests/*/IntegrationTests/` |
 | **E2E Tests** | Tests end-to-end del flujo completo | `tests/e2e/` |
 
-### **Analogía: El Auto de Carreras** 🏎️
+### **Analogía: El Auto de Carreras**
 
 Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 
@@ -817,9 +817,17 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 
 ## 📄 Licencia
 
-[Especificar licencia]
+Este proyecto está bajo la **Licencia MIT**. Puedes ver los términos detallados en el archivo [LICENSE](./LICENSE)
 
----
+La Licencia MIT permite:<br>
+- ✅ Uso comercial <br>
+- ✅ Modificación <br>
+- ✅ Distribución <br>
+- ✅ Uso privado <br>
+
+Condiciones:
+- ℹ️ Mantener el aviso de copyright y la licencia en las copias del software.
+
 
 > **Última actualización**: 2026-02-12  
 > **Versión**: 2.0 - Documentación Técnica  

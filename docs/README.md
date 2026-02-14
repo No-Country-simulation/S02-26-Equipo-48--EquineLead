@@ -1,13 +1,45 @@
-# EquineLead – Motor de Crecimiento Basado en Datos para la Industria Ecuestre
+# 08. 📚 EquineLead - Centro de Referencia Técnica
 
-> **📌 Versión 2.0 - Documentación Técnica**  
-> Este README presenta la arquitectura técnica planificada y las tecnologías seleccionadas para EquineLead.  
-> **Nota importante**: El código fuente aún está en desarrollo en ramas feature individuales y no es visible en el repositorio principal.<br> 
-Esta documentación sirve como **blueprint técnico** del proyecto, mostrando las versiones confirmadas de herramientas de testing y las tecnologías propuestas para cada componente.
+> 📍 **Navegación**: [🏠 Inicio](../README.md) → Centro de Referencia
 
-EquineLead es una plataforma MVP diseñada para ayudar a empresas de la industria ecuestre a identificar, calificar y convertir leads de alto valor utilizando estrategias de crecimiento basadas en datos.
+Este documento actúa como el **Hub de Referencia Técnica** para los desarrolladores de EquineLead. Mientras que el [README principal](../README.md) proporciona la visión general y el blueprint, aquí encontrarás enlaces a especificaciones detalladas, diccionarios de datos y guías avanzadas.
 
-La plataforma se enfoca en transformar visitantes casuales en leads calificados B2C y B2B a través de análisis de sentimiento, scoring de leads, automatización y APIs backend.
+---
+
+## 🏗️ Recursos Técnicos Centralizados
+
+### **Diccionarios y Datos**
+- **[Diccionario de Datos (Data Dictionary)](./data-dictionary/)**: Definición exhaustiva de variables para Lead Scoring y Esquema DB.
+- **[Modelos ML](./machine-learning/)**: Documentación de hiperparámetros y versiones de modelos BERT/RandomForest.
+
+### **Flujos y Procesos**
+- **[Mapa de Navegación de Documentación](./DOCUMENTATION_FLOW.md)**: Cómo se conectan todos los archivos `.md`.
+- **[Guía de Onboarding para desarrolladores](./DEVELOPER_ONBOARDING.md)**: Ruta de aprendizaje paso a paso.
+
+### **APIs e Integración**
+- **[Referencia de API (API Reference)](./api-reference.md)**: Documentación detallada de endpoints (Swagger/OpenAPI). *[Pendiente de implementación]*
+- **[Configuración de Entorno (Environment Setup)](./environment-setup.md)**: Guía avanzada de variables de entorno y secrets. *[Pendiente de implementación]*
+
+---
+
+## 🏁 La Analogía del Proyecto
+
+Recordatorio del marco conceptual:
+- **EquineLead** = Auto de carreras de alta tecnología.
+- **Testing** = Inspección técnica antes de la pista.
+- **Jenkins** = Director del taller mecánico.
+- **Componentes** = Partes del vehículo (Motor, Sensores, Tablero).
+
+---
+
+## 🛠️ Herramientas de Desarrollo
+
+Para una guía rápida sobre cómo configurar tu entorno, por favor consulta la sección **"Getting Started"** en el [README.md principal](../README.md) o sigue la [Guía de Onboarding](./DEVELOPER_ONBOARDING.md).
+
+---
+
+> **Última actualización**: 2026-02-14  
+> **Estado**: Refactorizado para evitar duplicidad técnica ✅
 
 ---
 
@@ -273,7 +305,7 @@ erDiagram
 - **Warm** (50-79): Interesado, necesita nutrición
 - **Cold** (0-49): Bajo engagement
 
-📖 **Ver variables completas**: [docs/data-dictionary/](./docs/data-dictionary/)
+📖 **Ver variables completas**: [docs/data-dictionary/](./data-dictionary/)
 
 ---
 
@@ -401,7 +433,7 @@ POST /api/leads/predict
 }
 ```
 
-📖 **Ver documentación completa de API**: [docs/api-reference.md](./docs/api-reference.md) _(documento aún no implementado)_ | Swagger UI disponible en `/swagger`
+📖 **Ver documentación completa de API**: [docs/api-reference.md](./api-reference.md) _(documento aún no implementado)_ | Swagger UI disponible en `/swagger`
 
 ---
 
@@ -560,14 +592,14 @@ VITE_ENABLE_CHAT=false
 
 ---
 
-### **⚠️ Notas de Seguridad**
+### **Notas de Seguridad**
 
 1. **Nunca commitear archivos `.env`** - Ya están en `.gitignore`
 2. **Usar secrets diferentes** para dev/staging/producción
 3. **Rotar secrets** regularmente (cada 90 días)
 4. **Usar contraseñas fuertes** - Mínimo 32 caracteres para producción
 
-📖 **Ver configuración completa**: [docs/environment-setup.md](./docs/environment-setup.md) _(documento aún no implementado)_
+📖 **Ver configuración completa**: [docs/environment-setup.md](./environment-setup.md) _(documento aún no implementado)_
 
 ---
 
@@ -618,28 +650,28 @@ equine-lead/
 
 ## 📚 Hub de Documentación
 
-### **🎓 Para Nuevos Developers**
-- **[Guía de Onboarding](./docs/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
-- **[Mapa de Documentación](./docs/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
+### **Para Nuevos Developers**
+- **[Guía de Onboarding](./DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
+- **[Mapa de Documentación](./DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
 
-### **🏗️ Infraestructura y Deployment**
-- **[Infrastructure README](./infrastructure/README.md)** - Configuración de Oracle Cloud, Terraform, Docker
-- **[CI/CD README](./ci-cd/README.md)** - Automatización y procesos de deployment
-- **[Jenkins Pipelines](./ci-cd/jenkins/README.md)** - Configuración detallada de pipelines
+### **Infraestructura y Deployment**
+- **[Infrastructure README](../infrastructure/README.md)** - Configuración de Oracle Cloud, Terraform, Docker
+- **[CI/CD README](../ci-cd/README.md)** - Automatización y procesos de deployment
+- **[Jenkins Pipelines](../ci-cd/jenkins/README.md)** - Configuración detallada de pipelines
 
-### **🧪 Testing y Calidad**
-- **[Testing README](./tests/README.md)** - Guía completa de testing, health checks, y scripts
-- **[Test Scripts](./tests/scripts/README.md)** - Automatización de tests locales
+### **Testing y Calidad**
+- **[Testing README](../tests/README.md)** - Guía completa de testing, health checks, y scripts
+- **[Test Scripts](../tests/scripts/README.md)** - Automatización de tests locales
 
-### **💻 Componentes Específicos**
+### **Componentes Específicos**
 
 > **⚠️ Nota**: Los READMEs de componentes individuales están en desarrollo o pendientes de creación. Los enlaces a continuación apuntan a las ubicaciones planificadas.
 
-- **[Backend C#](./src/backend-csharp/README.md)** - API Backend y lógica de negocio _(README pendiente)_
-- **[Data Science](./src/data-science/README.md)** - Modelos ML y análisis de sentimiento _(README en desarrollo)_
-- **[Scrapper Rust](./src/scrapper-rust/README.md)** - Servicio de scraping de alto rendimiento _(README pendiente)_
-- **[Frontend Web](./src/frontend-web/README.md)** - Dashboard y UI web _(README pendiente)_
-- **[Mobile Apps](./src/mobile-apps/README.md)** - Apps iOS y Android _(README pendiente)_
+- **[Backend C#](../src/backend-csharp/README.md)** - API Backend y lógica de negocio _(README pendiente)_
+- **[Data Science](../src/data-science/README.md)** - Modelos ML y análisis de sentimiento _(README en desarrollo)_
+- **[Scrapper Rust](../src/scrapper-rust/README.md)** - Servicio de scraping de alto rendimiento _(README pendiente)_
+- **[Frontend Web](../src/frontend-web/README.md)** - Dashboard y UI web _(README pendiente)_
+- **[Mobile Apps](../src/mobile-apps/README.md)** - Apps iOS y Android _(README pendiente)_
 
 ---
 
@@ -751,7 +783,7 @@ cd equine-lead
 | **Integration Tests** | Tests de integración entre servicios | `tests/*/IntegrationTests/` |
 | **E2E Tests** | Tests end-to-end del flujo completo | `tests/e2e/` |
 
-### **Analogía: El Auto de Carreras** 🏎️
+### **Analogía: El Auto de Carreras**
 
 Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 
@@ -763,7 +795,7 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 - **Integration Tests** = Verificación de que todas las piezas trabajan juntas
 - **Producción** = La pista de carreras donde compites
 
-📖 **Ver guía completa**: [tests/README.md](./tests/README.md)
+📖 **Ver guía completa**: [tests/README.md](../tests/README.md)
 
 ---
 
@@ -797,15 +829,15 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 ## 🆘 Soporte
 
 ### **Documentación**
-- [Guía de Onboarding](./docs/DEVELOPER_ONBOARDING.md) - Para nuevos developers
-- [Mapa de Documentación](./docs/DOCUMENTATION_FLOW.md) - Navegación de docs
-- [Testing Guide](./tests/README.md) - Guía completa de testing
-- [Infrastructure Guide](./infrastructure/README.md) - Setup de infraestructura
-- [CI/CD Guide](./ci-cd/README.md) - Automatización y deployment
+- [Guía de Onboarding](./DEVELOPER_ONBOARDING.md) - Para nuevos developers
+- [Mapa de Documentación](./DOCUMENTATION_FLOW.md) - Navegación de docs
+- [Testing Guide](../tests/README.md) - Guía completa de testing
+- [Infrastructure Guide](../infrastructure/README.md) - Setup de infraestructura
+- [CI/CD Guide](../ci-cd/README.md) - Automatización y deployment
 
 ### **Troubleshooting**
-- Ver [tests/README.md - Troubleshooting](./tests/README.md#-troubleshooting)
-- Ver [ci-cd/jenkins/README.md - Troubleshooting](./ci-cd/jenkins/README.md#-troubleshooting)
+- Ver [tests/README.md - Troubleshooting](../tests/README.md#-troubleshooting)
+- Ver [ci-cd/jenkins/README.md - Troubleshooting](../ci-cd/jenkins/README.md#-troubleshooting)
 
 ### **Contacto**
 - **DevOps Lead**: Diego Zapata Salhuana

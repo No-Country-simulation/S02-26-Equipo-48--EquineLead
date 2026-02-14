@@ -1,4 +1,4 @@
-# 🎓 Developer Onboarding Guide - EquineLead
+# 06. 🎓 EquineLead - Guía de Onboarding para Desarrolladores
 
 > **Bienvenido al equipo EquineLead!**<br> 
 Esta guía te llevará paso a paso desde cero hasta estar completamente productivo en el proyecto.
@@ -150,7 +150,7 @@ git push origin feature/mi-primer-cambio
 
 #### **9. Escribe tu Primer Test**
 
-- Lee [tests/README.md - Cómo Contribuir](../tests/README.md#-cómo-contribuir)
+- Lee [tests/README.md - Cómo Contribuir](../tests/README.md#-como-contribuir)
 - Escribe un test unitario simple
 - Ejecuta localmente
 - Haz PR

@@ -1,4 +1,4 @@
-# 🤖 Jenkins CI/CD - Configuración
+# 05. 🔧 EquineLead - Jenkins CI/CD Pipelines
 
 > 📍 **Navegación**: [🏠 Inicio](../../README.md) → [CI/CD](../README.md) → Jenkins Pipelines
 > 📖 **Guía Rápida**: [Configuración Paso a Paso (Unlock, Secrets, Webhooks)](./CONFIGURACION_PASO_A_PASO.md)
@@ -281,7 +281,7 @@ Para que los Jenkinsfiles funcionen, Jenkins debe tener instalado:
 
 ---
 
-## 🐛 **Troubleshooting**
+## 🐛 **Troubleshooting** {: #-troubleshooting }
 
 ### **Error: "sh: command not found"**
 
