@@ -12,6 +12,9 @@ pipeline {
     
     stages {
         stage('🔍 Checkout') {
+            when {
+                not { branch 'gh-pages' }
+            }
             steps {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
                 echo '📥 Descargando código del repositorio...'
@@ -21,6 +24,9 @@ pipeline {
         }
         
         stage('🔍 Check Builds') {
+            when {
+                not { branch 'gh-pages' }
+            }
             steps {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
                 echo '🔍 Verificando que todos los componentes compilen...'
@@ -30,6 +36,9 @@ pipeline {
         }
         
         stage('🧪 Run All Tests') {
+            when {
+                not { branch 'gh-pages' }
+            }
             parallel {
                 stage('Backend C#') {
                     steps {
@@ -62,6 +71,9 @@ pipeline {
         }
         
         stage('🔗 Integration Tests') {
+            when {
+                not { branch 'gh-pages' }
+            }
             steps {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
                 echo '🔗 Ejecutando tests de integración...'
