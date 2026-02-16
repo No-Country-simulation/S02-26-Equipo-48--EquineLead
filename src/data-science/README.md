@@ -20,6 +20,51 @@ El modelo prioriza la **intención histórica del usuario** sobre la simple rece
 ## 🗂 Estructura de Datos Utilizada
 
 El scoring utiliza los siguientes datos definidos en la estructura base del proyecto:
+---
+
+## 🔎 Convenciones Técnicas del Modelo (Backend Alignment)
+
+Para mantener coherencia con la estructura definida para el backend, se establecen las siguientes convenciones:
+
+### 🔢 Campos representados como INT
+
+Algunos campos se almacenan como valores enteros (INT) para facilitar:
+
+- Procesamiento en backend
+- Validaciones
+- Performance
+- Evitar inconsistencias por variaciones de texto
+
+### 📌 InteractionType
+
+| Valor | Significado |
+|-------|------------|
+| 1     | Visita |
+| 2     | Click |
+| 3     | Descarga / Registro |
+| 4     | Consulta |
+| 5     | Solicitud de contacto |
+
+### 📌 LeadScoreClassification
+
+| Valor | Clasificación |
+|-------|--------------|
+| 1     | Cold |
+| 2     | Warm |
+| 3     | Hot |
+
+⚠️ En la base de datos se almacena el valor numérico, pero al consumir la API debe exponerse el valor textual correspondiente.
+
+---
+
+### 🕒 Consideraciones Temporales
+
+- Todas las interacciones deben almacenarse históricamente.
+- `InteractionDate` es obligatorio para cálculo de recencia.
+- El score puede recalcularse automáticamente ante nuevas interacciones.
+- `UserBudget` refleja el último presupuesto declarado (MVP).
+
+---
 
 ### 🔹 Users
 - `UserId`
