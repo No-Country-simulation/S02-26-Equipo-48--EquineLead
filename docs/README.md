@@ -10,6 +10,7 @@ Este documento actúa como el **Hub de Referencia Técnica** para los desarrolla
 
 ### **Diccionarios y Datos**
 - **[Diccionario de Datos (Data Dictionary)](./data-dictionary/)**: Definición exhaustiva de variables para Lead Scoring y Esquema DB.
+- **[Guía de Sincronización de Git (Git Workflow)](./GIT_WORKFLOW.md)**: Guía para el flujo de trabajo de Git.
 - **[Modelos ML](./machine-learning/)**: Documentación de hiperparámetros y versiones de modelos BERT/RandomForest.
 
 ### **Flujos y Procesos**
@@ -19,6 +20,10 @@ Este documento actúa como el **Hub de Referencia Técnica** para los desarrolla
 ### **APIs e Integración**
 - **[Referencia de API (API Reference)](./api-reference.md)**: Documentación detallada de endpoints (Swagger/OpenAPI). *[Pendiente de implementación]*
 - **[Configuración de Entorno (Environment Setup)](./environment-setup.md)**: Guía avanzada de variables de entorno y secrets. *[Pendiente de implementación]*
+
+### **Gestión y Seguimiento**
+- **[Dashboard de Progreso](https://github.com/orgs/No-Country-simulation/projects/357)**: Visualización Kanban del flujo de trabajo y estado de tareas.
+- **[Tracking Issues](https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues?q=is%3Aissue+label%3Adocumentation+label%3Adevops)**: Registro detallado de decisiones técnicas y avance DevOps.
 
 ---
 
@@ -841,7 +846,7 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 
 ### **Contacto**
 - **DevOps Lead**: Diego Zapata Salhuana
-- **Canal de equipo**: [Slack/Discord]
+- **Canal de equipo**: [NoCountry/Whatsapp]
 
 ---
 

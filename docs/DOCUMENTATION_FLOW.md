@@ -12,6 +12,7 @@ graph TD
     A --> C[tests/README.md<br/>🧪 Testing]
     A --> D[ci-cd/README.md<br/>🤖 CI/CD]
     A --> E[src/*/README.md<br/>💻 Componentes]
+    A --> N[docs/GIT_WORKFLOW.md<br/>🔄 Git Workflow]
     
     B --> F[terraform/README.md<br/>☁️ IaC]
     B --> G[docker/README.md<br/>🐳 Contenedores]
@@ -98,7 +99,7 @@ graph TD
 
 ### **"Quiero entender el proyecto"**
 ```
-README.md → infrastructure/README.md → DEVELOPER_ONBOARDING.md
+README.md → infrastructure/README.md → docs/GIT_WORKFLOW.md → DEVELOPER_ONBOARDING.md
 ```
 
 ### **"Quiero configurar mi entorno"**
@@ -190,6 +191,7 @@ Todos los READMEs ahora usan la analogía del **auto de carreras**:
 - [🔧 Jenkins](../ci-cd/jenkins/README.md)
 - [� Scripts de Testing](../tests/scripts/README.md)
 - [🎓 Developer Onboarding](./DEVELOPER_ONBOARDING.md)
+- [🔄 Git Workflow](./GIT_WORKFLOW.md)
 
 ---
 
