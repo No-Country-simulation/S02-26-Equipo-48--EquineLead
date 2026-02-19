@@ -10,12 +10,12 @@ Este documento actúa como el **Hub de Referencia Técnica** para los desarrolla
 
 ### **Diccionarios y Datos**
 - **[Diccionario de Datos (Data Dictionary)](./data-dictionary/)**: Definición exhaustiva de variables para Lead Scoring y Esquema DB.
-- **[Guía de Sincronización de Git (Git Workflow)](./GIT_WORKFLOW.md)**: Guía para el flujo de trabajo de Git.
+- **[Guía de Sincronización de Git (Git Workflow)](./guides/GIT_WORKFLOW.md)**: Guía para el flujo de trabajo de Git.
 - **[Modelos ML](./machine-learning/)**: Documentación de hiperparámetros y versiones de modelos BERT/RandomForest.
 
 ### **Flujos y Procesos**
-- **[Mapa de Navegación de Documentación](./DOCUMENTATION_FLOW.md)**: Cómo se conectan todos los archivos `.md`.
-- **[Guía de Onboarding para desarrolladores](./DEVELOPER_ONBOARDING.md)**: Ruta de aprendizaje paso a paso.
+- **[Mapa de Navegación de Documentación](./guides/DOCUMENTATION_FLOW.md)**: Cómo se conectan todos los archivos `.md`.
+- **[Guía de Onboarding para desarrolladores](./guides/DEVELOPER_ONBOARDING.md)**: Ruta de aprendizaje paso a paso.
 
 ### **APIs e Integración**
 - **[Referencia de API (API Reference)](./api-reference.md)**: Documentación detallada de endpoints (Swagger/OpenAPI). *[Pendiente de implementación]*
@@ -39,7 +39,7 @@ Recordatorio del marco conceptual:
 
 ## 🛠️ Herramientas de Desarrollo
 
-Para una guía rápida sobre cómo configurar tu entorno, por favor consulta la sección **"Getting Started"** en el [README.md principal](../README.md) o sigue la [Guía de Onboarding](./DEVELOPER_ONBOARDING.md).
+Para una guía rápida sobre cómo configurar tu entorno, por favor consulta la sección **"Getting Started"** en el [README.md principal](../README.md) o sigue la [Guía de Onboarding](./guides/DEVELOPER_ONBOARDING.md).
 
 ---
 
@@ -617,8 +617,10 @@ equine-lead/
 │   └── README.md           # Guía maestra de DevOps
 ├── docs/                   # 📚 Documentación técnica y de negocio
 │   ├── data-dictionary/    # Definiciones de variables de Scoring
-│   ├── DEVELOPER_ONBOARDING.md  # 🎓 Guía de onboarding para developers
-│   └── DOCUMENTATION_FLOW.md    # 📊 Mapa de navegación de documentación
+│   ├── guides/             # 📖 Guías operativas y estándares
+│   │   ├── DEVELOPER_ONBOARDING.md  # 🎓 Guía de onboarding para developers
+│   │   ├── DOCUMENTATION_FLOW.md    # 📊 Mapa de navegación de documentación
+│   │   └── GIT_WORKFLOW.md          # 🔄 Guía de flujo de Git
 ├── infrastructure/         # 🏗️ Configuración de la Nube (Oracle Cloud)
 │   ├── terraform/          # Infraestructura como código (IaC)
 │   └── docker/             # Configuración de servicios en contenedores
@@ -656,8 +658,8 @@ equine-lead/
 ## 📚 Hub de Documentación
 
 ### **Para Nuevos Developers**
-- **[Guía de Onboarding](./DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
-- **[Mapa de Documentación](./DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
+- **[Guía de Onboarding](./guides/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
+- **[Mapa de Documentación](./guides/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
 
 ### **Infraestructura y Deployment**
 - **[Infrastructure README](../infrastructure/README.md)** - Configuración de Oracle Cloud, Terraform, Docker
@@ -834,8 +836,8 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 ## 🆘 Soporte
 
 ### **Documentación**
-- [Guía de Onboarding](./DEVELOPER_ONBOARDING.md) - Para nuevos developers
-- [Mapa de Documentación](./DOCUMENTATION_FLOW.md) - Navegación de docs
+- [Guía de Onboarding](./guides/DEVELOPER_ONBOARDING.md) - Para nuevos developers
+- [Mapa de Documentación](./guides/DOCUMENTATION_FLOW.md) - Navegación de docs
 - [Testing Guide](../tests/README.md) - Guía completa de testing
 - [Infrastructure Guide](../infrastructure/README.md) - Setup de infraestructura
 - [CI/CD Guide](../ci-cd/README.md) - Automatización y deployment

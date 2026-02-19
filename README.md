@@ -1,9 +1,8 @@
 # 01. 🏠 EquineLead – Motor de Crecimiento Basado en Datos para la Industria Ecuestre
 
-> **📌 Versión 2.0 - Documentación Técnica**  
-> Este README presenta la arquitectura técnica planificada y las tecnologías seleccionadas para EquineLead.  
-> **Nota importante**: El código fuente aún está en desarrollo en ramas feature individuales y no es visible en el repositorio principal.<br> 
-Esta documentación sirve como **blueprint técnico** del proyecto, mostrando las versiones confirmadas de herramientas de testing y las tecnologías propuestas para cada componente.
+> **📌 Versión 2.1 - Blueprint Técnico Real**  
+> Este README es el punto de entrada oficial para el equipo. Refleja la arquitectura confirmada por los Leads de Backend y Data Science.  
+> **Nota importante**: Solo los scripts de testing están en `main`. El desarrollo activo ocurre en las ramas `feature/`.
 
 EquineLead es una plataforma MVP diseñada para ayudar a empresas de la industria ecuestre a identificar, calificar y convertir leads de alto valor utilizando estrategias de crecimiento basadas en datos.
 
@@ -152,13 +151,10 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 
 ### **Data Science / Machine Learning**
 - **Runtime**: Python 3.12.3 ✅
-- **Framework API**: FastAPI 0.100+ 💡 _(pendiente de confirmación)_
-- **Librerías ML**:
-  - scikit-learn 1.3+ 💡 (Lead Scoring) _(pendiente de confirmación)_
-  - transformers 4.30+ 💡 (Análisis de Sentimiento - BERT) _(pendiente de confirmación)_
-  - pandas 2.0+ 💡 (Procesamiento de Datos) _(pendiente de confirmación)_
-  - numpy 1.24+ 💡 (Computación Numérica) _(pendiente de confirmación)_
-- **Testing**: pytest 7.4+ 💡 _(pendiente de confirmación)_
+- **Framework API**: FastAPI ✅
+- **Modelo de Scoring**: Basado en Reglas (Rule-Based) ✅ (Lógica: I + B + T - P)
+- **Análisis de Sentimiento**: BERT (Integración planeada) 💡
+- **Testing**: pytest 7.4+ ✅
 
 ### **Scrapper / Servicios de Alto Rendimiento**
 - **Lenguaje**: Rust 1.75.0 ✅ (Edition 2021)
@@ -181,9 +177,9 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 - **Testing**: XCTest (iOS), JUnit (Android) 💡 _(pendiente de confirmación)_
 
 ### **Base de Datos & Caché**
-- **Base de Datos Principal**: PostgreSQL 15+ 💡 _(pendiente de confirmación)_
-- **Caché**: Redis 7.0+ 💡 _(pendiente de confirmación)_
-- **Cola de Mensajes**: RabbitMQ 3.12+ 💡 _(pendiente de confirmación)_
+- **Base de Datos Principal**: PostgreSQL 15+ ✅ (Esquema v2 Confirmado)
+- **Caché**: Redis 7.0+ 💡
+- **Cola de Mensajes**: RabbitMQ 3.12+ 💡
 
 ### **DevOps & Infraestructura**
 - **CI/CD**: Jenkins ✅ (Actualizado a Java 21 para soporte LTSC)
@@ -204,58 +200,34 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 
 > **💡 Nota**: Este esquema representa el diseño planificado de la base de datos. La implementación está en desarrollo.
 
-### **Base de Datos Principal: PostgreSQL 15+** _(pendiente de confirmación)_
+### **Base de Datos Principal: PostgreSQL 15+** ✅ (Esquema v2 Confirmado)
 
 ```mermaid
 erDiagram
-    LEADS ||--o{ INTERACTIONS : tiene
-    LEADS ||--o{ SENTIMENT_SCORES : tiene
-    LEADS ||--|| LEAD_SCORES : tiene
-    LEADS }o--|| SEGMENTS : pertenece_a
+    Leads ||--o{ LeadInteractions : registra
+    Leads ||--|| LeadScores : posee
     
-    LEADS {
-        uuid id PK
-        string email
-        string phone
-        string name
-        string source
-        timestamp created_at
-        timestamp updated_at
-        string status
+    Leads {
+        INT id PK
+        VARCHAR email
+        VARCHAR name
+        TIMESTAMP_TZ created_at
     }
     
-    INTERACTIONS {
-        uuid id PK
-        uuid lead_id FK
-        string type
-        text content
-        timestamp created_at
-        json metadata
+    LeadInteractions {
+        INT id PK
+        INT lead_id FK
+        INT interaction_type_id
+        JSONB metadata
+        TIMESTAMP_TZ interaction_date
     }
     
-    SENTIMENT_SCORES {
-        uuid id PK
-        uuid lead_id FK
-        uuid interaction_id FK
-        string sentiment
-        float score
-        timestamp analyzed_at
-    }
-    
-    LEAD_SCORES {
-        uuid id PK
-        uuid lead_id FK
-        int score
-        string category
-        json features
-        timestamp calculated_at
-    }
-    
-    SEGMENTS {
-        uuid id PK
-        string name
-        string description
-        json criteria
+    LeadScores {
+        INT id PK
+        INT lead_id FK
+        INT score_value
+        INT classification_id
+        TIMESTAMP_TZ updated_at
     }
 ```
 
@@ -263,18 +235,20 @@ erDiagram
 
 | Tabla | Propósito | Campos Clave |
 |-------|-----------|--------------|
-| `leads` | Almacenar leads capturados | email, phone, name, source, status |
-| `interactions` | Rastrear todas las interacciones de leads | lead_id, type, content, metadata |
-| `sentiment_scores` | Resultados de análisis de sentimiento | lead_id, sentiment, score |
-| `lead_scores` | Scores de leads calculados | lead_id, score (0-100), category |
-| `segments` | Segmentación de leads | name, criteria |
+| `Leads` | Almacenar leads capturados | email, name, status, created_at |
+| `InteractionTypes` | Catálogo maestro de tipos de interacción | id, description (INT mapping) |
+| `LeadInteractions` | Historial completo de actividad del lead | lead_id, type_id, metadata, interaction_date |
+| `LeadScoreClassifications` | Catálogo maestro de estados (1-Cold, 2-Warm, 3-Hot) | id, description |
+| `LeadScores` | Almacenamiento del scoring vigente por lead | lead_id, value, classification_id |
 
-### **Categorías de Lead Scoring**
-- **Hot** (80-100): Alto valor, listo para comprar
-- **Warm** (50-79): Interesado, necesita nutrición
-- **Cold** (0-49): Bajo engagement
+### **Clasificación de Leads (Maestro)**
+| Valor INT | Clasificación | Significado |
+|-----------|---------------|-------------|
+| **1** | **Cold** | Bajo interés inicial / Inactivo |
+| **2** | **Warm** | Interés moderado / Nutrición |
+| **3** | **Hot** | Alta intención de compra / Urgente |
 
-📖 **Ver variables completas**: [docs/data-dictionary/](./docs/data-dictionary/)
+📖 **Diccionario de Datos**: [docs/database/especificacion-tecnica-db-v2.md](./docs/database/especificacion-tecnica-db-v2.md)
 
 ---
 
@@ -343,7 +317,7 @@ GET    /api/leads/{id}/score   # Obtener score actual
 
 ---
 
-### **API de Servicio ML (Python FastAPI)** _(pendiente de confirmación)_
+### **API de Servicio ML (Python FastAPI)** ✅
 URL Base: `https://ml.equinelead.com/v1` _(ejemplo ilustrativo)_
 
 #### **Análisis de Sentimiento**
@@ -402,7 +376,7 @@ POST /api/leads/predict
 }
 ```
 
-📖 **Ver documentación completa de API**: [docs/api-reference.md](./docs/api-reference.md) _(documento aún no implementado)_ | Swagger UI disponible en `/swagger`
+📖 **Contrato Técnico Scoring**: [docs/data-contracts/contrato-json-scoring-v1.md](./docs/data-contracts/contrato-json-scoring-v1.md)
 
 ---
 
@@ -580,9 +554,12 @@ equine-lead/
 │   ├── jenkins/            # Configuraciones y pipelines para Jenkins
 │   └── README.md           # Guía maestra de DevOps
 ├── docs/                   # 📚 Documentación técnica y de negocio
-│   ├── data-dictionary/    # Definiciones de variables de Scoring
-│   ├── DEVELOPER_ONBOARDING.md  # 🎓 Guía de onboarding para developers
-│   └── DOCUMENTATION_FLOW.md    # 📊 Mapa de navegación de documentación
+│   ├── database/           # Esquema DB, SQL y Diagramas v2
+│   ├── data-contracts/     # Contratos JSON y Notas de Diseño DS
+│   ├── guides/             # 📖 Guías operativas y estándares
+│   │   ├── DEVELOPER_ONBOARDING.md  # 🎓 Guía de onboarding para developers
+│   │   ├── DOCUMENTATION_FLOW.md    # 📊 Mapa de navegación de documentación
+│   │   └── GIT_WORKFLOW.md          # 🔄 Guía de flujo de Git
 ├── infrastructure/         # 🏗️ Configuración de la Nube (Oracle Cloud)
 │   ├── terraform/          # Infraestructura como código (IaC)
 │   └── docker/             # Configuración de servicios en contenedores
@@ -620,8 +597,8 @@ equine-lead/
 ## 📚 Hub de Documentación
 
 ### **Para Nuevos Developers**
-- **[Guía de Onboarding](./docs/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
-- **[Mapa de Documentación](./docs/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
+- **[Guía de Onboarding](./docs/guides/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
+- **[Mapa de Documentación](./docs/guides/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
 
 ### **Infraestructura y Deployment**
 - **[Infrastructure README](./infrastructure/README.md)** - Configuración de Oracle Cloud, Terraform, Docker
@@ -799,8 +776,8 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 ## 🆘 Soporte
 
 ### **Documentación**
-- [Guía de Onboarding](./docs/DEVELOPER_ONBOARDING.md) - Para nuevos developers
-- [Mapa de Documentación](./docs/DOCUMENTATION_FLOW.md) - Navegación de docs
+- [Guía de Onboarding](./docs/guides/DEVELOPER_ONBOARDING.md) - Para nuevos developers
+- [Mapa de Documentación](./docs/guides/DOCUMENTATION_FLOW.md) - Navegación de docs
 - [Testing Guide](./tests/README.md) - Guía completa de testing
 - [Infrastructure Guide](./infrastructure/README.md) - Setup de infraestructura
 - [CI/CD Guide](./ci-cd/README.md) - Automatización y deployment

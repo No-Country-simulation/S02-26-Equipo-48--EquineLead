@@ -16,7 +16,7 @@ EquineLead es como un **auto de carreras de alta tecnología**. Antes de salir a
 ### **Día 1: Entender el Panorama General**
 
 #### **1. Lee el README Principal** (15 minutos)
-📖 [README.md](../README.md)
+📖 [README.md](../../README.md)
 
 **Qué aprenderás:**
 - ✅ ¿Qué problema resuelve EquineLead?
@@ -32,7 +32,7 @@ EquineLead es como un **auto de carreras de alta tecnología**. Antes de salir a
 ---
 
 #### **2. Entiende la Infraestructura** (20 minutos)
-📖 [infrastructure/README.md](../infrastructure/README.md)
+📖 [infrastructure/README.md](../../infrastructure/README.md)
 
 **Qué aprenderás:**
 - ✅ ¿Dónde corre el código? (Oracle Cloud Infrastructure)
@@ -47,7 +47,7 @@ EquineLead es como un **auto de carreras de alta tecnología**. Antes de salir a
 ---
 
 #### **3. Conoce el Flujo de Testing** (30 minutos)
-📖 [tests/README.md](../tests/README.md)
+📖 [tests/README.md](../../tests/README.md)
 
 **Qué aprenderás:**
 - ✅ ¿Cómo probamos el código?
@@ -62,7 +62,7 @@ EquineLead es como un **auto de carreras de alta tecnología**. Antes de salir a
 ---
 
 #### **4. Entiende la Automatización (CI/CD)** (20 minutos)
-📖 [ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md)
+📖 [ci-cd/jenkins/README.md](../../ci-cd/jenkins/README.md)
 
 **Qué aprenderás:**
 - ✅ ¿Qué hace Jenkins?
@@ -96,7 +96,7 @@ cd equine-lead
 ```
 
 **Si algo falla:**
-- Ver [tests/README.md - Troubleshooting](../tests/README.md#-troubleshooting)
+- Ver [tests/README.md - Troubleshooting](../../tests/README.md#-troubleshooting)
 - Preguntar en el canal del equipo
 
 ---
@@ -105,11 +105,11 @@ cd equine-lead
 
 Según tu rol, lee el README específico:
 
-- **Backend Developer**: [src/backend-csharp/README.md](../src/backend-csharp/README.md)
-- **Data Scientist**: [src/data-science/README.md](../src/data-science/README.md)
-- **Systems Engineer**: [src/scrapper-rust/README.md](../src/scrapper-rust/README.md)
-- **Frontend Developer**: [src/frontend-web/README.md](../src/frontend-web/README.md)
-- **Mobile Developer**: [src/mobile-apps/README.md](../src/mobile-apps/README.md)
+- **Backend Developer**: [src/backend-csharp/README.md](../../src/backend-csharp/README.md)
+- **Data Scientist**: [src/data-science/README.md](../../src/data-science/README.md)
+- **Systems Engineer**: [src/scrapper-rust/README.md](../../src/scrapper-rust/README.md)
+- **Frontend Developer**: [src/frontend-web/README.md](../../src/frontend-web/README.md)
+- **Mobile Developer**: [src/mobile-apps/README.md](../../src/mobile-apps/README.md)
 
 ---
 
@@ -150,7 +150,7 @@ git push origin feature/mi-primer-cambio
 
 #### **9. Escribe tu Primer Test**
 
-- Lee [tests/README.md - Cómo Contribuir](../tests/README.md#-como-contribuir)
+- Lee [tests/README.md - Cómo Contribuir](../../tests/README.md#-como-contribuir)
 - Escribe un test unitario simple
 - Ejecuta localmente
 - Haz PR
@@ -247,9 +247,9 @@ README.md (Inicio)
 
 | Problema | Solución |
 |----------|----------|
-| Tests fallan localmente | Ver [tests/README.md - Troubleshooting](../tests/README.md#-troubleshooting) |
-| Jenkins no ejecuta tests | Ver [ci-cd/jenkins/README.md - Troubleshooting](../ci-cd/jenkins/README.md#-troubleshooting) |
-| No sé qué comando ejecutar | Ver [tests/scripts/README.md](../tests/scripts/README.md) |
+| Tests fallan localmente | Ver [tests/README.md - Troubleshooting](../../tests/README.md#-troubleshooting) |
+| Jenkins no ejecuta tests | Ver [ci-cd/jenkins/README.md - Troubleshooting](../../ci-cd/jenkins/README.md#-troubleshooting) |
+| No sé qué comando ejecutar | Ver [tests/scripts/README.md](../../tests/scripts/README.md) |
 | Error de compilación | Ver README de tu componente específico |
 
 ### **Canales de Comunicación**
@@ -320,12 +320,12 @@ README.md (Inicio)
 
 ## 🔗 **Enlaces Rápidos**
 
-- [🏠 README Principal](../README.md)
-- [🏗️ Infraestructura](../infrastructure/README.md)
-- [🧪 Testing](../tests/README.md)
-- [🤖 CI/CD](../ci-cd/README.md)
-- [🔧 Jenkins](../ci-cd/jenkins/README.md)
-- [📜 Scripts de Testing](../tests/scripts/README.md)
+- [🏠 README Principal](../../README.md)
+- [🏗️ Infraestructura](../../infrastructure/README.md)
+- [🧪 Testing](../../tests/README.md)
+- [🤖 CI/CD](../../ci-cd/README.md)
+- [🔧 Jenkins](../../ci-cd/jenkins/README.md)
+- [📜 Scripts de Testing](../../tests/scripts/README.md)
 
 ---
 

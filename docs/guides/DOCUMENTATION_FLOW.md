@@ -12,7 +12,7 @@ graph TD
     A --> C[tests/README.md<br/>🧪 Testing]
     A --> D[ci-cd/README.md<br/>🤖 CI/CD]
     A --> E[src/*/README.md<br/>💻 Componentes]
-    A --> N[docs/GIT_WORKFLOW.md<br/>🔄 Git Workflow]
+    A --> N[docs/guides/GIT_WORKFLOW.md<br/>🔄 Git Workflow]
     
     B --> F[terraform/README.md<br/>☁️ IaC]
     B --> G[docker/README.md<br/>🐳 Contenedores]
@@ -41,23 +41,23 @@ graph TD
 ### **Para Nuevos Developers**
 
 ```
-1. [01. README.md (Raíz)](../README.md)
+1. [01. README.md (Raíz)](../../README.md)
    ↓ "¿Qué es EquineLead?"
    ↓ "¿Cómo está organizado?"
    
-2. [02. infrastructure/README.md](../infrastructure/README.md)
+2. [02. infrastructure/README.md](../../infrastructure/README.md)
    ↓ "¿Dónde corre todo?"
    ↓ "¿Cómo funciona el deployment?"
    
-3. [03. tests/README.md](../tests/README.md)
+3. [03. tests/README.md](../../tests/README.md)
    ↓ "¿Cómo pruebo mi código?"
    ↓ "¿Qué tests debo escribir?"
    
-4. [05. ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md)
+4. [05. ci-cd/jenkins/README.md](../../ci-cd/jenkins/README.md)
    ↓ "¿Cómo funciona la automatización?"
    ↓ "¿Qué hace Jenkins?"
    
-5. [03.1. tests/scripts/README.md](../tests/scripts/README.md)
+5. [03.1. tests/scripts/README.md](../../tests/scripts/README.md)
    ↓ "¿Cómo ejecuto tests localmente?"
    ↓ "¿Qué scripts existen?"
    
@@ -69,29 +69,29 @@ graph TD
 
 ## 🔗 **Conexiones Entre Documentos**
 
-### **[README.md](../README.md) (Hub Central)**
+### **[README.md](../../README.md) (Hub Central)**
 - **Enlaza a**: Todos los READMEs principales
-- **Es enlazado por**: [tests/README.md](../tests/README.md), [ci-cd/README.md](../ci-cd/README.md), [infrastructure/README.md](../infrastructure/README.md), [ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md), [tests/scripts/README.md](../tests/scripts/README.md)
+- **Es enlazado por**: [tests/README.md](../../tests/README.md), [ci-cd/README.md](../../ci-cd/README.md), [infrastructure/README.md](../../infrastructure/README.md), [ci-cd/jenkins/README.md](../../ci-cd/jenkins/README.md), [tests/scripts/README.md](../../tests/scripts/README.md)
 
-### **[infrastructure/README.md](../infrastructure/README.md)**
-- **Enlaza a**: [tests/README.md](../tests/README.md), [ci-cd/README.md](../ci-cd/README.md), [ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md)
-- **Es enlazado por**: [README.md](../README.md), [ci-cd/README.md](../ci-cd/README.md), [tests/README.md](../tests/README.md)
+### **[infrastructure/README.md](../../infrastructure/README.md)**
+- **Enlaza a**: [tests/README.md](../../tests/README.md), [ci-cd/README.md](../../ci-cd/README.md), [ci-cd/jenkins/README.md](../../ci-cd/jenkins/README.md)
+- **Es enlazado por**: [README.md](../../README.md), [ci-cd/README.md](../../ci-cd/README.md), [tests/README.md](../../tests/README.md)
 
-### **[tests/README.md](../tests/README.md)**
-- **Enlaza a**: [scripts/README.md](../tests/scripts/README.md), [ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md), todos los tests/*/README.md
-- **Es enlazado por**: [README.md](../README.md), [infrastructure/README.md](../infrastructure/README.md), [ci-cd/README.md](../ci-cd/README.md)
+### **[tests/README.md](../../tests/README.md)**
+- **Enlaza a**: [scripts/README.md](../../tests/scripts/README.md), [ci-cd/jenkins/README.md](../../ci-cd/jenkins/README.md), todos los tests/*/README.md
+- **Es enlazado por**: [README.md](../../README.md), [infrastructure/README.md](../../infrastructure/README.md), [ci-cd/README.md](../../ci-cd/README.md)
 
-### **[ci-cd/README.md](../ci-cd/README.md)**
-- **Enlaza a**: [tests/README.md](../tests/README.md), [jenkins/README.md](../ci-cd/jenkins/README.md), [infrastructure/README.md](../infrastructure/README.md)
-- **Es enlazado por**: [README.md](../README.md), [infrastructure/README.md](../infrastructure/README.md)
+### **[ci-cd/README.md](../../ci-cd/README.md)**
+- **Enlaza a**: [tests/README.md](../../tests/README.md), [jenkins/README.md](../../ci-cd/jenkins/README.md), [infrastructure/README.md](../../infrastructure/README.md)
+- **Es enlazado por**: [README.md](../../README.md), [infrastructure/README.md](../../infrastructure/README.md)
 
-### **[ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md)**
-- **Enlaza a**: [tests/README.md](../tests/README.md), [tests/scripts/README.md](../tests/scripts/README.md), todos los tests/*/README.md
-- **Es enlazado por**: [README.md](../README.md), [ci-cd/README.md](../ci-cd/README.md), [infrastructure/README.md](../infrastructure/README.md), [tests/README.md](../tests/README.md)
+### **[ci-cd/jenkins/README.md](../../ci-cd/jenkins/README.md)**
+- **Enlaza a**: [tests/README.md](../../tests/README.md), [tests/scripts/README.md](../../tests/scripts/README.md), todos los tests/*/README.md
+- **Es enlazado por**: [README.md](../../README.md), [ci-cd/README.md](../../ci-cd/README.md), [infrastructure/README.md](../../infrastructure/README.md), [tests/README.md](../../tests/README.md)
 
-### **[tests/scripts/README.md](../tests/scripts/README.md)**
-- **Enlaza a**: [tests/README.md](../tests/README.md), [ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md)
-- **Es enlazado por**: [tests/README.md](../tests/README.md), [ci-cd/jenkins/README.md](../ci-cd/jenkins/README.md)
+### **[tests/scripts/README.md](../../tests/scripts/README.md)**
+- **Enlaza a**: [tests/README.md](../../tests/README.md), [ci-cd/jenkins/README.md](../../ci-cd/jenkins/README.md)
+- **Es enlazado por**: [tests/README.md](../../tests/README.md), [ci-cd/jenkins/README.md](../../ci-cd/jenkins/README.md)
 
 ---
 
@@ -99,7 +99,7 @@ graph TD
 
 ### **"Quiero entender el proyecto"**
 ```
-README.md → infrastructure/README.md → docs/GIT_WORKFLOW.md → DEVELOPER_ONBOARDING.md
+README.md → infrastructure/README.md → docs/guides/GIT_WORKFLOW.md → DEVELOPER_ONBOARDING.md
 ```
 
 ### **"Quiero configurar mi entorno"**
@@ -129,13 +129,13 @@ README.md → infrastructure/README.md → ci-cd/jenkins/README.md
 Todos los READMEs ahora incluyen breadcrumbs de navegación:
 
 ```markdown
-> 📍 **Navegación**: [🏠 Inicio](../README.md) → [Sección] → Subsección
+> 📍 **Navegación**: [🏠 Inicio](../../README.md) → [Sección] → Subsección
 ```
 
 **Ejemplos:**
-- `tests/README.md`: `[🏠 Inicio](../README.md) → Testing Infrastructure`
-- `ci-cd/jenkins/README.md`: `🏠 Inicio (../../README.md) → CI/CD (../README.md) → Jenkins Pipelines`
-- `tests/scripts/README.md`: `🏠 Inicio (../../README.md) → Testing (../README.md) → Scripts`
+- `tests/README.md`: `[🏠 Inicio](../../README.md) → Testing Infrastructure`
+- `ci-cd/jenkins/README.md`: `🏠 Inicio (../../../README.md) → CI/CD (../../README.md) → Jenkins Pipelines`
+- `tests/scripts/README.md`: `🏠 Inicio (../../../README.md) → Testing (../../README.md) → Scripts`
 
 ---
 
@@ -184,12 +184,12 @@ Todos los READMEs ahora usan la analogía del **auto de carreras**:
 
 ## 🔗 **Enlaces Rápidos**
 
-- [🏠 README Principal](../README.md)
-- [🏗️ Infraestructura](../infrastructure/README.md)
-- [🧪 Testing](../tests/README.md)
-- [🤖 CI/CD](../ci-cd/README.md)
-- [🔧 Jenkins](../ci-cd/jenkins/README.md)
-- [� Scripts de Testing](../tests/scripts/README.md)
+- [🏠 README Principal](../../README.md)
+- [🏗️ Infraestructura](../../infrastructure/README.md)
+- [🧪 Testing](../../tests/README.md)
+- [🤖 CI/CD](../../ci-cd/README.md)
+- [🔧 Jenkins](../../ci-cd/jenkins/README.md)
+- [📜 Scripts de Testing](../../tests/scripts/README.md)
 - [🎓 Developer Onboarding](./DEVELOPER_ONBOARDING.md)
 - [🔄 Git Workflow](./GIT_WORKFLOW.md)
 

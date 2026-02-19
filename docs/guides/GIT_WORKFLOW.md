@@ -2,9 +2,29 @@
 
 Esta guía detalla el flujo de trabajo diario para mantener el repositorio local actualizado con los cambios del equipo en GitHub, evitando conflictos y manteniendo el orden sin mezclar ramas prematuramente.
 
+## 🛠️ Paso 0: Habilitar Seguimiento (Tracking)
+
+**¿Para qué sirve?**
+Si al ejecutar `git branch -vv` no ves corchetes `[origin/...]` al lado de una rama, Git no sabe compararla con la nube.
+
+> [!CAUTION]
+> **Estructura Crítica del Comando:** debe llevar DOS argumentos.
+> `git branch --set-upstream-to=origin/RAMA_REMOTA RAMA_LOCAL`
+
+**Ejemplos:**
+```bash
+git branch --set-upstream-to=origin/main main
+git branch --set-upstream-to=origin/dev dev
+git branch --set-upstream-to=origin/feature/devops-automation feature/devops-automation
+```
+
+*Si omites el segundo nombre, Git vinculará la rama donde estés parado actualmente al remoto que pusiste.*
+
 ---
 
 ## 🚀 Opción 1: Sincronización Paso a Paso (Recomendado)
+
+> 📍 **Ejecutar desde**: Tu rama de trabajo (`feature/*`)
 
 Este método es el más seguro y educativo para entender qué está pasando en el repositorio.
 
@@ -21,15 +41,21 @@ Este método es el más seguro y educativo para entender qué está pasando en e
    git fetch origin main:main
    ```
 
-3. **Actualizar tu rama de trabajo:**
-   Trae tus propios cambios o los de tus colaboradores directos.
+3. **Sincronizar tu rama actual:**
+   *Este comando SOLO actualiza la rama en la que estás trabajando.*
    ```bash
    git pull origin $(git branch --show-current)
    ```
 
+> [!IMPORTANT]
+> **¿Y las otras ramas `feature/*`?**
+> Para actualizar otras ramas, debes cambiar a ellas con `git checkout` y repetir el `git pull`. Si quieres saber qué rama necesita actualizarse, ve el paso de **Visualización de Cambios**.
+
 ---
 
 ## ⚡ Opción 2: El "Comando Ninja" (Un solo paso)
+
+> 📍 **Ejecutar desde**: Tu rama de trabajo (`feature/*`)
 
 Si prefieres la velocidad, usa esta cadena de comandos que ejecuta la lógica anterior en un solo paso:
 
@@ -68,15 +94,39 @@ Si quieres cambiar de rama pero tienes cambios pendientes que no quieres comitea
 
 ---
 
+## 🤝 Opción 3: Integrar novedades del equipo (desde `dev`)
+
+> 📍 **Ejecutar desde**: Tu rama de trabajo (`feature/*`)
+
+Usa esta opción cuando quieras traer a tu rama lo que otros compañeros (o el área de DevOps) han subido a la rama principal de desarrollo.
+
+1. **Asegúrate de tener el `dev` de GitHub en tu PC:**
+   ```bash
+   git fetch origin dev:dev
+   ```
+
+2. **Mezcla esas novedades en tu rama actual:**
+   ```bash
+   git merge dev
+   ```
+
+> [!TIP]
+> **¿`git pull` sobreescribe mi código?**<br>
+> No. `git pull` y `git merge` son comandos "constructivos". <br>
+> Intentan **fusionar** el código nuevo con el tuyo. Si ambos editaron la misma línea, Git te avisará para que tú decidas qué versión mantener (Conflicto). Tu código nunca desaparecerá sin aviso.
+
+---
+
 ## 📊 Visualización de Cambios
 
 Para confirmar que tus ramas están al día y ver el estado del repositorio:
 
 ### Listar todas las ramas con detalle técnico
-Muestra qué rama local está atrasada (`behind`) o adelantada (`ahead`) respecto a GitHub.
+Te permite identificar qué ramas locales están **atrasadas** (`behind`) después de un `fetch`.
 ```bash
-git branch -a -vv
+git branch -vv
 ```
+*Si ves `[origin/nombre-rama: behind X]`, significa que debes hacer checkout a esa rama y ejecutar `git pull`.*
 
 ### Estado de la rama actual
 Revisar si tienes archivos pendientes por subir o cambios locales.
