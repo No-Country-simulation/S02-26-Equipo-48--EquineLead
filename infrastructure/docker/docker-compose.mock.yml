@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  # Mock del Frontend (Puerto 80)
+  mock-frontend:
+    image: nginx:alpine
+    container_name: mock-web-frontend
+    ports:
+      - "80:80"
+    restart: always
+
+  # Mock de la API (Puerto 8000)
+  mock-backend:
+    image: nginx:alpine
+    container_name: mock-api-backend
+    ports:
+      - "8000:80"
+    restart: always
+
+  # Mock de ML (Puerto 8080)
+  mock-ml-service:
+    image: nginx:alpine
+    container_name: mock-ml-service
+    ports:
+      - "8080:80"
+    restart: always
