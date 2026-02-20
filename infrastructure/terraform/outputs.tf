@@ -15,3 +15,16 @@ output "jenkins_ssh" {
   value       = module.jenkins.ssh_command
   description = "Comando SSH para conectarse a Jenkins"
 }
+
+# ============================================
+# Outputs del Módulo App Server
+# ============================================
+output "app_server_public_ip" {
+  value       = module.app_server.app_server_public_ip
+  description = "IP pública del servidor de aplicaciones"
+}
+
+output "app_server_ssh" {
+  value       = "ssh -i /path/to/your/key ubuntu@${module.app_server.app_server_public_ip}"
+  description = "Comando SSH para conectarse al App Server"
+}

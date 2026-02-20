@@ -1,4 +1,4 @@
-# 🎨 Frontend Web - Tests
+# 03.5. 🎨 Frontend Web - Tests
 
 > **Analogía**: El Frontend Web es el **tablero de instrumentos** del auto de carreras EquineLead. Estos tests verifican que el tablero muestre información correctamente, responda a interacciones del piloto, y presente datos de forma clara y precisa.
 
@@ -52,7 +52,7 @@ frontend-web/
 
 ## 🚀 **Cómo Ejecutar los Tests**
 
-### **Opción 1: Usando el script de automatización** (Recomendado)
+### **Usando el script de automatización**
 
 ```bash
 # Desde la raíz del proyecto
@@ -67,7 +67,7 @@ Este script:
 
 ---
 
-### **Opción 2: Manualmente con npm**
+### **Manualmente con npm**
 
 ```bash
 # Navegar a la carpeta de tests
@@ -127,7 +127,7 @@ npm --version
 
 ## 🧪 **Tests Actuales**
 
-### **1. Health Check Test** ✅
+### **Health Check Test**
 
 **Archivo**: `health_check.test.js`
 
@@ -207,7 +207,7 @@ expect(obj).toHaveProperty('key');
 
 ## 📊 **Tipos de Tests**
 
-### **1. Tests de Componentes** (Unit Tests)
+### **Tests de Componentes**
 
 **Qué prueban**: Que un componente renderiza correctamente.
 
@@ -228,7 +228,7 @@ test('Dashboard renders title correctly', () => {
 
 ---
 
-### **2. Tests de Interacción** (Integration Tests)
+### **Tests de Interacción**
 
 **Qué prueban**: Que el usuario puede interactuar con la UI.
 
@@ -255,7 +255,7 @@ test('User can submit lead form', () => {
 
 ---
 
-### **3. Tests End-to-End (E2E)**
+### **Tests End-to-End (E2E)**
 
 **Qué prueban**: Flujos completos de usuario en un navegador real.
 
@@ -303,7 +303,7 @@ Ver: [Jenkinsfile.frontend](../../ci-cd/jenkins/Jenkinsfile.frontend)
 
 ## 🐛 **Troubleshooting**
 
-### **Error: "jest: command not found"**
+### **jest: command not found**
 
 **Solución**: Instala las dependencias
 ```bash
@@ -311,7 +311,7 @@ cd tests/frontend-web
 npm install
 ```
 
-### **Error: "Cannot find module '@testing-library/react'"**
+### **Cannot find module '@testing-library/react'**
 
 **Solución**: Instala Testing Library
 ```bash

@@ -1,4 +1,4 @@
-# 🏗️ EquineLead - Infraestructura como Código (Terraform)
+# 02.1. 🏗️ EquineLead - Infraestructura como Código (Terraform)
 
 Este directorio contiene la configuración de Terraform para provisionar la infraestructura del proyecto **EquineLead** en Oracle Cloud Infrastructure (OCI).
 
@@ -34,12 +34,12 @@ terraform/
 
 ## 🚀 Estado Actual
 
-### ✅ Implementado
+### **Implementado**
 - **Módulo Jenkins**: Instancia de 1GB con Jenkins, Docker, Git instalados automáticamente
 - **Networking**: VCN, Subnet pública, Internet Gateway, Security Lists
 - **Datasources**: Búsqueda automática de imágenes Ubuntu 24.04
 
-### ⚠️ Pendiente de Coordinación
+### **Pendiente de Coordinación**
 Los siguientes módulos están preparados pero requieren definición de los equipos:
 - **app-server**: Servidor de 6GB para contenedores Docker
 - **backend-csharp**: API central (Isabel)
@@ -66,28 +66,28 @@ Los siguientes módulos están preparados pero requieren definición de los equi
 
 ## 🔧 Uso
 
-### 1. Inicializar Terraform
+### **Inicializar Terraform**
 ```bash
 cd infrastructure/terraform
 terraform init
 ```
 
-### 2. Validar la configuración
+### **Validar la configuración**
 ```bash
 terraform validate
 ```
 
-### 3. Previsualizar los cambios
+### **Previsualizar los cambios**
 ```bash
 terraform plan
 ```
 
-### 4. Aplicar la configuración
+### **Aplicar la configuración**
 ```bash
 terraform apply
 ```
 
-### 5. Ver los outputs
+### **Ver los outputs**
 ```bash
 terraform output
 ```
@@ -103,13 +103,13 @@ jenkins_ssh = "ssh -i /path/to/your/key ubuntu@129.x.x.x"
 
 ## 🔐 Seguridad
 
-### Archivos Protegidos por `.gitignore`
+### **Archivos Protegidos por .gitignore**
 - `terraform.tfvars` - Credenciales reales
 - `*.pem`, `*.key` - Llaves privadas
 - `.terraform/` - Dependencias del provider
 - `terraform.tfstate*` - Estado de la infraestructura
 
-### ⚠️ NUNCA subas estos archivos al repositorio
+### **NUNCA subas estos archivos al repositorio**
 
 ---
 
@@ -122,7 +122,7 @@ El módulo Jenkins provisiona una instancia de 1GB con:
 - **OpenJDK 21** (Actualizado para soporte Long Term)
 - **Swap File (2GB)**: Memoria virtual para mayor estabilidad
 
-### Acceso Post-Instalación
+### **Acceso Post-Instalación**
 1. Esperar ~5 minutos a que Jenkins termine de instalarse
 2. Acceder a la URL mostrada en los outputs
 3. Obtener la contraseña inicial:
@@ -130,7 +130,7 @@ El módulo Jenkins provisiona una instancia de 1GB con:
     cat ~/jenkins-initial-password.txt
     ```
 
-### 🔍 Verificación del Despliegue
+### **Verificación del Despliegue**
 
 Una vez finalizado el `terraform apply`, puedes verificar el estado de la instalación con estos comandos desde tu pc local (no en la instancia creada):
 
@@ -164,7 +164,7 @@ scp -i /path/to/your/key ubuntu@<IP_PUBLICA>:/opt/equine-lead/evidence/instalaci
 > - El archivo `.gitignore` protege los `*.log` para que no se suban a Git
 > - Descárgalo solo cuando necesites documentar un despliegue específico
 
-### Puertos Abiertos
+### **Puertos Abiertos**
 - **22**: SSH
 - **8080**: Jenkins UI
 - **3000**: Frontend
@@ -212,15 +212,15 @@ Cuando un equipo esté listo para implementar su componente:
 
 ## 🆘 Troubleshooting
 
-### Error: "Image not found"
+### **Image not found**
 - Verifica que la región en `terraform.tfvars` sea correcta
 - Confirma que el shape especificado esté disponible en tu región
 
-### Error: "Insufficient capacity"
+### **Insufficient capacity**
 - Intenta cambiar el Availability Domain en `variables.tf`
 - Considera usar un shape diferente
 
-### No puedo acceder a Jenkins
+### **No puedo acceder a Jenkins**
 - Verifica que el puerto 8080 esté abierto en la Security List
 - Confirma que la instancia esté en estado "Running" en OCI Console
 - Espera ~5 minutos para que Jenkins termine de instalarse

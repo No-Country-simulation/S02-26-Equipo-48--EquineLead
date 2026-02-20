@@ -9,8 +9,8 @@ Esta guía detalla los pasos críticos para poner en marcha el servidor de Jenki
 ## 1. 🔓 Desbloqueo y Puesta a Punto
 **Objetivo**: Activar el "cerebro" de Jenkins por primera vez.
 
-1.  **Acceso Inicial**: Entra a `http://129.151.114.218:8080`.
-2.  **Unlock**: Jenkins te pedirá una clave de administrador. Usa: `266f1dc02b804cdc810905e9d58d10c1`.
+1.  **Acceso Inicial**: Entra a `http://[TU_IP_PUBLICA]:8080` (Utiliza la IP pública que arrojó la creación de tu instancia; ten en cuenta que esta IP cambiará con cada nueva instancia).
+2.  **Unlock**: Jenkins te pedirá una clave de administrador. Usa la clave secreta inicial generada por el servidor para esa ocasión (ej: `266f1dc02b804cdc810905e9d58d10c1`).
 3.  **Plugins**: Selecciona **"Install suggested plugins"**. Esto instalará las herramientas básicas (Git, Pipeline, etc.) necesarias para que Jenkins entienda nuestro código.
 4.  **Usuario Administrador**: Crea tu cuenta personal para no depender siempre de la clave inicial.
 
@@ -51,6 +51,13 @@ Nuestros componentes necesitan variables de entorno (como `JWT_SECRET`, `DB_PASS
     *   Add source → **GitHub**.
     *   **Credentials**: Selecciona `github-auth` (el llavero que creamos en el paso 2).
     *   **Repository HTTPS URL**: `https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead.git`.
+    *   **Behaviors**: Asegúrate de que estén agregados:
+        *   *Discover branches*
+        *   *Discover pull requests from origin* (para conectar PRs internos).
+        *   *Discover pull requests from forks* (si usas forks).
+    *   **Build Configuration**:
+        *   **Mode**: `by Jenkinsfile`
+        *   **Script Path**: `ci-cd/jenkins/Jenkinsfile` (¡Muy Importante! Por defecto busca en la raíz, pero nuestro archivo está en esta carpeta).
 5.  **Save**: Jenkins escaneará el repositorio, encontrará los `Jenkinsfiles` y creará una pestaña por cada rama (dev, feature/*, main).
 
 ---
@@ -60,10 +67,12 @@ Nuestros componentes necesitan variables de entorno (como `JWT_SECRET`, `DB_PASS
 
 1.  En tu repositorio de **GitHub**, ve a **Settings** → **Webhooks**.
 2.  Haz clic en **Add webhook**.
-3.  **Payload URL**: `http://129.151.114.218:8080/github-webhook/` (¡Asegúrate de incluir la barra final `/`!).
+3.  **Payload URL**: `http://[TU_IP_PUBLICA]:8080/github-webhook/` (Recuerda usar la IP actual de tu instancia e incluir la barra final `/`).
 4.  **Content type**: `application/json`.
-5.  **Events**: Selecciona **"Just the push event"**.
-6.  **Add webhook**: Ahora, cada vez que hagas un `git push`, Jenkins recibirá un "toque" y arrancará el motor de pruebas automáticamente.
+5.  **Events**: Selecciona **"Let me select individual events"** y marca:
+    *   **Pushes**
+    *   **Pull requests**
+6.  **Add webhook**: Ahora, cada vez que hagas un `git push` o abras un PR, Jenkins recibirá un "toque" y arrancará el motor de pruebas automáticamente.
 
 ---
 

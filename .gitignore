@@ -51,3 +51,19 @@ node_modules/
 dist/
 build/
 out/
+
+# --- .NET / C# (Específico) ---
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+# --- MkDocs (Static Site Generator) ---
+site/
+.cache/
+
+# --- MkDocs Staging (Technical) ---
+.docs_staging/
