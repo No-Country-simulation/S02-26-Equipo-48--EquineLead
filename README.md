@@ -51,53 +51,43 @@ Construir un **MVP de Motor de Crecimiento** que convierta tráfico anónimo en 
 graph TB
     subgraph "Capa de Cliente"
         WEB[Dashboard Web<br/>React + Node.js 18]
-        MOBILE[Apps Móviles<br/>iOS Swift / Android Kotlin]
+        MOBILE[App Móvil<br/>Android Kotlin]
         LANDING[Landing Page<br/>Formularios de Captura]
     end
-    
-    subgraph "Capa de API Gateway"
-        GATEWAY[API Gateway<br/>ASP.NET Core 8.0]
-    end
-    
-    subgraph "Servicios Backend"
-        BACKEND[API Backend<br/>.NET 8.0<br/>Lógica de Negocio]
+
+    subgraph "Servicios Backend MVP"
+        BACKEND[API Backend<br/>.NET 8.0<br/>Entrada + Lógica de Negocio]
         ML[Servicio ML<br/>Python 3.12.3<br/>FastAPI]
         SCRAPPER[Servicio Scrapper<br/>Rust 1.75.0<br/>Recolección de Datos]
     end
-    
+
     subgraph "Capa de Datos"
         DB[(PostgreSQL<br/>Base de Datos Principal)]
         CACHE[(Redis<br/>Capa de Caché)]
-        QUEUE[Cola de Mensajes<br/>RabbitMQ]
     end
-    
+
     subgraph "CI/CD"
         JENKINS[Jenkins<br/>Instancia OCI]
         DOCKER[Docker Registry]
     end
-    
-    WEB --> GATEWAY
-    MOBILE --> GATEWAY
-    LANDING --> GATEWAY
-    
-    GATEWAY --> BACKEND
-    GATEWAY --> ML
-    
+
+    WEB --> BACKEND
+    MOBILE --> BACKEND
+    LANDING --> BACKEND
+
+    SCRAPPER --> BACKEND
+
+    BACKEND --> ML
+    ML --> BACKEND
+
     BACKEND --> DB
     BACKEND --> CACHE
-    BACKEND --> QUEUE
-    
-    ML --> DB
-    ML --> CACHE
-    
-    SCRAPPER --> QUEUE
-    SCRAPPER --> DB
-    
+
     JENKINS --> DOCKER
     DOCKER --> BACKEND
     DOCKER --> ML
     DOCKER --> SCRAPPER
-    
+
     style WEB fill:#4CAF50,stroke:#2E7D32,color:#fff
     style MOBILE fill:#4CAF50,stroke:#2E7D32,color:#fff
     style BACKEND fill:#2196F3,stroke:#1565C0,color:#fff
@@ -107,30 +97,27 @@ graph TB
     style JENKINS fill:#607D8B,stroke:#37474F,color:#fff
 ```
 
-### **Componentes de Arquitectura**
+### **Componentes de Arquitectura (MVP)**
+
+> **💡 Nota:** Para el MVP, el API Backend absorbe el rol de puerta de entrada (API Gateway). No existe un Gateway separado.
 
 #### **Capa de Cliente**
-- **Dashboard Web**: Interfaz de analíticas y gestión basada en React
-- **Apps Móviles**: Apps nativas iOS (Swift) y Android (Kotlin) para equipo de ventas
-- **Landing Page**: Formularios de captura de leads con tracking de sentimiento
-
-#### **API Gateway**
-- **Tecnología**: ASP.NET Core 8.0
-- **Propósito**: Punto de entrada único, autenticación, rate limiting, enrutamiento
+- **Dashboard Web**: Interfaz de analíticas basada en React — Ronald
+- **App Móvil (Android)**: App para agentes CRM y supervisores — Franklin
+- **Landing Page**: Formularios de captura de leads
 
 #### **Servicios Backend**
-- **API Backend (.NET 8.0)**: Lógica de negocio core, orquestación de datos, endpoints API
-- **Servicio ML (Python 3.12.3)**: Análisis de sentimiento, scoring de leads, predicciones
-- **Scrapper (Rust 1.75.0)**: Recolección de datos de alto rendimiento desde fuentes externas
+- **API Backend (.NET 8.0)**: Punto de entrada único + lógica de negocio. Recibe leads del scrapper, llama al servicio ML para scoring y persiste resultados en DB — Junior
+- **Servicio ML (Python 3.12.3 / FastAPI)**: Calcula el score del lead y devuelve clasificación (Cold/Warm/Hot) al Backend — Leandro + David Alejandro
+- **Scrapper (Rust 1.75.0)**: Extrae leads de fuentes públicas y los envía al API Backend — Jorge
 
 #### **Capa de Datos**
-- **PostgreSQL**: Base de datos relacional primaria para datos estructurados
-- **Redis**: Capa de caché para optimización de rendimiento
-- **RabbitMQ**: Cola de mensajes para procesamiento asíncrono y comunicación entre servicios
+- **PostgreSQL**: Base de datos principal (tablas: `Users`, `LeadInteractions`, `LeadScores`, `Products`) — Diseño: Isabel
+- **Redis**: Caché para optimización de rendimiento 💡 _(pendiente de confirmación)_
 
 #### **CI/CD**
-- **Jenkins**: Testing, building y deployment automatizados
-- **Docker**: Containerización de todos los servicios
+- **Jenkins**: Testing automático y validación de PRs — Diego
+- **Docker**: Containerización de todos los servicios 💡
 
 ---
 
@@ -257,16 +244,22 @@ erDiagram
 > **💡 Nota**: Estos endpoints representan el diseño de API planificado. La implementación está en desarrollo.
 
 ### **API Backend (ASP.NET Core 8.0)** _(pendiente de confirmación)_
-URL Base: `https://api.equinelead.com/v1`
+URL Base: `http://<APP_SERVER_IP>:8000` _(IP pública del App Server — ver [Issue #7](https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues/7#issuecomment-3931069066): por mientras se gestiona la creación de instancia AWS como alternativa a OCI)_
 
-#### **Gestión de Leads**
+#### **Gestión de Leads inmediata**
 ```http
-POST   /api/leads              # Crear nuevo lead
-GET    /api/leads/{id}         # Obtener lead por ID
-GET    /api/leads              # Listar leads (paginado)
+POST   /api/users              # Recibir nuevo lead desde el scrapper
+GET    /api/leads              # Listar leads con score (paginado)
+```
+
+**Pendientes de implementar luego**
+```http
+GET    /api/leads/{id}         # Obtener lead por id
 PUT    /api/leads/{id}         # Actualizar lead
 DELETE /api/leads/{id}         # Eliminar lead
 ```
+
+> 💡 **Nota**: Endpoints en definición por Junior (Contrato 2 pendiente). Ver: [`docs/meetings/2026-02-19-flujo-pipeline-narrado.md`](./docs/meetings/2026-02-19-flujo-pipeline-narrado.md)
 
 **Ejemplo de Request:**
 ```json
@@ -318,7 +311,7 @@ GET    /api/leads/{id}/score   # Obtener score actual
 ---
 
 ### **API de Servicio ML (Python FastAPI)** ✅
-URL Base: `https://ml.equinelead.com/v1` _(ejemplo ilustrativo)_
+URL Base: `http://<APP_SERVER_IP>:8080` _(misma IP que el Backend, puerto 8080 — ver [Issue #7](https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues/7#issuecomment-3931069066): por mientras se gestiona la creación de instancia AWS como alternativa a OCI)_
 
 #### **Análisis de Sentimiento**
 ```http
@@ -584,8 +577,9 @@ equine-lead/
 ## 👥 Roles del Equipo
 
 - **DevOps Lead**: Diego Zapata Salhuana
-- **Backend Developer**: Isabel
-- **Data Scientist**: Leandro
+- **Backend Developer (.NET)**: Junior
+- **Backend DB**: Isabel
+- **Data Scientist / FastAPI**: Leandro + David Alejandro
 - **Frontend Developer**: Franklin y Ronald
 - **Mobile Developer**: Franklin
 - **Scrapping Engineer**: Jorge
@@ -806,6 +800,6 @@ Condiciones:
 - ℹ️ Mantener el aviso de copyright y la licencia en las copias del software.
 
 
-> **Última actualización**: 2026-02-12  
-> **Versión**: 2.0 - Documentación Técnica  
-> **Estado**: Infraestructura de testing completada, implementación de componentes en progreso
+> **Última actualización**: 2026-02-20  
+> **Versión**: 2.1 - Blueprint Técnico Real  
+> **Estado**: Sprint semana 2/4 en progreso — cuello de botella en API Backend (Junior)
