@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 class LeadScoring:
 
@@ -45,7 +45,7 @@ class LeadScoring:
             return 0
 
         last_interaction = max(i["date"] for i in self.interactions)
-        days_inactive = (datetime.now() - last_interaction).days
+        days_inactive = (datetime.now(timezone.utc) - last_interaction).days
 
         if 30 <= days_inactive < 90:
             return 15
