@@ -94,18 +94,23 @@ pipeline {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
                 echo '🚀 Desplegando Mock (Nginx) en AWS App Server Plan B...'
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
-                sshagent(credentials: ['aws-app-server-key']) {
+                withCredentials([sshUserPrivateKey(
+                    credentialsId: 'aws-app-server-key',
+                    keyFileVariable: 'SSH_KEY_FILE',
+                    usernameVariable: 'SSH_USER'
+                )]) {
                     sh '''
                         TARGET="${APP_SERVER_USER}@${APP_SERVER_IP}"
                         COMPOSE_FILE="infrastructure/docker/docker-compose.mock.yml"
-                        
+                        SSH_OPTS="-i $SSH_KEY_FILE -o StrictHostKeyChecking=no"
+
                         echo ">>> Copiando docker-compose.mock.yml a ${TARGET}..."
-                        scp -o StrictHostKeyChecking=no \
+                        scp $SSH_OPTS \
                             $COMPOSE_FILE \
                             $TARGET:/home/ubuntu/docker-compose.mock.yml
 
                         echo ">>> Ejecutando deploy en ${TARGET}..."
-                        ssh -o StrictHostKeyChecking=no $TARGET "
+                        ssh $SSH_OPTS $TARGET "
                             docker compose -f /home/ubuntu/docker-compose.mock.yml up -d --remove-orphans
                             echo '--- Estado de contenedores ---'
                             docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
@@ -115,6 +120,7 @@ pipeline {
                 }
             }
         }
+
     }
 
     
