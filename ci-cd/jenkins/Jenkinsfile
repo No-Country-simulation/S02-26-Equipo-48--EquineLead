@@ -88,7 +88,7 @@ pipeline {
         
         stage('🚀 Deploy Mock to AWS') {
             when {
-                branch 'feature/devops-automation'
+                branch 'dev'
             }
             steps {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
