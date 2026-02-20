@@ -8,6 +8,10 @@ pipeline {
     
     environment {
         PROJECT_NAME = 'EquineLead - Full Stack'
+        // IP del App Server activo. Cambiar aquí si se migra de AWS a OCI.
+        // En Jenkins: Manage Jenkins > Configure System > Global properties > Environment variables
+        APP_SERVER_IP   = credentials('app-server-ip')   // registrar en Jenkins Credentials como 'Secret text'
+        APP_SERVER_USER = 'ubuntu'
     }
     
     stages {
@@ -81,7 +85,38 @@ pipeline {
                 sh './tests/scripts/run_integration_tests.sh || echo "Integration tests no disponibles aún"'
             }
         }
+        
+        stage('🚀 Deploy Mock to AWS') {
+            when {
+                branch 'feature/devops-automation'
+            }
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '🚀 Desplegando Mock (Nginx) en AWS App Server Plan B...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                sshagent(credentials: ['aws-app-server-key']) {
+                    sh '''
+                        TARGET="${APP_SERVER_USER}@${APP_SERVER_IP}"
+                        COMPOSE_FILE="infrastructure/docker/docker-compose.mock.yml"
+                        
+                        echo ">>> Copiando docker-compose.mock.yml a ${TARGET}..."
+                        scp -o StrictHostKeyChecking=no \
+                            $COMPOSE_FILE \
+                            $TARGET:/home/ubuntu/docker-compose.mock.yml
+
+                        echo ">>> Ejecutando deploy en ${TARGET}..."
+                        ssh -o StrictHostKeyChecking=no $TARGET "
+                            docker compose -f /home/ubuntu/docker-compose.mock.yml up -d --remove-orphans
+                            echo '--- Estado de contenedores ---'
+                            docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+                        "
+                        echo "✅ Mock desplegado en http://${APP_SERVER_IP}"
+                    '''
+                }
+            }
+        }
     }
+
     
     post {
         success {
