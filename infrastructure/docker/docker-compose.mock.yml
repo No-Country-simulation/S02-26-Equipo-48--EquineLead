@@ -24,3 +24,15 @@ services:
     ports:
       - "8080:80"
     restart: always
+
+  # WAHA - WhatsApp HTTP API (Open Source)
+  # Este servicio permite a Jenkins enviar mensajes de WhatsApp
+  waha:
+    image: devlikeapro/waha
+    container_name: equine-lead-waha
+    ports:
+      - "3005:3000"
+    restart: always
+    environment:
+      - WAHA_LOG_LEVEL=info
+      - WAHA_PRINT_QR=true

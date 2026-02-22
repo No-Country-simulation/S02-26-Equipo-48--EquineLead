@@ -141,7 +141,23 @@ tests/
 - [🤖 **Jenkins Pipelines**](./jenkins/README.md) - Configuración detallada de Jenkinsfiles
 - [📖 **Jenkins Paso a Paso**](./jenkins/CONFIGURACION_PASO_A_PASO.md) - Guía rápida de configuración y desbloqueo
 - [🏗️ **Infraestructura**](../infrastructure/README.md) - Terraform, Docker, y arquitectura
+- [📱 **Notificaciones de WhatsApp**](./jenkins/NOTIFICACIONES_WHATSAPP.md) - Configuración del bot de alertas
 
 ---
+
+## 📱 Notificaciones de WhatsApp (WAHA)
+
+Hemos implementado un sistema de notificaciones en tiempo real para alertar al equipo sobre el estado de los builds.
+
+### **¿Cómo funciona?**
+1.  **WAHA (WhatsApp HTTP API)** corre como un contenedor Docker en la infraestructura.
+2.  Al finalizar un build, Jenkins ejecuta un script que envía un mensaje formateado al grupo de WhatsApp.
+3.  **No invasivo**: La lógica vive solo en el servidor y no afecta al código de la App (APK).
+
+### **Componentes:**
+- **Script**: `ci-cd/jenkins/scripts/notify_whatsapp.sh`
+- **Docker**: Puerto `3000` en la instancia App Server.
+
+📖 **Guía de configuración**: [ci-cd/jenkins/NOTIFICACIONES_WHATSAPP.md](./jenkins/NOTIFICACIONES_WHATSAPP.md)
 
 > **⚠️ REGLA DE ORO:** Nunca subas contraseñas o llaves de acceso al repositorio. Jenkins las tomará automáticamente de forma segura desde su propia configuración.

@@ -130,12 +130,22 @@ pipeline {
             echo '✅ ¡TODOS LOS COMPONENTES PASARON!'
             echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
             echo '🎉 El proyecto está listo para merge'
+            
+            // Notificación WhatsApp (Issue #10)
+            withCredentials([string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT')]) {
+                sh './ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS ${BRANCH_NAME}'
+            }
         }
         failure {
             echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
             echo '❌ ALGUNOS COMPONENTES FALLARON'
             echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
             echo '⚠️  Revisa los logs arriba para ver qué falló'
+            
+            // Notificación WhatsApp (Issue #10)
+            withCredentials([string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT')]) {
+                sh './ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE ${BRANCH_NAME}'
+            }
         }
         always {
             echo '🧹 Limpiando workspace...'
