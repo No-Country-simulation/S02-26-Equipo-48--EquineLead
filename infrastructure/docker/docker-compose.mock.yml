@@ -36,11 +36,9 @@ services:
     environment:
       - WAHA_LOG_LEVEL=info
       - WAHA_PRINT_QR=true
-      # Credenciales explícitas para acceso al Dashboard y Swagger
-      # Se configuran admin/admin para facilitar las pruebas en el entorno de mock
+      # Configuración de acceso para el Dashboard y Swagger
+      # Se desactiva la contraseña para facilitar las pruebas en el entorno de mock
       - WAHA_DASHBOARD_ENABLED=true
+      - WAHA_DASHBOARD_NO_PASSWORD=true
       - WAHA_DASHBOARD_USERNAME=admin
-      - WAHA_DASHBOARD_PASSWORD=admin
-      - WHATSAPP_SWAGGER_USERNAME=admin
-      - WHATSAPP_SWAGGER_PASSWORD=admin
       - WAHA_API_KEY=admin
