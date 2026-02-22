@@ -51,3 +51,11 @@ node_modules/
 dist/
 build/
 out/
+
+# =========================
+# Build folders
+# =========================
+bin/
+obj/
+.vs/
+*.user

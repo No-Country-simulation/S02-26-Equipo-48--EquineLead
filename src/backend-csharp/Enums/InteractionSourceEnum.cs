@@ -2,11 +2,12 @@
 {
     public enum InteractionSourceEnum
     {
+        Unknown = 0,
         Facebook = 1,
         Instagram = 2,
         Formulario = 3,
         Web = 4,
         Evento = 5,
-        otro = 6,
+        Otro = 6,
     }
 }

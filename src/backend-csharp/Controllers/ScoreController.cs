@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Project_No_Country_E48.Enums;
 using Project_No_Country_E48.Models;
+using Project_No_Country_E48.Services;
 using System;
 using static Project_No_Country_E48.Data.AppDbContex;
 
@@ -12,10 +13,12 @@ namespace Project_No_Country_E48.Controllers
     public class ScoreController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ScoreService _scoreService;
 
-        public ScoreController(AppDbContext context)
+        public ScoreController(AppDbContext context, ScoreService scoreService)
         {
             _context = context;
+            _scoreService = scoreService;
         }
 
         //Get TOP LEADS
@@ -38,8 +41,18 @@ namespace Project_No_Country_E48.Controllers
 
             return Ok(topLeads);
         }
+        
+        //Metodo para llamar servicio ScoreService para calcular la score manualmente
+        [HttpPost("calculate/{userId}")]
+        public async Task<IActionResult> CalculateScore(int userId)
+        {
+            await _scoreService.RecalculateLeadScore(userId);
 
-        /* //(Movilizado a service)
+            return Ok(new { message = "Score recalculado correctamente" });
+        }
+
+        /*
+        //(Movilizado a service)
         //Metodo para calcular la score manualmente
         [HttpPost("calculate/{userId}")]
         public async Task<IActionResult> CalculateScore(int userId)
@@ -73,7 +86,7 @@ namespace Project_No_Country_E48.Controllers
                 }
 
                 // evento consulta
-                if (interaction.InteractionType == InteractionTypeEnum.Consulta)
+                if (interaction.InteractionType == InteractionTypeEnum.Consult)
                     score += 30;
             }
 
@@ -144,7 +157,6 @@ namespace Project_No_Country_E48.Controllers
             });
         }
         */
-
 
     }
 }

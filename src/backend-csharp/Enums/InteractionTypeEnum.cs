@@ -2,11 +2,11 @@
 {
     public enum InteractionTypeEnum
     {
+        Unknown = 0,
         View = 1,          // solo vio contenido
         Click = 2,         // hizo click
         Download = 3,    // (Descarga informacion)
-        Consulta = 4, // Se contacto con empresa - (Pregunto por productos)
-        ContactRequest= 5,   // Solicitud de contacto
-
+        Consult = 4, // Se contacto con empresa - (Pregunto por productos)
+        ContactRequest = 5,   // Solicitud de contacto
     }
 }

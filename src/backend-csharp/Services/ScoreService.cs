@@ -48,7 +48,7 @@ namespace Project_No_Country_E48.Services
                     case InteractionTypeEnum.Download:
                         score += 15;
                         break;
-                    case InteractionTypeEnum.Consulta:
+                    case InteractionTypeEnum.Consult:
                         score += 25;
                         break;
                     case InteractionTypeEnum.ContactRequest:

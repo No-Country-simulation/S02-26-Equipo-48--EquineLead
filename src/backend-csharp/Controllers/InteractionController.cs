@@ -27,15 +27,30 @@ namespace Project_No_Country_E48.Controllers
 
         //Metodo post --> llamado a servicio interaccion para ejecutar la logica del metodo
         [HttpPost]
-        
         public async Task<IActionResult> CreateInteraction([FromBody] LeadInteraction interaction)
         {
-            var result = await _interactionService.CreateInteraction(interaction);
-            return Ok(result);
+
+            try
+            {
+                if (interaction == null)
+                    return BadRequest("Body requerido.");
+
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                //var result = await _interactionService.CreateInteraction(interaction);
+                //return Ok(result);
+                var created = await _interactionService.CreateInteraction(interaction, HttpContext);
+                return Ok(created);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Ocurrió un error interno.");
+            }
         }
 
 
-        
+
         //Muestra todas las interacciones (trae de user y product solo datos necesarios)
         [HttpGet]
         public async Task<IActionResult> GetAllInteractions()
@@ -109,7 +124,7 @@ namespace Project_No_Country_E48.Controllers
             _context.LeadInteractions.Add(interaction);
             await _context.SaveChangesAsync();
 
-            // 🔥 RECALCULAR SCORE AUTOMÁTICO
+            // RECALCULAR SCORE AUTOMÁTICO
             await _scoreService.RecalculateLeadScore(interaction.UserId);
 
             return Ok(interaction);
