@@ -36,8 +36,9 @@ MESSAGE="*${ICON} ${PROJECT_NAME} Notification*
 _Enviado automáticamente por Jenkins_"
 
 # Enviar vía WAHA API
-curl -X POST "${WAHA_URL}/api/sendText" \
+curl -s -X POST "${WAHA_URL}/api/sendText" \
      -H "Content-Type: application/json" \
+     -H "X-Api-Key: ${WAHA_API_KEY}" \
      -d "{
            \"chatId\": \"${RECIPIENT}\",
            \"text\": \"${MESSAGE}\",
