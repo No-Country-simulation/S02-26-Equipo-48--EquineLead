@@ -6,7 +6,7 @@
 STATUS=$1
 BRANCH=$2
 PROJECT_NAME=${PROJECT_NAME:-"EquineLead"}
-WAHA_URL=${WAHA_URL:-"http://localhost:3005"}
+WAHA_URL=${WAHA_URL:-"http://${APP_SERVER_IP:-localhost}:3005"}
 WAHA_SESSION=${WAHA_SESSION:-"default"}
 RECIPIENT=${WAHA_RECIPIENT}
 
@@ -27,13 +27,7 @@ else
 fi
 
 LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
-MESSAGE="*${ICON} ${PROJECT_NAME} Notification*
--------------------------
-*Estado:* ${MSG}
-*Rama:* ${BRANCH}
-*Autor:* ${LAST_COMMIT_AUTHOR}
--------------------------
-_Enviado automáticamente por Jenkins_"
+MESSAGE="*${ICON} ${PROJECT_NAME} Notification*\n-------------------------\n*Estado:* ${MSG}\n*Rama:* ${BRANCH}\n*Autor:* ${LAST_COMMIT_AUTHOR}\n-------------------------\n_Enviado automáticamente por Jenkins_"
 
 # Enviar vía WAHA API
 curl -s -X POST "${WAHA_URL}/api/sendText" \
