@@ -134,14 +134,12 @@ pipeline {
             // Notificación WhatsApp (Issue #10)
             script {
                 try {
-                    withEnv(["WAHA_URL=http://${APP_SERVER_IP}:3005"]) {
                         withCredentials([
                             string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT'),
                             string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY') // Necesita credencial waha-api-key = admin
                         ]) {
                             sh './ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS ${BRANCH_NAME}'
                         }
-                    }
                 } catch (Exception e) {
                     echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
                 }
@@ -156,14 +154,12 @@ pipeline {
             // Notificación WhatsApp (Issue #10)
             script {
                 try {
-                    withEnv(["WAHA_URL=http://${APP_SERVER_IP}:3005"]) {
                         withCredentials([
                             string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT'),
                             string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY') // Necesita credencial waha-api-key = admin
                         ]) {
                             sh './ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE ${BRANCH_NAME}'
                         }
-                    }
                 } catch (Exception e) {
                     echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
                 }
