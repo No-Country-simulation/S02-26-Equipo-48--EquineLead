@@ -66,6 +66,14 @@ resource "aws_security_group" "plan_b_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 3005
+    to_port     = 3005
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "WhatsApp HTTP API (WAHA)"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
