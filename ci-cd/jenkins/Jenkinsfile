@@ -169,7 +169,7 @@ pipeline {
                 }
             }
         }
-        always {
+        cleanup {
             echo '🧹 Limpiando workspace...'
             cleanWs()
         }
