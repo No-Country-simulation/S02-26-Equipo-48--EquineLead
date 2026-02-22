@@ -156,7 +156,7 @@ Hemos implementado un sistema de notificaciones en tiempo real para alertar al e
 
 ### **Componentes:**
 - **Script**: `ci-cd/jenkins/scripts/notify_whatsapp.sh`
-- **Docker**: Puerto `3000` en la instancia App Server.
+- **Docker**: Puerto `3005` en la instancia App Server.
 
 📖 **Guía de configuración**: [ci-cd/jenkins/NOTIFICACIONES_WHATSAPP.md](./jenkins/NOTIFICACIONES_WHATSAPP.md)
 
