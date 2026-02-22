@@ -132,8 +132,14 @@ pipeline {
             echo '🎉 El proyecto está listo para merge'
             
             // Notificación WhatsApp (Issue #10)
-            withCredentials([string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT')]) {
-                sh './ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS ${BRANCH_NAME}'
+            script {
+                try {
+                    withCredentials([string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT')]) {
+                        sh './ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS ${BRANCH_NAME}'
+                    }
+                } catch (Exception e) {
+                    echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
+                }
             }
         }
         failure {
@@ -143,8 +149,14 @@ pipeline {
             echo '⚠️  Revisa los logs arriba para ver qué falló'
             
             // Notificación WhatsApp (Issue #10)
-            withCredentials([string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT')]) {
-                sh './ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE ${BRANCH_NAME}'
+            script {
+                try {
+                    withCredentials([string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT')]) {
+                        sh './ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE ${BRANCH_NAME}'
+                    }
+                } catch (Exception e) {
+                    echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
+                }
             }
         }
         always {
