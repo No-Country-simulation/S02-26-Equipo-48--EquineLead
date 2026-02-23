@@ -365,7 +365,10 @@ post {
     }
     failure {
         echo '❌ Pipeline falló'
-        // Enviar alerta
+        // Notificación de WhatsApp (Rich Summary)
+        script {
+            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE ${BRANCH_NAME} ${commitHash} summary_wa.txt"
+        }
     }
     always {
         cleanWs()  // Limpiar workspace

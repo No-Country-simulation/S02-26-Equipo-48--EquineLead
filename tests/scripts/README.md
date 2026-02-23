@@ -277,6 +277,7 @@ stage('Test') {
 - ✅ Mismos scripts localmente y en CI/CD
 - ✅ Fácil de debuggear (puedes ejecutar el mismo script)
 - ✅ Consistencia entre ambientes
+- ✅ **Reportes Móviles**: Jenkins redirige la salida a archivos `.log` que luego son procesados para enviar resúmenes limpios a WhatsApp via `notify_whatsapp.sh`.
 
 ---
 
