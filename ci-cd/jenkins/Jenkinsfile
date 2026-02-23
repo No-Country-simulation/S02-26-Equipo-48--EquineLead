@@ -135,7 +135,7 @@ pipeline {
                         # Filtrar solo estados relevantes y limpiar códigos ANSI + duraciones
                         grep -E "Verificando:|Backend|Science|Rust|Frontend|Total:|Exitosos:|Fallados:" builds.log | \
                         grep -v "Verificando compilación" | grep -v "Iniciando" | \
-                        sed -E 's/\x1b\[[0-9;]*m//g' | sed 's/ (SKIP)//g' >> summary_wa.txt
+                        sed -E 's/\\x1b\\[[0-9;]*m//g' | sed 's/ (SKIP)//g' >> summary_wa.txt
                     fi
                     
                     echo "" >> summary_wa.txt
@@ -144,7 +144,7 @@ pipeline {
                         # Filtrar estados de tests, limpiar códigos ANSI, duraciones de pytest e iconos de ejecución
                         grep -E "Health Check|Unit Tests|Integration|FALLARON|EXITOSAMENTE" ds_tests.log | \
                         grep -v "Ejecutando" | \
-                        sed -E 's/\x1b\[[0-9;]*m//g' | sed -E 's/ in [0-9.]+s//g' >> summary_wa.txt
+                        sed -E 's/\\x1b\\[[0-9;]*m//g' | sed -E 's/ in [0-9.]+s//g' >> summary_wa.txt
                     fi
                 '''
             }
