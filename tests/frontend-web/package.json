@@ -1,0 +1,21 @@
+{
+    "name": "frontend-web-tests",
+    "version": "1.0.0",
+    "description": "Health check tests for Frontend Web component",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest --verbose"
+    },
+    "keywords": [
+        "testing",
+        "jest",
+        "health-check"
+    ],
+    "author": "EquineLead Team",
+    "license": "ISC",
+    "devDependencies": {
+        "jest": "^29.5.0",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^14.0.0"
+    }
+}

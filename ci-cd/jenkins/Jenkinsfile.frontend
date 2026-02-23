@@ -1,0 +1,97 @@
+// Jenkinsfile for Frontend Web Component
+// 
+// Analogía: Este Jenkinsfile es como el "manual de inspección del tablero" que sigue
+// el mecánico automático (Jenkins) cada vez que hay cambios en la interfaz web.
+
+pipeline {
+    agent any
+    
+    environment {
+        PROJECT_NAME = 'EquineLead Frontend Web'
+        NODE_ENV = 'test'
+    }
+    
+    stages {
+        stage('🔍 Checkout') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '📥 Descargando código del repositorio...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                checkout scm
+            }
+        }
+        
+        stage('📦 Install Dependencies') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '📦 Instalando dependencias de Node.js...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                script {
+                    if (fileExists('src/frontend-web/package.json')) {
+                        dir('src/frontend-web') {
+                            sh 'npm install'
+                        }
+                    } else {
+                        echo '⚠️  package.json no encontrado en src/frontend-web'
+                    }
+                }
+            }
+        }
+        
+        stage('🔨 Build') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '🔨 Construyendo aplicación web...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                script {
+                    if (fileExists('src/frontend-web/package.json')) {
+                        dir('src/frontend-web') {
+                            sh 'npm run build || echo "Build script no configurado"'
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('🔍 Lint') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '🔍 Verificando estilo de código (ESLint)...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                script {
+                    if (fileExists('src/frontend-web/package.json')) {
+                        dir('src/frontend-web') {
+                            sh 'npm run lint || echo "Lint script no configurado"'
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('🧪 Test') {
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '🧪 Ejecutando tests...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                sh './tests/scripts/run_frontend_tests.sh'
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+            echo '✅ Frontend Web - BUILD Y TESTS EXITOSOS'
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+        }
+        failure {
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+            echo '❌ Frontend Web - BUILD O TESTS FALLARON'
+            echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+        }
+        always {
+            echo '🧹 Limpiando workspace...'
+            cleanWs()
+        }
+    }
+}

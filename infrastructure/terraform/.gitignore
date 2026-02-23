@@ -1,0 +1,16 @@
+# Archivos de credenciales (CRÍTICO)
+terraform.tfvars
+*.pem
+*.key
+*.log
+!/evidence/instalacion_completa.log  # Esto permite que este log específico sí se suba
+
+# Archivos de estado y configuración de Terraform
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
