@@ -55,12 +55,34 @@ Para confirmar que todo funciona:
 
 ### Ejemplo de mensaje esperado:
 > *✅ EquineLead Notification*
-> -------------------------
+>
 > *Estado:* ¡Build Exitoso!
-> *Rama:* feature/devops-automation
-> *Autor:* David Alejandro
-> -------------------------
+> *Rama:* dev
+> *Autor:* Diego
+> *Fecha de testeo:* 2026-02-23 14:10:20
+> *Commit:* 7a2b3c4
+>
+> *📋 RESUMEN DETALLADO:*
+> ```
+> *📦 RESUMEN DE COMPILACIÓN*
+> ▶ Verificando: Backend C# ... ✅
+> ▶ Verificando: Data Science ... ❌
+> Total: 4 componentes | Fallados: 1
+>
+> *🧪 RESUMEN DE TESTS (DATA SCIENCE)*
+>   🔍 Health Check:  FALLIDO
+>   🧪 Unit Tests:    EXITOSO
+> ❌ [Data Science] ALGUNOS TESTS FALLARON
+> ```
+>
+> *🔗 Log Completo:*
+> http://129.151.114.218:8080/
+>
 > _Enviado automáticamente por Jenkins_
+
+## 💡 Tips de Uso
+- **Enlace Clickable**: Si el enlace a Jenkins no aparece en azul, es una medida de seguridad de WhatsApp. Simplemente **agrega el número a tus contactos** o **responde al mensaje** (escribe "OK") para habilitar los hipervínculos.
+- **Formato Limpio**: El sistema elimina automáticamente códigos de color (ANSI) y tiempos de ejecución para facilitar la lectura en móviles.
 
 ## 📝 Notas Técnicas
 - **Transición a Producción**: Cuando dejen de usar `docker-compose.mock.yml`, simplemente copien la definición del servicio `waha` al `docker-compose.yml` final. El script de Jenkins seguirá funcionando igual.

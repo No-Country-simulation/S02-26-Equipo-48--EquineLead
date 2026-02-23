@@ -35,7 +35,7 @@ pipeline {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
                 echo '🔍 Verificando que todos los componentes compilen...'
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
-                sh './tests/scripts/check_builds.sh'
+                sh './tests/scripts/check_builds.sh | tee builds.log'
             }
         }
         
@@ -54,7 +54,7 @@ pipeline {
                 stage('Data Science') {
                     steps {
                         echo '🧠 Ejecutando tests de Data Science...'
-                        sh './tests/scripts/run_datascience_tests.sh'
+                        sh './tests/scripts/run_datascience_tests.sh | tee ds_tests.log'
                     }
                 }
                 
@@ -125,6 +125,30 @@ pipeline {
 
     
     post {
+        always {
+            script {
+                // Generar resumen consolidado para WhatsApp
+                sh '''
+                    # Generar resumen sin separadores de guiones
+                    echo "*📦 RESUMEN DE COMPILACIÓN*" > summary_wa.txt
+                    if [ -f builds.log ]; then
+                        # Filtrar solo estados relevantes y limpiar códigos ANSI + duraciones
+                        grep -E "Verificando:|Backend|Science|Rust|Frontend|Total:|Exitosos:|Fallados:" builds.log | \
+                        grep -v "Verificando compilación" | grep -v "Iniciando" | \
+                        sed -E 's/\x1b\[[0-9;]*m//g' | sed 's/ (SKIP)//g' >> summary_wa.txt
+                    fi
+                    
+                    echo "" >> summary_wa.txt
+                    echo "*🧪 RESUMEN DE TESTS (DATA SCIENCE)*" >> summary_wa.txt
+                    if [ -f ds_tests.log ]; then
+                        # Filtrar estados de tests, limpiar códigos ANSI, duraciones de pytest e iconos de ejecución
+                        grep -E "Health Check|Unit Tests|Integration|FALLARON|EXITOSAMENTE" ds_tests.log | \
+                        grep -v "Ejecutando" | \
+                        sed -E 's/\x1b\[[0-9;]*m//g' | sed -E 's/ in [0-9.]+s//g' >> summary_wa.txt
+                    fi
+                '''
+            }
+        }
         success {
             echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
             echo '✅ ¡TODOS LOS COMPONENTES PASARON!'
@@ -136,9 +160,10 @@ pipeline {
                 try {
                         withCredentials([
                             string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT'),
-                            string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY') // Necesita credencial waha-api-key = admin
+                            string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY')
                         ]) {
-                            sh './ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS ${BRANCH_NAME}'
+                            def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS \"${BRANCH_NAME ?: env.GIT_BRANCH ?: 'unknown'}\" \"${commitHash}\" summary_wa.txt"
                         }
                 } catch (Exception e) {
                     echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
@@ -156,9 +181,10 @@ pipeline {
                 try {
                         withCredentials([
                             string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT'),
-                            string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY') // Necesita credencial waha-api-key = admin
+                            string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY')
                         ]) {
-                            sh './ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE ${BRANCH_NAME}'
+                            def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE \"${BRANCH_NAME ?: env.GIT_BRANCH ?: 'unknown'}\" \"${commitHash}\" summary_wa.txt"
                         }
                 } catch (Exception e) {
                     echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
@@ -167,7 +193,7 @@ pipeline {
         }
         cleanup {
             echo '🧹 Limpiando workspace...'
-            cleanWs()
+            deleteDir() // Más exhaustivo que cleanWs()
         }
     }
 }
