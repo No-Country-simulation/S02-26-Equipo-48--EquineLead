@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import List
 from datetime import datetime
 
-from src.data_science.model.lead_scoring import LeadScoring
+from model.lead_scoring import LeadScoring
 
 app = FastAPI(title="EquineLead Scoring API v1")
 
