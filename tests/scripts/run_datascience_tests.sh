@@ -24,9 +24,9 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 DS_SRC="$PROJECT_ROOT/src/data-science"
 DS_TESTS="$PROJECT_ROOT/tests/data-science"
 
-echo "📁 Directorio del proyecto: $PROJECT_ROOT"
-echo "📁 Código fuente: $DS_SRC"
-echo "📁 Tests: $DS_TESTS"
+echo "📁 Directorio del proyecto: ."
+echo "📁 Código fuente: $(realpath --relative-to="." "$DS_SRC")"
+echo "📁 Tests: $(realpath --relative-to="." "$DS_TESTS")"
 echo ""
 
 # Verificar si Python está instalado
@@ -64,39 +64,113 @@ if ! python3 -m pytest --version &> /dev/null; then
     }
 fi
 
-# Paso 1: Instalar dependencias (si existen)
-# NOTA: Esta sección está comentada porque aún no existe código fuente en src/data-science/
-# Descomentar cuando el equipo de Data Science entregue el código del proyecto
-echo "📦 Paso 1: Instalando dependencias..."
-echo -e "${YELLOW}⚠️  Instalación de dependencias deshabilitada (no hay código fuente aún)${NC}"
-echo -e "${YELLOW}   Solo se ejecutarán health check tests${NC}"
-
-# if [ -f "$DS_SRC/requirements.txt" ]; then
-#     pip install -r "$DS_SRC/requirements.txt"
-#     echo -e "${GREEN}✅ Dependencias instaladas${NC}"
-# else
-#     echo -e "${YELLOW}⚠️  No se encontró requirements.txt. Saltando instalación.${NC}"
-# fi
+# Paso 1: Instalar dependencias
+echo "📦 [ETAPA: INSTALACIÓN] Instalando dependencias..."
+if [ -f "$DS_SRC/requirements.txt" ]; then
+    pip install -r "$DS_SRC/requirements.txt"
+    echo -e "${GREEN}✅ Dependencias instaladas${NC}"
+else
+    echo -e "${YELLOW}⚠️  No se encontró requirements.txt. Saltando instalación.${NC}"
+fi
 echo ""
 
 # Paso 2: Ejecutar tests
-echo "🧪 Paso 2: Ejecutando tests..."
+echo "🧪 [ETAPA: EJECUCIÓN TESTS] Ejecutando tests..."
 cd "$DS_TESTS"
 
 if [ -f "test_health.py" ]; then
-    # Ejecutar pytest con verbose output
-    python3 -m pytest -v --tb=short
+    echo -e "${YELLOW}[Data Science] Iniciando ejecución por bloques...${NC}"
+    echo ""
+
+    # Función para limpiar rutas en el output y preservar exit code
+    run_pytest_cleaned() {
+        # Post-procesar con sed para asegurar que todas las rutas sean relativas al proyecto
+        python3 -m pytest -v "$@" --tb=short 2>&1 | sed -u "s|$PROJECT_ROOT|.|g"
+        return ${PIPESTATUS[0]}
+    }
+
+    # 1. Health Checks
+    echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "🚀 [1/3] Ejecutando Health Checks (test_health.py)..."
+    echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    set +e
+    run_pytest_cleaned test_health.py
+    HEALTH_STATUS=$?
+    set -e
+    echo ""
+
+    # 2. Unit Tests
+    if [ -d "unit" ]; then
+        echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "🚀 [2/3] Ejecutando Unit Tests (unit/)..."
+        echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        set +e
+        run_pytest_cleaned unit/
+        UNIT_STATUS=$?
+        set -e
+    else
+        UNIT_STATUS=0
+    fi
+    echo ""
+
+    # 3. Integration Tests
+    if [ -d "integration" ]; then
+        echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "🚀 [3/3] Ejecutando Integration Tests (integration/)..."
+        echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        set +e
+        run_pytest_cleaned integration/
+        INT_STATUS=$?
+        set -e
+    else
+        INT_STATUS=0
+    fi
+
+    # Calcular resultado global
+    if [ $HEALTH_STATUS -eq 0 ] && [ $UNIT_STATUS -eq 0 ] && [ $INT_STATUS -eq 0 ]; then
+        TEST_EXIT_CODE=0
+    else
+        TEST_EXIT_CODE=1
+    fi
     
-    if [ $? -eq 0 ]; then
-        echo ""
-        echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo -e "${BLUE}📊 RESUMEN DE EJECUCIÓN DE TESTS (DATA SCIENCE)${NC}"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    
+    # Reportar estado por área
+    if [ $HEALTH_STATUS -eq 0 ]; then
+        echo -e "  🔍 Health Check:  ${GREEN}EXITOSO${NC}"
+    else
+        echo -e "  🔍 Health Check:  ${RED}FALLIDO${NC}"
+    fi
+
+    if [ -d "unit" ]; then
+        if [ $UNIT_STATUS -eq 0 ]; then
+            echo -e "  🧪 Unit Tests:    ${GREEN}EXITOSO${NC}"
+        else
+            echo -e "  🧪 Unit Tests:    ${RED}FALLIDO${NC}"
+        fi
+    fi
+
+    if [ -d "integration" ]; then
+        if [ $INT_STATUS -eq 0 ]; then
+            echo -e "  🔗 Integration:   ${GREEN}EXITOSO${NC}"
+        else
+            echo -e "  🔗 Integration:   ${RED}FALLIDO${NC}"
+        fi
+    fi
+
+    echo ""
+
+    if [ $TEST_EXIT_CODE -eq 0 ]; then
         echo -e "${GREEN}✅ [Data Science] MÓDULO VERIFICADO EXITOSAMENTE${NC}"
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
         exit 0
     else
-        echo ""
-        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-        echo -e "${RED}❌ ALGUNOS TESTS FALLARON${NC}"
+        echo -e "${RED}❌ [Data Science] ALGUNOS TESTS FALLARON${NC}"
+        echo -e "${RED}⚠️  Revisa los errores detallados arriba en cada sección.${NC}"
         echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
         exit 1
     fi

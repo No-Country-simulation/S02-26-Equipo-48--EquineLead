@@ -88,7 +88,9 @@ check_build() {
 
 # Verificar cada componente
 check_build "Backend C#" "dotnet build" "$PROJECT_ROOT/src/backend-csharp"
-check_build "Data Science" "python3 -m py_compile *.py 2>/dev/null" "$PROJECT_ROOT/src/data-science"
+# NOTA: En Python, "BUILD FALLÓ" significa que la aplicación no pudo cargarse 
+# correctamente (ej. errores de importación o estructura de carpetas incorrecta).
+check_build "Data Science" "PYTHONPATH=$PROJECT_ROOT python3 -c 'from src.data_science.api import app' 2>/dev/null" "$PROJECT_ROOT/src/data-science"
 check_build "Scrapper Rust" "cargo build" "$PROJECT_ROOT/src/scrapper-rust"
 check_build "Frontend Web" "npm install && npm run build" "$PROJECT_ROOT/src/frontend-web"
 
@@ -121,7 +123,15 @@ if [ $FAILED_BUILDS -eq 0 ]; then
     exit 0
 else
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${RED}⚠️  ERROR: ALGUNOS COMPONENTES PRESENTAN FALLOS DE COMPILACIÓN${NC}"
+    echo -e "${RED}⚠️  ERROR: LOS SIGUIENTES COMPONENTES FALLARON:${NC}"
+    for result in "${BUILD_RESULTS[@]}"; do
+        if [[ $result == ❌* ]]; then
+            echo -e "  ${RED}$result${NC}"
+        fi
+    done
+    echo ""
+    echo -e "${YELLOW}ℹ️  NOTA (Python): 'BUILD FALLÓ' indica que la aplicación no pudo cargarse${NC}"
+    echo -e "${YELLOW}   debido a errores de importación o estructura de carpetas incorrecta.${NC}"
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 1
 fi
