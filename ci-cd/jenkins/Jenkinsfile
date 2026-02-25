@@ -132,7 +132,7 @@ pipeline {
                     # Capturar builds_report.md
                     if [ -f builds.log ]; then
                         echo "## 📦 REPORTE DE COMPILACIÓN" > builds_report.md
-                        sed -r 's/\x1b\[[0-9;]*m//g' builds.log >> builds_report.md
+                        sed -r 's/\\x1b\\[[0-9;]*m//g' builds.log >> builds_report.md
                     else
                         echo "No builds log available" > builds_report.md
                     fi
@@ -140,7 +140,7 @@ pipeline {
                     # Capturar tests_report.md (ejecutando run_all_tests.sh si existe)
                     if [ -f ./tests/scripts/run_all_tests.sh ]; then
                         echo "## 🧪 REPORTE DE TESTS" > tests_report.md
-                        ./tests/scripts/run_all_tests.sh | sed -r 's/\x1b\[[0-9;]*m//g' >> tests_report.md
+                        ./tests/scripts/run_all_tests.sh | sed -r 's/\\x1b\\[[0-9;]*m//g' >> tests_report.md
                     else
                         echo "No tests report available" > tests_report.md
                     fi
