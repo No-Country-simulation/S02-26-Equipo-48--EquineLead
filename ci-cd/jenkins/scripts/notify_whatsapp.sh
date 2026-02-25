@@ -34,17 +34,40 @@ AUTHOR=$(git log -1 --pretty=format:'%an')
 TIMEZONE_DATE=$(TZ="America/Lima" date "+%Y-%m-%d %H:%M:%S")
 SHORT_COMMIT=${COMMIT_HASH:-$(git rev-parse --short HEAD)}
 
-# 1. Construcción del Mensaje de Resumen
+# 1. Subir reportes a dpaste.com y construir URLs
+upload_to_dpaste() {
+    local file_path="$1"
+    if [ -f "$file_path" ]; then
+        local url
+        url=$(curl -s --max-time 15 -X POST "https://dpaste.com/api/v2/" \
+             --data-urlencode "content@$file_path" \
+             -d "syntax=text&expiry_days=7")
+        echo "$url"
+    else
+        echo ""
+    fi
+}
+
+echo "Subiendo reportes a dpaste.com..."
+BUILD_URL=""
+TEST_URL=""
+[ ! -z "$BUILD_REPORT" ] && BUILD_URL=$(upload_to_dpaste "$BUILD_REPORT")
+[ ! -z "$TEST_REPORT" ]  && TEST_URL=$(upload_to_dpaste "$TEST_REPORT")
+
+# 2. Construcción del Mensaje de Resumen con links
 MESSAGE="*${ICON} ${PROJECT_NAME}* | Reporte Generado\n"
 MESSAGE+="━━━━━━━━━━━━━━━━━━━━\n"
 MESSAGE+="*Rama:* ${BRANCH}\n"
 MESSAGE+="*Autor:* ${AUTHOR}\n"
 MESSAGE+="*Fecha:* ${TIMEZONE_DATE} (PE)\n"
 MESSAGE+="*Commit:* ${SHORT_COMMIT}\n\n"
-MESSAGE+="📂 *Reportes adjuntos debajo:*\n"
-MESSAGE+="• Reporte de Compilación\n"
-MESSAGE+="• Reporte de Ejecución de Tests\n\n"
-MESSAGE+="🔗 *Log Jenkins:* http://129.151.114.218:8080/\n"
+if [ ! -z "$BUILD_URL" ]; then
+    MESSAGE+="📦 *Compilación:* ${BUILD_URL}\n"
+fi
+if [ ! -z "$TEST_URL" ]; then
+    MESSAGE+="🧪 *Tests:* ${TEST_URL}\n"
+fi
+MESSAGE+="\n🔗 *Log Jenkins:* http://129.151.114.218:8080/\n"
 MESSAGE+="\n_Enviado automáticamente por Jenkins_"
 
 # Función para enviar texto
@@ -65,46 +88,62 @@ send_text() {
     echo -e "\n"
 }
 
-# Función para enviar archivo (base64)
+# Función para enviar archivo (base64 via Python para evitar problemas de shell)
 send_file() {
     local file_path="$1"
     local filename=$(basename "$file_path")
-    
+
     echo ">>> Verificando archivo: $file_path"
     if [ -f "$file_path" ]; then
         ls -lh "$file_path"
-        local b64_data=$(base64 -w 0 "$file_path")
-        
         echo ">>> Enviando adjunto: $filename ..."
-        curl -s -X POST "${WAHA_URL}/api/sendFile" \
-             -H "Content-Type: application/json" \
-             -H "X-Api-Key: ${WAHA_API_KEY}" \
-             -d "{
-               \"chatId\": \"$RECIPIENT\",
-               \"file\": {
-                 \"mimetype\": \"application/octet-stream\",
-                 \"filename\": \"$filename\",
-                 \"data\": \"$b64_data\"
-               },
-               \"session\": \"$WAHA_SESSION\"
-             }"
-        echo -e "\n"
+
+        # Python construye el JSON y hace el POST directamente para evitar
+        # problemas de escape de caracteres en bloques grandes de base64
+        python3 - <<PYEOF
+import base64, json, urllib.request, os
+
+file_path = "$file_path"
+filename  = "$filename"
+waha_url  = os.environ.get("WAHA_URL", "http://localhost:3005")
+api_key   = os.environ.get("WAHA_API_KEY", "")
+recipient = os.environ.get("WAHA_RECIPIENT", "")
+session   = os.environ.get("WAHA_SESSION", "default")
+
+with open(file_path, "rb") as f:
+    b64 = base64.b64encode(f.read()).decode()
+
+payload = json.dumps({
+    "session": session,
+    "chatId": recipient,
+    "caption": filename,
+    "file": {
+        "mimetype": "application/octet-stream",
+        "filename": filename,
+        "data": b64
+    }
+}).encode("utf-8")
+
+req = urllib.request.Request(
+    f"{waha_url}/api/sendFile",
+    data=payload,
+    headers={
+        "Content-Type": "application/json",
+        "X-Api-Key": api_key
+    }
+)
+try:
+    with urllib.request.urlopen(req) as resp:
+        print(">>> Respuesta API:", resp.read().decode())
+except Exception as e:
+    print(">>> Error al enviar:", str(e))
+PYEOF
+
     else
         echo "⚠️ Error: El archivo $file_path no existe o está vacío."
     fi
 }
 
 echo "Enviando notificación a WhatsApp..."
-
-# Enviar resumen primero
 send_text "$MESSAGE"
-
-# Pequeña pausa para asegurar el orden en WhatsApp
-sleep 2
-
-# Enviar reportes
-if [ ! -z "$BUILD_REPORT" ]; then send_file "$BUILD_REPORT"; fi
-sleep 1
-if [ ! -z "$TEST_REPORT" ]; then send_file "$TEST_REPORT"; fi
-
 echo "✅ Proceso de notificación finalizado."
