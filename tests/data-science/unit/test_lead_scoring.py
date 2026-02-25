@@ -9,7 +9,7 @@
 import pytest
 from datetime import datetime, timezone
 try:
-    from src.data_science.model.lead_scoring import LeadScoring
+    from model.lead_scoring import LeadScoring
 except ImportError:
     pass # Manejado en los tests de salud
 

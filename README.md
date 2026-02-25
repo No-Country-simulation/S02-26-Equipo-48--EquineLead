@@ -311,7 +311,7 @@ GET    /api/leads/{id}/score   # Obtener score actual
 ---
 
 ### **API de Servicio ML (Python FastAPI)** ✅
-URL Base: `http://<APP_SERVER_IP>:8080` _(misma IP que el Backend, puerto 8080 — ver [Issue #7](https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues/7#issuecomment-3931069066): por mientras se gestiona la creación de instancia AWS como alternativa a OCI)_
+URL Base: `http://<APP_SERVER_IP>:8090` _(misma IP que el Backend, puerto 8090 — ver [Issue #7](https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues/7#issuecomment-3931069066): por mientras se gestiona la creación de instancia AWS como alternativa a OCI)_
 
 #### **Análisis de Sentimiento**
 ```http
@@ -440,7 +440,7 @@ JWT_AUDIENCE=equinelead-clients
 JWT_EXPIRY_MINUTES=60
 
 # Servicios Externos
-ML_SERVICE_URL=http://localhost:8080
+ML_SERVICE_URL=http://localhost:8090
 SCRAPPER_SERVICE_URL=http://localhost:8081
 
 # RabbitMQ
@@ -471,7 +471,7 @@ SCORING_MODEL=lead_scoring_rf_v1.pkl
 
 # Configuración API
 API_HOST=0.0.0.0
-API_PORT=8080
+API_PORT=8090
 API_WORKERS=4
 
 # Logging
@@ -511,7 +511,7 @@ Crear archivo `.env` en `src/frontend-web/`:
 ```bash
 # Endpoints API
 VITE_API_URL=http://localhost:8000/api
-VITE_ML_API_URL=http://localhost:8080/api
+VITE_ML_API_URL=http://localhost:8090/api
 
 # Autenticación
 VITE_AUTH_DOMAIN=auth.equinelead.com

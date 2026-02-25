@@ -236,7 +236,8 @@ El archivo que crea la infraestructura de red en OCI.
 - **22**: SSH (para conectarse a la instancia)
 - **3000**: Frontend (para el dashboard web)
 - **8000**: Backend API (para la API C#)
-- **8080**: Jenkins / FastAPI (compartido - requiere coordinación)
+- **8080**: Jenkins UI
+- **8090**: FastAPI (Data Science)
 
 **¿Qué sucede cuando Terraform aplica este archivo?**
 1. Crea la VCN con el CIDR `10.0.0.0/16`
@@ -1023,7 +1024,7 @@ graph TB
             Backend["Backend C#<br/>Puerto: 8000<br/>Isabel"]
             Frontend["Frontend Web<br/>Puerto: 3000<br/>Franklin"]
             Scrapper["Scrapper Rust<br/>Jorge"]
-            DataScience["Data Science API<br/>Puerto: 8080<br/>Leandro"]
+            DataScience["Data Science API<br/>Puerto: 8090<br/>Leandro"]
         end
         
         Docker --> Backend
@@ -1054,7 +1055,7 @@ graph LR
     subgraph AppServer["App Server (6GB)"]
         FE["Frontend<br/>:3000"]
         BE["Backend<br/>:8000"]
-        DS["Data Science<br/>:8080"]
+        DS["Data Science<br/>:8090"]
         SC["Scrapper"]
     end
     

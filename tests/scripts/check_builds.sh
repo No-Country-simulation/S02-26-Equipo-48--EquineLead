@@ -30,6 +30,14 @@ PASSED_BUILDS=0
 FAILED_BUILDS=0
 SKIPPED_BUILDS=0
 
+# Intérprete Python: usa el venv del proyecto si existe (creado por run_datascience_tests.sh).
+# Fallback a python3 del sistema (ej: cuando corre antes de que el venv exista).
+if [ -f "$PROJECT_ROOT/venv/bin/python3" ]; then
+    VENV_PYTHON="$PROJECT_ROOT/venv/bin/python3"
+else
+    VENV_PYTHON="python3"
+fi
+
 # Array para almacenar resultados
 declare -a BUILD_RESULTS
 
@@ -88,9 +96,12 @@ check_build() {
 
 # Verificar cada componente
 check_build "Backend C#" "dotnet build" "$PROJECT_ROOT/src/backend-csharp"
-# NOTA: En Python, "BUILD FALLÓ" significa que la aplicación no pudo cargarse 
-# correctamente (ej. errores de importación o estructura de carpetas incorrecta).
-check_build "Data Science" "PYTHONPATH=$PROJECT_ROOT python3 -c 'from src.data_science.api import app' 2>/dev/null" "$PROJECT_ROOT/src/data-science"
+# NOTA: En Python, "BUILD FALLÓ" significa que la aplicación no pudo cargarse
+# correctamente (ej. errores de importación o dependencias faltantes).
+# PYTHONPATH apunta a src/data-science directamente: el directorio usa guión
+# (inválido como módulo Python), por eso el import es 'from api import app'
+# y no 'from src.data_science.api import app'.
+check_build "Data Science" "PYTHONPATH=$PROJECT_ROOT/src/data-science $VENV_PYTHON -c 'from api import app'" "$PROJECT_ROOT/src/data-science"
 check_build "Scrapper Rust" "cargo build" "$PROJECT_ROOT/src/scrapper-rust"
 check_build "Frontend Web" "npm install && npm run build" "$PROJECT_ROOT/src/frontend-web"
 
