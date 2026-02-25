@@ -127,24 +127,22 @@ pipeline {
     post {
         always {
             script {
-                // Generar resumen consolidado para WhatsApp
+                // Generar reportes detallados para WhatsApp
                 sh '''
-                    # Generar resumen sin separadores de guiones
-                    echo "*📦 RESUMEN DE COMPILACIÓN*" > summary_wa.txt
+                    # Capturar builds_report.md
                     if [ -f builds.log ]; then
-                        # Filtrar solo estados relevantes y limpiar códigos ANSI + duraciones
-                        grep -E "Verificando:|Backend|Science|Rust|Frontend|Total:|Exitosos:|Fallados:" builds.log | \
-                        grep -v "Verificando compilación" | grep -v "Iniciando" | \
-                        sed -E 's/\\x1b\\[[0-9;]*m//g' | sed 's/ (SKIP)//g' >> summary_wa.txt
+                        echo "## 📦 REPORTE DE COMPILACIÓN" > builds_report.md
+                        sed -r 's/\x1b\[[0-9;]*m//g' builds.log >> builds_report.md
+                    else
+                        echo "No builds log available" > builds_report.md
                     fi
                     
-                    echo "" >> summary_wa.txt
-                    echo "*🧪 RESUMEN DE TESTS (DATA SCIENCE)*" >> summary_wa.txt
-                    if [ -f ds_tests.log ]; then
-                        # Filtrar estados de tests, limpiar códigos ANSI, duraciones de pytest e iconos de ejecución
-                        grep -E "Health Check|Unit Tests|Integration|FALLARON|EXITOSAMENTE" ds_tests.log | \
-                        grep -v "Ejecutando" | \
-                        sed -E 's/\\x1b\\[[0-9;]*m//g' | sed -E 's/ in [0-9.]+s//g' >> summary_wa.txt
+                    # Capturar tests_report.md (ejecutando run_all_tests.sh si existe)
+                    if [ -f ./tests/scripts/run_all_tests.sh ]; then
+                        echo "## 🧪 REPORTE DE TESTS" > tests_report.md
+                        ./tests/scripts/run_all_tests.sh | sed -r 's/\x1b\[[0-9;]*m//g' >> tests_report.md
+                    else
+                        echo "No tests report available" > tests_report.md
                     fi
                 '''
             }
@@ -163,7 +161,7 @@ pipeline {
                             string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY')
                         ]) {
                             def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-                            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS \"${BRANCH_NAME ?: env.GIT_BRANCH ?: 'unknown'}\" \"${commitHash}\" summary_wa.txt"
+                            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS \"${BRANCH_NAME ?: env.GIT_BRANCH ?: 'unknown'}\" \"${commitHash}\" builds_report.md tests_report.md"
                         }
                 } catch (Exception e) {
                     echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
@@ -184,7 +182,7 @@ pipeline {
                             string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY')
                         ]) {
                             def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-                            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE \"${BRANCH_NAME ?: env.GIT_BRANCH ?: 'unknown'}\" \"${commitHash}\" summary_wa.txt"
+                            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE \"${BRANCH_NAME ?: env.GIT_BRANCH ?: 'unknown'}\" \"${commitHash}\" builds_report.md tests_report.md"
                         }
                 } catch (Exception e) {
                     echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
