@@ -22,7 +22,7 @@ services:
     image: nginx:alpine
     container_name: mock-ml-service
     ports:
-      - "8080:80"
+      - "8090:80"
     restart: always
 
   # WAHA - WhatsApp HTTP API (Open Source)

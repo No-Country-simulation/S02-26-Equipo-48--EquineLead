@@ -9,7 +9,7 @@
 
 import pytest
 try:
-    from src.data_science.model.lead_scoring import LeadScoring
+    from model.lead_scoring import LeadScoring
     IMPORT_SUCCESS = True
 except ImportError:
     IMPORT_SUCCESS = False

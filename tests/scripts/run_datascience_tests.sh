@@ -17,6 +17,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Directorio del proyecto
@@ -39,43 +40,48 @@ echo -e "${GREEN}✅ Python encontrado:${NC}"
 python3 --version
 echo ""
 
-# Verificar si estamos en un entorno virtual o si existe uno en la raíz
-if [ -z "$VIRTUAL_ENV" ]; then
-    if [ -d "$PROJECT_ROOT/venv" ]; then
-        echo -e "${BLUE}venv encontrado en la raíz. Activándolo...${NC}"
-        source "$PROJECT_ROOT/venv/bin/activate"
-    else
-        echo -e "${YELLOW}⚠️  No se detectó un entorno virtual activo ni la carpeta venv en la raíz.${NC}"
-        echo -e "   Creando entorno virtual automáticamente...${NC}"
-        python3 -m venv "$PROJECT_ROOT/venv"
-        source "$PROJECT_ROOT/venv/bin/activate"
-        echo -e "${GREEN}✅ Entorno virtual creado y activado.${NC}"
-    fi
-fi
+# Configurar el entorno virtual
+# Se usan los binarios del venv directamente (venv/bin/python3, venv/bin/pip)
+# para evitar conflictos con el Python del sistema (externally-managed en Debian/Ubuntu)
+# y para que funcione igual en local y en Jenkins sin necesidad de source activate.
+VENV_DIR="$PROJECT_ROOT/venv"
+VENV_PYTHON="$VENV_DIR/bin/python3"
+VENV_PIP="$VENV_DIR/bin/pip"
 
-# Verificar si pytest está instalado
-if ! python3 -m pytest --version &> /dev/null; then
-    echo -e "${YELLOW}⚠️  pytest no está instalado en el entorno actual.${NC}"
-    echo -e "   Intentando instalarlo...${NC}"
-    pip install pytest || {
-        echo -e "${RED}❌ Error: No se pudo instalar pytest.${NC}"
-        echo -e "   Es probable que necesites activar tu entorno virtual (source venv/bin/activate)"
-        exit 1
-    }
+if [ ! -f "$VENV_PYTHON" ]; then
+    echo -e "${YELLOW}⚠️  No se encontró venv. Creándolo...${NC}"
+    python3 -m venv "$VENV_DIR"
+    echo -e "${GREEN}✅ Entorno virtual creado en: venv/${NC}"
+else
+    echo -e "${GREEN}✅ venv encontrado: venv/${NC}"
+fi
+echo ""
+
+# Verificar que pytest está disponible en el venv
+if ! "$VENV_PYTHON" -m pytest --version &> /dev/null; then
+    echo -e "${YELLOW}⚠️  pytest no encontrado en venv. Instalando...${NC}"
+    "$VENV_PIP" install pytest
 fi
 
 # Paso 1: Instalar dependencias
 echo "📦 [ETAPA: INSTALACIÓN] Instalando dependencias..."
 if [ -f "$DS_SRC/requirements.txt" ]; then
-    pip install -r "$DS_SRC/requirements.txt"
-    echo -e "${GREEN}✅ Dependencias instaladas${NC}"
+    "$VENV_PIP" install -r "$DS_SRC/requirements.txt" --quiet
+    echo -e "${GREEN}✅ Dependencias del módulo instaladas${NC}"
 else
-    echo -e "${YELLOW}⚠️  No se encontró requirements.txt. Saltando instalación.${NC}"
+    echo -e "${YELLOW}⚠️  No se encontró $DS_SRC/requirements.txt. Saltando.${NC}"
+fi
+if [ -f "$DS_TESTS/requirements-test.txt" ]; then
+    "$VENV_PIP" install -r "$DS_TESTS/requirements-test.txt" --quiet
+    echo -e "${GREEN}✅ Dependencias de tests instaladas${NC}"
 fi
 echo ""
 
 # Paso 2: Ejecutar tests
 echo "🧪 [ETAPA: EJECUCIÓN TESTS] Ejecutando tests..."
+# PYTHONPATH apunta a src/data-science directamente (el guión en el nombre
+# impide usarlo como módulo Python, por eso los imports son directos).
+export PYTHONPATH="$DS_SRC"
 cd "$DS_TESTS"
 
 if [ -f "test_health.py" ]; then
@@ -83,9 +89,9 @@ if [ -f "test_health.py" ]; then
     echo ""
 
     # Función para limpiar rutas en el output y preservar exit code
+    # Usa $VENV_PYTHON para garantizar el intérprete correcto
     run_pytest_cleaned() {
-        # Post-procesar con sed para asegurar que todas las rutas sean relativas al proyecto
-        python3 -m pytest -v "$@" --tb=short 2>&1 | sed -u "s|$PROJECT_ROOT|.|g"
+        "$VENV_PYTHON" -m pytest -v "$@" --tb=short 2>&1 | sed -u "s|$PROJECT_ROOT|.|g"
         return ${PIPESTATUS[0]}
     }
 

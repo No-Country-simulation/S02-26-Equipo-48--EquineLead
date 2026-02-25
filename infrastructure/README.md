@@ -125,7 +125,7 @@ docker-compose up -d
 
 **Resultado:**
 - ✅ Backend C# corriendo en puerto 8000
-- ✅ FastAPI corriendo en puerto 8080
+- ✅ FastAPI corriendo en puerto 8090 (Evita conflicto con Jenkins)
 - ✅ Scrapper ejecutándose
 - ✅ Base de datos PostgreSQL activa
 
@@ -255,7 +255,7 @@ Código en /ci-cd/jenkins/ → Jenkins lee y ejecuta → Despliega en App Server
 |---------|-------------|--------|
 | **VCN** | Red virtual privada | ✅ Activo |
 | **Internet Gateway** | Salida a internet | ✅ Activo |
-| **Security List** | Firewall (puertos 22, 3000, 8000, 8080) | ✅ Activo |
+| **Security List** | Firewall (puertos 22, 3000, 8000, 8080, 8090) | ✅ Activo |
 | **Subnet** | Subred pública | ✅ Activo |
 | **Jenkins Instance** | Servidor CI/CD (1GB) | ✅ Activo |
 | **App Server Instance** | Servidor de aplicaciones (6GB) | ⚠️ Pendiente |

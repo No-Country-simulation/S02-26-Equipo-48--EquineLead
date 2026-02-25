@@ -11,7 +11,7 @@ from fastapi.testclient import TestClient
 from datetime import datetime, timezone
 
 try:
-    from src.data_science.api import app
+    from api import app
     client = TestClient(app)
     IMPORT_SUCCESS = True
 except ImportError:
