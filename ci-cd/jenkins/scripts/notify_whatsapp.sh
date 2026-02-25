@@ -53,6 +53,7 @@ send_text() {
     local escaped_text
     escaped_text=$(echo -e "$text" | python3 -c 'import json, sys; print(json.dumps(sys.stdin.read()))')
     
+    echo ">>> Enviando mensaje de texto..."
     curl -s -X POST "${WAHA_URL}/api/sendText" \
          -H "Content-Type: application/json" \
          -H "X-Api-Key: ${WAHA_API_KEY}" \
@@ -60,7 +61,8 @@ send_text() {
            \"chatId\": \"$RECIPIENT\",
            \"text\": $escaped_text,
            \"session\": \"$WAHA_SESSION\"
-         }" > /dev/null
+         }"
+    echo -e "\n"
 }
 
 # Función para enviar archivo (base64)
@@ -68,24 +70,27 @@ send_file() {
     local file_path="$1"
     local filename=$(basename "$file_path")
     
+    echo ">>> Verificando archivo: $file_path"
     if [ -f "$file_path" ]; then
+        ls -lh "$file_path"
         local b64_data=$(base64 -w 0 "$file_path")
         
+        echo ">>> Enviando adjunto: $filename ..."
         curl -s -X POST "${WAHA_URL}/api/sendFile" \
              -H "Content-Type: application/json" \
              -H "X-Api-Key: ${WAHA_API_KEY}" \
              -d "{
                \"chatId\": \"$RECIPIENT\",
                \"file\": {
-                 \"mimetype\": \"text/markdown\",
+                 \"mimetype\": \"application/octet-stream\",
                  \"filename\": \"$filename\",
                  \"data\": \"$b64_data\"
                },
                \"session\": \"$WAHA_SESSION\"
-             }" > /dev/null
-        echo "Archivo $filename enviado."
+             }"
+        echo -e "\n"
     else
-        echo "Error: $file_path no encontrado."
+        echo "⚠️ Error: El archivo $file_path no existe o está vacío."
     fi
 }
 
@@ -94,8 +99,12 @@ echo "Enviando notificación a WhatsApp..."
 # Enviar resumen primero
 send_text "$MESSAGE"
 
+# Pequeña pausa para asegurar el orden en WhatsApp
+sleep 2
+
 # Enviar reportes
 if [ ! -z "$BUILD_REPORT" ]; then send_file "$BUILD_REPORT"; fi
+sleep 1
 if [ ! -z "$TEST_REPORT" ]; then send_file "$TEST_REPORT"; fi
 
-echo "Proceso de notificación finalizado."
+echo "✅ Proceso de notificación finalizado."
