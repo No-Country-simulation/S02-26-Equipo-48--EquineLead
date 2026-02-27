@@ -56,7 +56,7 @@ TEST_URL=""
 
 # 2. Construcción del Mensaje de Resumen con links
 MESSAGE="*${ICON} ${PROJECT_NAME}* | Reporte Generado\n"
-MESSAGE+="━━━━━━━━━━━━━━━━━━━━\n"
+MESSAGE+="━━━━━━━━━━━━━━━━━\n"
 MESSAGE+="*Rama:* ${BRANCH}\n"
 MESSAGE+="*Autor:* ${AUTHOR}\n"
 MESSAGE+="*Fecha:* ${TIMEZONE_DATE} (PE)\n"
