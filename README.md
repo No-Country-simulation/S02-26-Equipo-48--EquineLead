@@ -112,8 +112,14 @@ graph TB
 - **Scrapper (Rust 1.75.0)**: Extrae leads de fuentes públicas y los envía al API Backend — Jorge
 
 #### **Capa de Datos**
-- **PostgreSQL**: Base de datos principal (tablas: `Users`, `LeadInteractions`, `LeadScores`, `Products`) — Diseño: Isabel
+- **PostgresSQL**: Base de datos principal. **C# es el único dueño de la persistencia**.
 - **Redis**: Caché para optimización de rendimiento 💡 _(pendiente de confirmación)_
+
+#### **Filosofía de Desacoplamiento (Data Ownership)**
+Para evitar el patrón de "Monolito Distribuido", el sistema sigue estas reglas:
+1. **Single Source of Truth**: Solo el Backend C# tiene credenciales y acceso a la base de datos.
+2. **Stateless Brain**: El servicio de Data Science (Python) no guarda ni lee de la base de datos. Recibe datos vía JSON, calcula el score y devuelve el resultado.
+3. **Persistencia Centralizada**: El Backend C# es el encargado de recibir la respuesta de Python y persistirla en Postgres.
 
 #### **CI/CD**
 - **Jenkins**: Testing automático y validación de PRs — Diego

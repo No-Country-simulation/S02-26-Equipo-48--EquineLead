@@ -18,6 +18,12 @@ Este modelo corresponde a la versión **MVP v1.0** y utiliza un motor basado en 
 
 ## 🔎 Convenciones Técnicas (Backend Alignment)
 
+### 🧼 Naturaleza Stateless
+Este servicio está diseñado como un **"Motor de Cálculo Puro"**:
+- **Sin Base de Datos**: No tiene conexión ni credenciales de Postgres.
+- **Sin Memoria**: Cada petición es independiente. Recibe todo lo necesario en el JSON de entrada.
+- **Desacoplado**: No conoce la estructura de las tablas, solo el contrato de datos (JSON).
+
 Para garantizar la armonía con la base de datos de Isabel y el Backend de Junior, se utilizan valores enteros (`INT`) para categorías y tipos.
 
 ### 🔢 Diccionario de Interacciones

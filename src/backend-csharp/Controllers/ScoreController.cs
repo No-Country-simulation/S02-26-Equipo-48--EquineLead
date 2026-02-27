@@ -4,7 +4,7 @@ using Project_No_Country_E48.Enums;
 using Project_No_Country_E48.Models;
 using Project_No_Country_E48.Services;
 using System;
-using static Project_No_Country_E48.Data.AppDbContex;
+using Project_No_Country_E48.Data;
 
 namespace Project_No_Country_E48.Controllers
 {

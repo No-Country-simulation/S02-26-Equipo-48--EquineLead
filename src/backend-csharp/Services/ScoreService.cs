@@ -1,144 +1,69 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Project_No_Country_E48.Enums;
 using Project_No_Country_E48.Models;
-using static Project_No_Country_E48.Data.AppDbContex;
+using Project_No_Country_E48.Data;
 
 namespace Project_No_Country_E48.Services
 {
+    /// <summary>
+    /// Orquesta el cálculo y persistencia del score.
+    /// El cálculo real lo realiza el servicio de Data Science (FastAPI Python).
+    /// </summary>
     public class ScoreService
     {
         private readonly AppDbContext _context;
+        private readonly ScoringApiService _scoringApiService;
 
-        public ScoreService(AppDbContext context)
+        public ScoreService(AppDbContext context, ScoringApiService scoringApiService)
         {
             _context = context;
+            _scoringApiService = scoringApiService;
         }
 
-
-        //Metodo principal-Logica para calcular Score y Guardar
+        /// <summary>
+        /// Calcula el score de un usuario delegando al FastAPI de Data Science,
+        /// luego guarda o actualiza el resultado en la tabla LeadScores.
+        /// </summary>
         public async Task RecalculateLeadScore(int userId)
         {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null) return;
+            // 1. Llamar a Python para obtener el score calculado
+            var scoreResult = await _scoringApiService.GetScoreAsync(userId);
 
-            var interactions = await _context.LeadInteractions
-                .Where(i => i.UserId == userId)
-                .Include(i => i.Product)
-                .ToListAsync();
-
-            int score = 0;
-
-            //=====================
-            // I — INTERACCIONES
-            //=====================
-            foreach (var interaction in interactions)
+            // 2. Mapear la clasificación numérica al enum de C#
+            var classification = scoreResult.LeadScoreClassification switch
             {
-                if (interaction.InteractionType == null)
-                    continue;
+                1 => ScoreClassificationEnum.Cold,
+                2 => ScoreClassificationEnum.Warm,
+                3 => ScoreClassificationEnum.Hot,
+                _ => ScoreClassificationEnum.Cold
+            };
 
-                switch (interaction.InteractionType)
-                {
-                    case InteractionTypeEnum.View:
-                        score += 5;
-                        break;
-                    case InteractionTypeEnum.Click:
-                        score += 10;
-                        break;
-                    case InteractionTypeEnum.Download:
-                        score += 15;
-                        break;
-                    case InteractionTypeEnum.Consult:
-                        score += 25;
-                        break;
-                    case InteractionTypeEnum.ContactRequest:
-                        score += 40;
-                        break;
-                }
-            }
-
-            //====================
-            // P — PRESUPUESTO
-            //====================
-            if (user.UserBudget < 2000)
-                score += 5;
-            else if (user.UserBudget <= 10000)
-                score += 15;
-            else if (user.UserBudget <= 50000)
-                score += 25;
-            else
-                score += 40;
-
-            // =========================
-            // T — TIPO DE USUARIO
-            // =========================
-
-            if (user.UserType == UserTypeEnum.B2C)
-                score += 10;
-            else if (user.UserType == UserTypeEnum.B2B)
-                score += 20;
-
-
-            // =========================
-            // P — PENALIZACIÓN POR INACTIVIDAD
-            // =========================
-
-            int inactivityPenalty = 0;
-
-            var lastInteractionDate = interactions
-                .OrderByDescending(i => i.InteractionDate)
-                .Select(i => i.InteractionDate)
-                .FirstOrDefault();
-
-            if (lastInteractionDate != default)
-            {
-                var daysInactive = (DateTime.UtcNow - lastInteractionDate).TotalDays;
-
-                if (daysInactive >= 30 && daysInactive < 90)
-                    inactivityPenalty = 15;
-                else if (daysInactive >= 90 && daysInactive < 180)
-                    inactivityPenalty = 25;
-                else if (daysInactive >= 180)
-                    inactivityPenalty = 35;
-            }
-
-            // Aplicar penalización
-            score -= inactivityPenalty;
-
-            // =========================
-            // V — NO DEBE EXISTIR SCORE NEGATIVO
-            // =========================
-
-            if (score < 0) score = 0;
-
-            ScoreClassificationEnum classification =
-                score <= 30 ? ScoreClassificationEnum.Cold :
-                score <= 70 ? ScoreClassificationEnum.Warm :
-                ScoreClassificationEnum.Hot;
-
+            // 3. Buscar si ya existe un registro de score para este usuario
             var existingScore = await _context.LeadScores
                 .FirstOrDefaultAsync(ls => ls.UserId == userId);
 
             if (existingScore == null)
             {
+                // Crear nuevo registro
                 _context.LeadScores.Add(new LeadScore
                 {
                     UserId = userId,
-                    LeadScoreValue = score,
+                    LeadScoreValue = scoreResult.LeadScoreValue,
                     LeadScoreClassification = classification,
-                    LeadScoreDate = DateTime.UtcNow,
-                    ScoreModelVersion = "1"
+                    LeadScoreDate = scoreResult.ScoreDate,
+                    ScoreModelVersion = scoreResult.ScoreModelVersion   // "v1-rule-based" desde Python
                 });
             }
             else
             {
-                existingScore.LeadScoreValue = score;
+                // Actualizar registro existente
+                existingScore.LeadScoreValue = scoreResult.LeadScoreValue;
                 existingScore.LeadScoreClassification = classification;
-                existingScore.LeadScoreDate = DateTime.UtcNow;
+                existingScore.LeadScoreDate = scoreResult.ScoreDate;
+                existingScore.ScoreModelVersion = scoreResult.ScoreModelVersion;
             }
 
             await _context.SaveChangesAsync();
         }
     }
 }
-

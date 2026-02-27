@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Project_No_Country_E48.Data;
 using Project_No_Country_E48.Models;
-using static Project_No_Country_E48.Data.AppDbContex;
 
 namespace Project_No_Country_E48.Controllers
 {

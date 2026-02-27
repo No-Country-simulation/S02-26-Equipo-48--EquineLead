@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Project_No_Country_E48.Enums;
 using Project_No_Country_E48.Models;
-using static Project_No_Country_E48.Data.AppDbContex;
-using static Project_No_Country_E48.Services.InteractionService;
+using Project_No_Country_E48.Data;
 
 namespace Project_No_Country_E48.Services
 {

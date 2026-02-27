@@ -11,7 +11,7 @@ using Project_No_Country_E48.Data;
 
 namespace Project_No_Country_E48.Migrations
 {
-    [DbContext(typeof(AppDbContex.AppDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20260216230137_RenameInteractionTypeColumn")]
     partial class RenameInteractionTypeColumn
     {

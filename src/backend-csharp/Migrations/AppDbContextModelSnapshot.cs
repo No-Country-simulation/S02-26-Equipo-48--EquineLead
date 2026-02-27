@@ -10,7 +10,7 @@ using Project_No_Country_E48.Data;
 
 namespace Project_No_Country_E48.Migrations
 {
-    [DbContext(typeof(AppDbContex.AppDbContext))]
+    [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
