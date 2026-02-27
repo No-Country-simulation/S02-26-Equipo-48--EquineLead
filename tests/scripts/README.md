@@ -1,4 +1,4 @@
-# 🤖 Scripts de Automatización - Tests
+# 03.1. 🤖 Scripts de Automatización - Tests
 
 > 📍 **Navegación**: [🏠 Inicio](../../README.md) → [Testing](../README.md) → Scripts de Automatización
 
@@ -44,7 +44,7 @@ scripts/
 
 ## 🚀 **Cómo Usar los Scripts**
 
-### **1. Ejecutar TODOS los tests** (Recomendado para CI/CD)
+### **Ejecutar TODOS los tests**
 
 ```bash
 # Desde la raíz del proyecto
@@ -65,7 +65,7 @@ scripts/
 
 ---
 
-### **2. Verificar solo compilación** (Rápido)
+### **Verificar solo compilación**
 
 ```bash
 ./tests/scripts/check_builds.sh
@@ -84,7 +84,7 @@ scripts/
 
 ---
 
-### **3. Ejecutar tests de un componente específico**
+### **Ejecutar tests de un componente específico**
 
 ```bash
 # Backend C#
@@ -277,19 +277,20 @@ stage('Test') {
 - ✅ Mismos scripts localmente y en CI/CD
 - ✅ Fácil de debuggear (puedes ejecutar el mismo script)
 - ✅ Consistencia entre ambientes
+- ✅ **Reportes Móviles**: Jenkins redirige la salida a archivos `.log` que luego son procesados para enviar resúmenes limpios a WhatsApp via `notify_whatsapp.sh`.
 
 ---
 
 ## 🐛 **Troubleshooting**
 
-### **Error: "Permission denied"**
+### **Permission denied**
 
 **Solución**: Dar permisos de ejecución
 ```bash
 chmod +x tests/scripts/*.sh
 ```
 
-### **Error: "command not found"**
+### **command not found**
 
 **Solución**: Instalar la herramienta faltante
 ```bash

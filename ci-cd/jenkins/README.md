@@ -1,4 +1,4 @@
-# 🤖 Jenkins CI/CD - Configuración
+# 05. 🔧 EquineLead - Jenkins CI/CD Pipelines
 
 > 📍 **Navegación**: [🏠 Inicio](../../README.md) → [CI/CD](../README.md) → Jenkins Pipelines
 > 📖 **Guía Rápida**: [Configuración Paso a Paso (Unlock, Secrets, Webhooks)](./CONFIGURACION_PASO_A_PASO.md)
@@ -239,6 +239,7 @@ Para que los Jenkinsfiles funcionen, Jenkins debe tener instalado:
 - Pipeline Plugin
 - Git Plugin
 - GitHub Plugin
+- SSH Agent Plugin   ← requerido para deploy SSH a AWS
 - Docker Pipeline (futuro)
 - Blue Ocean (opcional, para UI mejorada)
 ```
@@ -263,25 +264,35 @@ Para que los Jenkinsfiles funcionen, Jenkins debe tener instalado:
 
 ## 🎯 **Estrategia de Testing por Rama**
 
-### **MVP Actual: Opción A (Build + Tests)**
+### **Estado Actual**
 
 | Rama | Trigger | Jenkins Ejecuta | Deploy |
 |------|---------|-----------------|--------|
 | `feature/*` | Push | Build + Tests | ❌ No |
-| `dev` | Merge PR | Build + Tests | ❌ No |
-| `main` | Merge PR | Build + Tests | ❌ No |
+| `dev` | Merge PR | Build + Tests | ✅ AWS App Server (Mock) |
+| `main` | Merge PR | Build + Tests | ❌ No (futuro: producción) |
 
-### **Futuro: Opción B (Con Deploy Automático)**
-
-| Rama | Trigger | Jenkins Ejecuta | Deploy |
-|------|---------|-----------------|--------|
-| `feature/*` | Push | Build + Tests | ❌ No |
-| `dev` | Merge PR | Build + Tests | ✅ Staging |
-| `main` | Merge PR | Build + Tests + Security | ✅ Producción |
+> El deploy en `dev` actualmente levanta el **Mock de Nginx** en `44.202.43.214`.
+> Cuando los servicios reales estén listos, se reemplazará `docker-compose.mock.yml` por `docker-compose.yml`.
 
 ---
 
-## 🐛 **Troubleshooting**
+## 🔑 **Credenciales Requeridas para Deploy**
+
+Para que la etapa de deploy SSH a AWS funcione, Jenkins necesita estas credenciales
+registradas en **Manage Jenkins → Credentials → System → Global credentials**:
+
+| ID | Tipo | Descripción | Cómo registrar |
+|----|------|-------------|----------------|
+| `app-server-ip` | Secret text | IP pública del App Server activo | Valor: IP del servidor (ej. `44.202.43.214`) |
+| `aws-app-server-key` | SSH Username with private key | Acceso SSH al App Server | Username: `ubuntu`, Key: contenido del `.pem` |
+
+> ⚠️ **Importante**: Si el App Server cambia de IP (reinstalación de instancia, migración de AWS a OCI),
+> basta con actualizar el valor de `app-server-ip` en Jenkins. No se necesita tocar el código.
+
+---
+
+## 🐛 **Troubleshooting** {: #-troubleshooting }
 
 ### **Error: "sh: command not found"**
 
@@ -354,7 +365,10 @@ post {
     }
     failure {
         echo '❌ Pipeline falló'
-        // Enviar alerta
+        // Notificación de WhatsApp (Rich Summary)
+        script {
+            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE ${BRANCH_NAME} ${commitHash} summary_wa.txt"
+        }
     }
     always {
         cleanWs()  // Limpiar workspace

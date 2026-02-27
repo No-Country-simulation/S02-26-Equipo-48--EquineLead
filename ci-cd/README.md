@@ -1,4 +1,4 @@
-# 🚀 Guía Maestra de DevOps y Automatización (EquineLead)
+# 04. 🤖 Guía Maestra de DevOps y Automatización (EquineLead)
 
 > 📍 **Navegación**: [🏠 Inicio](../README.md) → CI/CD y DevOps
 
@@ -30,14 +30,14 @@ Para que esto funcione, usamos tres grandes piezas:
 
 No todo el código "corre" en el mismo lugar:
 
-### En el Servidor de Oracle (OCI) viven:
+### **En el Servidor de Oracle (OCI) viven**
 *   **API en C#:** Recibe y organiza los datos.
 *   **FastAPI (Python):** Le da el "puntaje" a los leads (Lead Scoring).
 *   **Scraper en Rust:** El robot que busca en internet.
 *   **Base de Datos:** El archivo gigante donde guardamos todo.
 *   **Jenkins:** Nuestro robot mayordomo (DevOps).
 
-### En los Teléfonos de los usuarios viven:
+### **En los Teléfonos de los usuarios viven**
 *   **La App de Android (AQUÍ NO CORRE C# ni PYTHON).**
 *   **La App de iOS (AQUÍ NO CORRE RUST).**
 *   *Nota:* Las apps solo muestran pantallas bonitas y le preguntan datos al servidor de Oracle.
@@ -141,7 +141,23 @@ tests/
 - [🤖 **Jenkins Pipelines**](./jenkins/README.md) - Configuración detallada de Jenkinsfiles
 - [📖 **Jenkins Paso a Paso**](./jenkins/CONFIGURACION_PASO_A_PASO.md) - Guía rápida de configuración y desbloqueo
 - [🏗️ **Infraestructura**](../infrastructure/README.md) - Terraform, Docker, y arquitectura
+- [📱 **Notificaciones de WhatsApp**](./jenkins/NOTIFICACIONES_WHATSAPP.md) - Configuración del bot de alertas
 
 ---
+
+## 📱 Notificaciones de WhatsApp (WAHA)
+
+Hemos implementado un sistema de notificaciones en tiempo real para alertar al equipo sobre el estado de los builds.
+
+### **¿Cómo funciona?**
+1.  **WAHA (WhatsApp HTTP API)** corre como un contenedor Docker en la infraestructura.
+2.  Al finalizar un build, Jenkins ejecuta un script que envía un mensaje formateado al grupo de WhatsApp.
+3.  **No invasivo**: La lógica vive solo en el servidor y no afecta al código de la App (APK).
+
+### **Componentes:**
+- **Script**: `ci-cd/jenkins/scripts/notify_whatsapp.sh`
+- **Docker**: Puerto `3005` en la instancia App Server.
+
+📖 **Guía de configuración**: [ci-cd/jenkins/NOTIFICACIONES_WHATSAPP.md](./jenkins/NOTIFICACIONES_WHATSAPP.md)
 
 > **⚠️ REGLA DE ORO:** Nunca subas contraseñas o llaves de acceso al repositorio. Jenkins las tomará automáticamente de forma segura desde su propia configuración.

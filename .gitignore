@@ -52,10 +52,19 @@ dist/
 build/
 out/
 
-# =========================
-# Build folders
-# =========================
+# --- .NET / C# (Específico) ---
 bin/
 obj/
+[Bb]in/
+[Oo]bj/
 .vs/
 *.user
+*.suo
+*.userosscache
+*.sln.docstates
+# --- MkDocs (Static Site Generator) ---
+site/
+.cache/
+
+# --- MkDocs Staging (Technical) ---
+.docs_staging/

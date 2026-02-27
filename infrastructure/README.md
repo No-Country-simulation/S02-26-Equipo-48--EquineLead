@@ -1,4 +1,4 @@
-# 🏗️ EquineLead - Infraestructura
+# 02. 🏗️ EquineLead - Infraestructura
 
 > 📍 **Navegación**: [🏠 Inicio](../README.md) → Infraestructura
 
@@ -10,12 +10,54 @@ Este directorio contiene toda la configuración de infraestructura del proyecto 
 
 ## 📊 Arquitectura de Infraestructura
 
-[![Arquitectura de infraestructura](<docs/assets/arquitectura de infraestructura.png>)](<docs/assets/arquitectura de infraestructura.png>)
----
+Flujo de despliegue desde tu máquina local hacia Oracle Cloud:
+
+```mermaid
+graph TB
+    subgraph "🖥️ Tu Máquina Local"
+        REPO[📦 Repositorio Git]
+        TERRAFORM[⚙️ Terraform CLI]
+    end
+
+    subgraph "☁️ Oracle Cloud Infrastructure OCI"
+        subgraph "🔧 Instancia 1: Jenkins Server 1GB"
+            JENKINS[🤖 Jenkins CI/CD]
+            DOCKER_J[🐳 Docker Engine]
+        end
+
+        subgraph "🚀 Instancia 2: App Server 6GB"
+            DOCKER_COMPOSE[🐳 Docker Compose]
+            BACKEND[⚙️ Backend C#]
+            FASTAPI[🤖 FastAPI ML]
+            SCRAPPER[🦀 Scrapper Rust]
+            DB[🗄️ PostgreSQL]
+        end
+
+        VCN[🌐 Virtual Cloud Network]
+    end
+
+    REPO -->|1 terraform apply| TERRAFORM
+    TERRAFORM -->|2 Crea infraestructura| VCN
+    VCN -->|3 Provisiona| JENKINS
+    VCN -->|3 Provisiona| DOCKER_COMPOSE
+    REPO -->|4 git push| JENKINS
+    JENKINS -->|5 CI/CD Pipeline| DOCKER_COMPOSE
+    DOCKER_COMPOSE -->|Orquesta| BACKEND
+    DOCKER_COMPOSE -->|Orquesta| FASTAPI
+    DOCKER_COMPOSE -->|Orquesta| SCRAPPER
+    DOCKER_COMPOSE -->|Orquesta| DB
+    BACKEND -.->|Consulta| DB
+    FASTAPI -.->|Consulta| DB
+    SCRAPPER -.->|Escribe| DB
+
+    style JENKINS fill:#e1f5ff
+    style DOCKER_COMPOSE fill:#fff4e1
+    style VCN fill:#f0f0f0
+```
 
 ## 📁 Organización de Carpetas
 
-### 📂 `terraform/`
+### **Terraform (IaC)**
 **Propósito:** Infrastructure as Code (IaC) para provisionar recursos en Oracle Cloud Infrastructure.
 
 **Contenido:**
@@ -31,7 +73,7 @@ Este directorio contiene toda la configuración de infraestructura del proyecto 
 
 ---
 
-### 📂 `docker/`
+### **Docker (Contenedores)**
 **Propósito:** Configuración de contenedores para la **Instancia 2 (App Server 6GB)**.
 
 **Contenido:**
@@ -49,7 +91,7 @@ Este directorio contiene toda la configuración de infraestructura del proyecto 
 
 ## 🔄 Flujo de Trabajo Completo
 
-### 1️⃣ Provisión Inicial (Una sola vez)
+### **Provisión Inicial**
 
 ```bash
 # Desde tu máquina local
@@ -67,7 +109,7 @@ terraform apply
 
 ---
 
-### 2️⃣ Despliegue de Servicios (Después de provisión)
+### **Despliegue de Servicios**
 
 ```bash
 # Conectarse a la Instancia App Server
@@ -83,17 +125,49 @@ docker-compose up -d
 
 **Resultado:**
 - ✅ Backend C# corriendo en puerto 8000
-- ✅ FastAPI corriendo en puerto 8080
+- ✅ FastAPI corriendo en puerto 8090 (Evita conflicto con Jenkins)
 - ✅ Scrapper ejecutándose
 - ✅ Base de datos PostgreSQL activa
 
 ---
 
-### 3️⃣ CI/CD Automatizado con Pull Requests
+### **CI/CD Automatizado con Pull Requests**
 
 #### 📊 Flujo de Desarrollo con PRs
 
-[![Flujo de desarrollo con PRs](<docs/assets/Flujo de desarrollo con PRs.png>)](<docs/assets/Flujo de desarrollo con PRs.png>)
+```mermaid
+graph TD
+
+A[👨‍💻 Developer<br/>feature/login] -->|1 git push| B[📝 Crea PR a dev]
+
+B -->|2 Trigger| C[🤖 Jenkins:<br/>Tests + Build]
+
+C -->|✅ Pasa| D[👥 Code Review<br/>en GitHub]
+
+C -->|❌ Falla| A
+
+D -->|Aprobado| E[🔀 Merge a dev]
+
+E -->|3 Auto-deploy| F[🧪 Ambiente Staging]
+
+F -->|Validado| G[📝 PR: dev → main]
+
+G -->|4 Trigger| H[🤖 Jenkins:<br/>Tests Completos]
+
+H -->|✅ Pasa| I[👥 Aprobación Final]
+
+H -->|❌ Falla| F
+
+I -->|Aprobado| J[🔀 Merge a main]
+
+J -->|5 Auto-deploy| K[🚀 Producción<br/>App Server]
+
+style C fill:#e1f5ff
+
+style H fill:#e1f5ff
+
+style K fill:#90EE90
+```
 
 #### 🔄 Proceso Detallado
 
@@ -105,35 +179,41 @@ git push origin feature/branch-name
 ```
 
 **Paso 2: Pull Request hacia `dev`**
+
 1. Developer crea PR en GitHub: `feature/branch-name` → `dev`
-2. **Jenkins automáticamente:**
-   - ✅ Ejecuta `./tests/scripts/run_all_tests.sh` - Script maestro que coordina todos los tests
-   - ✅ Ejecuta tests unitarios - Valida que el código no rompa funcionalidades existentes
-   - ✅ Verifica linting - Asegura que el código cumple con estándares de estilo
-   - ✅ Construye la aplicación - Comprueba que el código compila sin errores
-   - ✅ Reporta resultados en el PR - Muestra el estado de las validaciones en GitHub
+2. **Jenkins automáticamente:**<br>
+    - ✅ Ejecuta `./tests/scripts/run_all_tests.sh` - Script maestro que coordina todos los tests.
+    - ✅ Ejecuta tests unitarios - Valida que el código no rompa funcionalidades existentes.
+    - ✅ Verifica linting - Asegura que el código cumple con estándares de estilo.
+    - ✅ Construye la aplicación - Comprueba que el código compila sin errores.
+    - ✅ Reporta resultados en el PR - Muestra el estado de las validaciones en GitHub.
 3. **Si Jenkins pasa ✅:**
-   - **Code Review en GitHub:** Otros developers revisan el código en la interfaz del PR
-   - Dejan comentarios, aprueban o solicitan cambios
-   - Cuando hay suficientes aprobaciones → Merge a `dev`
+    - **Code Review en GitHub:** Otros developers revisan el código en la interfaz del PR.
+    - Dejan comentarios, aprueban o solicitan cambios.
+    - Cuando hay suficientes aprobaciones → Merge a `dev`.
 4. **Si Jenkins falla ❌:**
-   - El PR queda bloqueado
-   - Developer corrige errores y hace push nuevamente
+    - El PR queda bloqueado.
+    - Developer corrige errores y hace push nuevamente.
 
 📖 **Ver detalles de tests**: [tests/README.md](../tests/README.md)
 
 **Paso 3: Despliegue automático a Staging**
-- Al hacer merge a `dev`, Jenkins automáticamente despliega en ambiente de pruebas - Actualiza el entorno de staging con los últimos cambios
-- El equipo valida la funcionalidad - Realiza pruebas manuales y de integración en un ambiente similar a producción
+
+- Al hacer merge a `dev`, Jenkins automáticamente despliega en ambiente de pruebas.
+- Actualiza el entorno de staging con los últimos cambios.
+- El equipo valida la funcionalidad.
+- Realiza pruebas manuales y de integración en un ambiente similar a producción.
 
 **Paso 4: Pull Request hacia `main` (Producción)**
-1. Cuando `dev` está estable, se crea PR: `dev` → `main`
+
+1. Cuando `dev` está estable, se crea PR: `dev` → `main`.
 2. **Jenkins ejecuta suite completa:**
-   - ✅ Tests unitarios + integración - Verifica funcionalidad individual y comunicación entre componentes
-   - ✅ Security scans - Detecta vulnerabilidades y problemas de seguridad en el código
-   - ✅ Performance tests - Evalúa tiempos de respuesta y uso de recursos bajo carga
-3. **Aprobación final del equipo en GitHub** - Revisión crítica antes de afectar producción
-4. Merge a `main` → Jenkins despliega en **producción** (App Server 6GB) - Actualiza la aplicación en el servidor de producción
+    - ✅ Tests unitarios + integración - Verifica funcionalidad individual y comunicación entre componentes.
+    - ✅ Security scans - Detecta vulnerabilidades y problemas de seguridad en el código.
+    - ✅ Performance tests - Evalúa tiempos de respuesta y uso de recursos bajo carga.
+3. **Aprobación final del equipo en GitHub** - Revisión crítica antes de afectar producción.
+4. Merge a `main` → Jenkins despliega en **producción** (App Server 6GB).
+    - Actualiza la aplicación en el servidor de producción.
 
 #### ⚙️ Configuración de Jenkins por Rama
 
@@ -175,7 +255,7 @@ Código en /ci-cd/jenkins/ → Jenkins lee y ejecuta → Despliega en App Server
 |---------|-------------|--------|
 | **VCN** | Red virtual privada | ✅ Activo |
 | **Internet Gateway** | Salida a internet | ✅ Activo |
-| **Security List** | Firewall (puertos 22, 3000, 8000, 8080) | ✅ Activo |
+| **Security List** | Firewall (puertos 22, 3000, 8000, 8080, 8090) | ✅ Activo |
 | **Subnet** | Subred pública | ✅ Activo |
 | **Jenkins Instance** | Servidor CI/CD (1GB) | ✅ Activo |
 | **App Server Instance** | Servidor de aplicaciones (6GB) | ⚠️ Pendiente |

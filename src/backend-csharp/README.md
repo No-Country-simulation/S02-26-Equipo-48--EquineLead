@@ -1,4 +1,7 @@
-<h2 align="center">🏇 EquineLead – Backend C# .NET Core MVP V1</h2> <br>
+# 💻 EquineLead - Backend C#
+
+> 📍 **Navegación**: [🏠 Inicio](../../README.md) → Componentes → Backend C#
+
 Este backend implementa una tubería de persistencia para la gestión de usuarios (leads) y productos, incluyendo el registro de interacciones y el cálculo de Lead Score. 
 La solución está desarrollada con ASP.NET Core, Entity Framework y base de datos PostgreSQL.
 
@@ -54,4 +57,8 @@ Usuario interactúa → Se valida usuario y producto → se guarda interacción 
 •	Entity Framework version 8.0
 •	PostgreSQL version 18.2
 •	Swagger 
+
+## 🧪 **Testing Relacionado**
+Para ver las pruebas de salud y calidad de este componente, consulta:
+- [Testing de Backend](../../tests/backend-csharp/README.md)
 

@@ -1,4 +1,4 @@
-# 🧪 EquineLead - Testing Infrastructure
+# 03. 🧪 EquineLead - Testing Infrastructure
 
 > 📍 **Navegación**: [🏠 Inicio](../README.md) → Testing Infrastructure
 
@@ -204,7 +204,7 @@ venv\Scripts\activate.bat
 
 ---
 
-### **1️⃣ Backend C# (xUnit)**
+### **Backend C# (xUnit)**
 
 #### **Paso 1: Instalar .NET SDK (Herramienta del Sistema)**
 
@@ -240,7 +240,7 @@ dotnet restore  # (opcional, se ejecuta automáticamente)
 
 ---
 
-### **2️⃣ Data Science (pytest)**
+### **Data Science (pytest)**
 
 #### **Paso 1: Verificar Python (Herramienta del Sistema)**
 
@@ -277,7 +277,7 @@ pytest --version
 
 ---
 
-### **3️⃣ Scrapper Rust (cargo test)**
+### **Scrapper Rust (cargo test)**
 
 #### **Paso 1: Instalar Rust y Cargo (Herramienta del Sistema)**
 
@@ -317,7 +317,7 @@ cargo build  # (opcional, se ejecuta automáticamente)
 
 ---
 
-### **4️⃣ Frontend Web (Jest)**
+### **Frontend Web (Jest)**
 
 #### **Paso 1: Instalar Node.js y npm (Herramienta del Sistema)**
 
@@ -419,14 +419,14 @@ pytest --version 2>/dev/null || echo "❌ pytest no instalado (ejecuta: pip inst
 1. **Developer hace push** → GitHub detecta el cambio
 2. **GitHub notifica a Jenkins** vía webhook (GitHub → Jenkins)
 3. **Jenkins se activa automáticamente** y ejecuta el Jenkinsfile correspondiente
-4. **Jenkins ejecuta los scripts de tests** (ej: [./tests/scripts/run_backend_tests.sh](cci:7://file:///home/degops/Projects/Repositorios/repo_NoCountryChallenges/Work%20simulation/equine-lead/tests/scripts/run_backend_tests.sh:0:0-0:0))
-5. **Los scripts ejecutan los tests** (ej: `dotnet test`, [pytest](cci:1://file:///home/degops/Projects/Repositorios/repo_NoCountryChallenges/Work%20simulation/equine-lead/tests/data-science/test_health.py:29:0-33:60), etc.)
+4. **Jenkins ejecuta los scripts de tests** (ej: `./tests/scripts/run_backend_tests.sh`)
+5. **Los scripts ejecutan los tests** (ej: `dotnet test`, `pytest`, etc.)
 6. **Los tests corren y reportan** resultados (✅ pasan o ❌ fallan)
 7. **Jenkins recibe el resultado** y actualiza el estado del PR en GitHub
 
 #### **2️⃣ Ejecución Manual (Developer Local)**
 - **Propósito**: Verificar que tu código funciona **ANTES** de hacer push
-- **Cómo**: Ejecutas los mismos scripts que Jenkins usa (ej: [./tests/scripts/run_backend_tests.sh](cci:7://file:///home/degops/Projects/Repositorios/repo_NoCountryChallenges/Work%20simulation/equine-lead/tests/scripts/run_backend_tests.sh:0:0-0:0))
+- **Cómo**: Ejecutas los mismos scripts que Jenkins usa (ej: `./tests/scripts/run_backend_tests.sh`)
 - **Ventaja**: Detectas errores localmente, evitas fallos en Jenkins y PRs bloqueados
 - **Cuándo**: Siempre antes de commit y push
 
@@ -1139,3 +1139,28 @@ test('renders dashboard with user data', () => {
 ---
 
 > **Recuerda**: Los tests son como el cinturón de seguridad de tu código. Pueden parecer innecesarios hasta que los necesitas. ¡Úsalos siempre! 🚗💨
+
+---
+
+## 🐛 **Troubleshooting** {: #-troubleshooting }
+
+Si encuentras problemas ejecutando tests:
+
+### **1. Tests no corren localmente**
+- Asegúrate de haber instalado las dependencias: `./tests/scripts/setup_test_env.sh`
+- Verifica que tienes los runtimes necesarios: `dotnet --version`, `cargo --version`, `python3 --version`, `node --version`
+
+### **2. Permisos denegados**
+Si ves `permission denied` al ejecutar scripts, dales permisos de ejecución:
+```bash
+chmod +x tests/scripts/*.sh
+```
+
+---
+
+## �� **Cómo Contribuir** {: #-como-contribuir }
+
+1.  **Trabaja en tu rama asignada** (las ramas `feature/` suelen estar pre-creadas; confirma con tu encargado).
+2.  Asegúrate de agregar un test que cubra tu nueva funcionalidad.
+3.  Ejecuta `./tests/scripts/run_all_tests.sh` para verificar que no rompiste nada.
+4.  Haz Push y espera la validación de Jenkins.

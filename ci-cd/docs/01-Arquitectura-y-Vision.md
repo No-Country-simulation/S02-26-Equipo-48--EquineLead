@@ -7,7 +7,71 @@
 
 Este diagrama representa cómo viaja la información desde internet hasta la venta final.
 
-[![Arquitectura EquinoLead](assets/workflow-arquitectura.png)](assets/workflow-arquitectura.png)
+```mermaid
+graph TD
+
+%% Fase 1: Extracción
+subgraph "Fase 1: Extracción (Permanente en OCI)"
+    A[Redes Sociales] --> B{Scraper en Rust}
+    C[Webs de Eventos] --> B
+end
+
+%% Nodo Central: Oracle Cloud
+subgraph "Instancia Oracle Cloud (OCI)"
+    
+    subgraph "Fase 2: Gestión"
+        B --> D[API en C#]
+        D --> E[(Base de Datos OCI)]
+    end
+
+    subgraph "Fase 3: Inteligencia"
+        D <--> F[Procesamiento Python/FastAPI]
+        subgraph "Lógica de Scoring"
+            F --> G[Lead Scoring & Segmentación]
+            G --> H{¿Es Potencial?}
+        end
+    end
+
+    subgraph "Fase 4: Monitoreo"
+        N[Dashboard Web Frontend]
+        B -.->|Estado Scraping| N
+        D -.->|Métricas DB| N
+        F -.->|Métricas Scoring| N
+    end
+
+    subgraph "Fase 6: Centro Logístico"
+        O[Landing Page / Servidor Descargas]
+    end
+end
+
+%% Fase 5: Entrega
+subgraph "Fase 5: Salida y Entrega"
+    H -- SÍ --> I[App Swift/Kotlin]
+    H -- SÍ --> J[Funnels Automáticos]
+    H -- NO --> K[Baja Prioridad / Log]
+    I --> L[Cierre de Venta]
+    I -.->|Instalación/Update Directo| O
+end
+
+%% Automatización
+subgraph "Infraestructura (DevOps)"
+    M[Jenkins] -.-> B
+    M -.-> D
+    M -.-> F
+    M -.-> N
+    M -.-> O
+end
+
+%% Estilos para Obsidian
+style H fill:#6b46c1,color:#fff
+style B fill:#2d3748,color:#fff
+style F fill:#05998b,color:#fff
+style G stroke-width:4px
+style K fill:#e53e3e,color:#fff
+style N fill:#2b6cb0,color:#fff
+style O fill:#d69e2e,color:#fff
+style M fill:#f6ad55,color:#000
+```
 
 ## 🛠️ Stack Tecnológico: ¿Cómo se implementa?
 

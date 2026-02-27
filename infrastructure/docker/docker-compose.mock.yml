@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Mock del Frontend (Puerto 80)
+  mock-frontend:
+    image: nginx:alpine
+    container_name: mock-web-frontend
+    ports:
+      - "80:80"
+    restart: always
+
+  # Mock de la API (Puerto 8000)
+  mock-backend:
+    image: nginx:alpine
+    container_name: mock-api-backend
+    ports:
+      - "8000:80"
+    restart: always
+
+  # Mock de ML (Puerto 8080)
+  mock-ml-service:
+    image: nginx:alpine
+    container_name: mock-ml-service
+    ports:
+      - "8090:80"
+    restart: always
+
+  # WAHA - WhatsApp HTTP API (Open Source)
+  # Este servicio permite a Jenkins enviar mensajes de WhatsApp
+  waha:
+    image: devlikeapro/waha
+    container_name: equine-lead-waha
+    ports:
+      - "3005:3000"
+    restart: always
+    environment:
+      - WAHA_LOG_LEVEL=info
+      - WAHA_PRINT_QR=true
+      # Configuración de acceso para el Dashboard y Swagger
+      # Se desactiva la contraseña para facilitar las pruebas en el entorno de mock
+      - WAHA_DASHBOARD_ENABLED=true
+      - WAHA_DASHBOARD_NO_PASSWORD=true
+      - WAHA_DASHBOARD_USERNAME=admin
+      - WAHA_API_KEY=admin

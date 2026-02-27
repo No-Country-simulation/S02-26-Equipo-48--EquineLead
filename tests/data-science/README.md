@@ -1,4 +1,4 @@
-# 🧠 Data Science - Tests
+# 03.3. 🧠 Data Science - Tests (ML/IA)
 
 > **Analogía**: El módulo Data Science es el **cerebro** del auto de carreras EquineLead. Estos tests verifican que el sistema de navegación (IA/ML) procese datos correctamente, tome decisiones inteligentes, y guíe al vehículo por la ruta óptima.
 
@@ -46,7 +46,7 @@ data-science/
 
 ## 🚀 **Cómo Ejecutar los Tests**
 
-### **Opción 1: Usando el script de automatización** (Recomendado)
+### **Usando el script de automatización**
 
 ```bash
 # Desde la raíz del proyecto
@@ -61,7 +61,7 @@ Este script:
 
 ---
 
-### **Opción 2: Manualmente con pytest**
+### **Manualmente con pytest**
 
 ```bash
 # Navegar a la carpeta de tests
@@ -114,7 +114,7 @@ pytest --version
 
 ## 🧪 **Tests Actuales**
 
-### **1. Health Check Test** ✅
+### **Health Check Test**
 
 **Archivo**: `test_health.py`
 
@@ -176,7 +176,7 @@ Ejemplos:
 
 ## 📊 **Tipos de Tests**
 
-### **1. Tests Unitarios** (Unit Tests)
+### **Tests Unitarios**
 
 **Qué prueban**: Una función individual, aislada.
 
@@ -201,7 +201,7 @@ def test_calculate_lead_score_with_high_engagement():
 
 ---
 
-### **2. Tests de API** (Integration Tests)
+### **Tests de API**
 
 **Qué prueban**: Endpoints de FastAPI funcionando correctamente.
 
@@ -226,7 +226,7 @@ def test_sentiment_endpoint_returns_correct_format():
 
 ---
 
-### **3. Tests de Modelos ML**
+### **Tests de Modelos ML**
 
 **Qué prueban**: Que los modelos ML predicen correctamente.
 
@@ -274,7 +274,7 @@ Ver: [Jenkinsfile.datascience](../../ci-cd/jenkins/Jenkinsfile.datascience)
 
 ## 🐛 **Troubleshooting**
 
-### **Error: "pytest: command not found"**
+### **pytest: command not found**
 
 **Solución**: Instala pytest
 ```bash
@@ -283,7 +283,7 @@ pip install pytest
 pip3 install pytest
 ```
 
-### **Error: "ModuleNotFoundError"**
+### **ModuleNotFoundError**
 
 **Solución**: Instala las dependencias del proyecto
 ```bash

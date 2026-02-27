@@ -30,6 +30,14 @@ PASSED_BUILDS=0
 FAILED_BUILDS=0
 SKIPPED_BUILDS=0
 
+# Intérprete Python: usa el venv del proyecto si existe (creado por run_datascience_tests.sh).
+# Fallback a python3 del sistema (ej: cuando corre antes de que el venv exista).
+if [ -f "$PROJECT_ROOT/venv/bin/python3" ]; then
+    VENV_PYTHON="$PROJECT_ROOT/venv/bin/python3"
+else
+    VENV_PYTHON="python3"
+fi
+
 # Array para almacenar resultados
 declare -a BUILD_RESULTS
 
@@ -88,7 +96,12 @@ check_build() {
 
 # Verificar cada componente
 check_build "Backend C#" "dotnet build" "$PROJECT_ROOT/src/backend-csharp"
-check_build "Data Science" "python3 -m py_compile *.py 2>/dev/null" "$PROJECT_ROOT/src/data-science"
+# NOTA: En Python, "BUILD FALLÓ" significa que la aplicación no pudo cargarse
+# correctamente (ej. errores de importación o dependencias faltantes).
+# PYTHONPATH apunta a src/data-science directamente: el directorio usa guión
+# (inválido como módulo Python), por eso el import es 'from api import app'
+# y no 'from src.data_science.api import app'.
+check_build "Data Science" "PYTHONPATH=$PROJECT_ROOT/src/data-science $VENV_PYTHON -c 'from api import app'" "$PROJECT_ROOT/src/data-science"
 check_build "Scrapper Rust" "cargo build" "$PROJECT_ROOT/src/scrapper-rust"
 check_build "Frontend Web" "npm install && npm run build" "$PROJECT_ROOT/src/frontend-web"
 
@@ -121,7 +134,15 @@ if [ $FAILED_BUILDS -eq 0 ]; then
     exit 0
 else
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${RED}⚠️  ERROR: ALGUNOS COMPONENTES PRESENTAN FALLOS DE COMPILACIÓN${NC}"
+    echo -e "${RED}⚠️  ERROR: LOS SIGUIENTES COMPONENTES FALLARON:${NC}"
+    for result in "${BUILD_RESULTS[@]}"; do
+        if [[ $result == ❌* ]]; then
+            echo -e "  ${RED}$result${NC}"
+        fi
+    done
+    echo ""
+    echo -e "${YELLOW}ℹ️  NOTA (Python): 'BUILD FALLÓ' indica que la aplicación no pudo cargarse${NC}"
+    echo -e "${YELLOW}   debido a errores de importación o estructura de carpetas incorrecta.${NC}"
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 1
 fi

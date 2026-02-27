@@ -10,7 +10,79 @@ Jenkins es un **servidor de automatización** que actúa como un "supervisor té
 
 Este esquema detalla el camino que recorre el código desde nuestras computadoras hasta la versión final:
 
-[![Jenkins Checking](assets/jenkins_checking.png)](assets/jenkins_checking.png)
+```mermaid
+graph TD
+
+%% Inicio del trabajo
+
+subgraph Local ["1 Desarrollo (Simultáneo)"]
+
+A[feature/extraction-logic]
+
+B[feature/scoring-intelligence]
+
+C[feature/backend-api]
+
+D[feature/client-interfaces]
+
+E[feature/frontend-web]
+
+F[feature/database-design]
+
+end
+
+  
+
+%% GitHub y Jenkins
+
+subgraph GitHub ["2 Control y Validación"]
+
+G[Pull Request hacia 'dev']
+
+H{¿Jenkins aprueba?}
+
+I[Revisión Humana / Auditor]
+
+end
+
+  
+
+%% Resultado Final
+
+subgraph Produccion ["3 Integración"]
+
+J[(Rama 'dev')]
+
+K[(Rama 'main')]
+
+end
+
+  
+
+%% Conexiones
+
+A & B & C & D & E & F --> G
+
+G --> H
+
+H -- NO (Rojo) --> L[Corregir Código]
+
+L --> G
+
+H -- SÍ (Verde) --> I
+
+I -- Aprobado --> J
+
+J -- Fin del Sprint --> K
+
+  
+
+%% Estilos
+
+style H fill:#f96,stroke:#333,stroke-width:2px
+
+style J fill:#2d3748,color:#fff
+```
 
 ### 🔍 Explicación del Diagrama
 

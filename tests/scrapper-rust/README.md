@@ -1,4 +1,4 @@
-# 🦀 Scrapper Rust - Tests
+# 03.4. 🦀 Scrapper Rust - Tests
 
 > **Analogía**: El Scrapper Rust son los **sensores** del auto de carreras EquineLead. Estos tests verifican que los sensores capten datos del exterior correctamente, procesen la información a alta velocidad, y la transmitan sin errores al cerebro (Data Science).
 
@@ -42,7 +42,7 @@ scrapper-rust/
 
 ## 🚀 **Cómo Ejecutar los Tests**
 
-### **Opción 1: Usando el script de automatización** (Recomendado)
+### **Usando el script de automatización**
 
 ```bash
 # Desde la raíz del proyecto
@@ -57,7 +57,7 @@ Este script:
 
 ---
 
-### **Opción 2: Manualmente con cargo**
+### **Manualmente con cargo**
 
 ```bash
 # Navegar a la carpeta de tests
@@ -109,7 +109,7 @@ cargo --version
 
 ## 🧪 **Tests Actuales**
 
-### **1. Health Check Test** ✅
+### **Health Check Test**
 
 **Archivo**: `health_test.rs`
 
@@ -186,7 +186,7 @@ fn test_that_should_panic() {
 
 ## 📊 **Tipos de Tests**
 
-### **1. Tests Unitarios** (Unit Tests)
+### **Tests Unitarios**
 
 **Qué prueban**: Una función individual, aislada.
 
@@ -212,7 +212,7 @@ mod tests {
 
 ---
 
-### **2. Tests de Integración** (Integration Tests)
+### **Tests de Integración**
 
 **Qué prueban**: El scraper completo funcionando.
 
@@ -237,7 +237,7 @@ fn test_scraper_fetches_data() {
 
 ---
 
-### **3. Tests Asíncronos**
+### **Tests Asíncronos**
 
 **Qué prueban**: Operaciones asíncronas (HTTP requests, etc.).
 
@@ -283,7 +283,7 @@ Ver: [Jenkinsfile.scrapper](../../ci-cd/jenkins/Jenkinsfile.scrapper)
 
 ## 🐛 **Troubleshooting**
 
-### **Error: "cargo: command not found"**
+### **cargo: command not found**
 
 **Solución**: Instala Rust
 ```bash
@@ -291,7 +291,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
 ```
 
-### **Error: "failed to compile"**
+### **failed to compile**
 
 **Solución**: Actualiza Rust a la última versión
 ```bash

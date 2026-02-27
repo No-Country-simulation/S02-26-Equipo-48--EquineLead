@@ -8,10 +8,17 @@ pipeline {
     
     environment {
         PROJECT_NAME = 'EquineLead - Full Stack'
+        // IP del App Server activo. Cambiar aquí si se migra de AWS a OCI.
+        // En Jenkins: Manage Jenkins > Configure System > Global properties > Environment variables
+        APP_SERVER_IP   = credentials('app-server-ip')   // registrar en Jenkins Credentials como 'Secret text'
+        APP_SERVER_USER = 'ubuntu'
     }
     
     stages {
         stage('🔍 Checkout') {
+            when {
+                not { branch 'gh-pages' }
+            }
             steps {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
                 echo '📥 Descargando código del repositorio...'
@@ -21,15 +28,21 @@ pipeline {
         }
         
         stage('🔍 Check Builds') {
+            when {
+                not { branch 'gh-pages' }
+            }
             steps {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
                 echo '🔍 Verificando que todos los componentes compilen...'
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
-                sh './tests/scripts/check_builds.sh'
+                sh './tests/scripts/check_builds.sh | tee builds.log'
             }
         }
         
         stage('🧪 Run All Tests') {
+            when {
+                not { branch 'gh-pages' }
+            }
             parallel {
                 stage('Backend C#') {
                     steps {
@@ -41,7 +54,7 @@ pipeline {
                 stage('Data Science') {
                     steps {
                         echo '🧠 Ejecutando tests de Data Science...'
-                        sh './tests/scripts/run_datascience_tests.sh'
+                        sh './tests/scripts/run_datascience_tests.sh | tee ds_tests.log'
                     }
                 }
                 
@@ -62,6 +75,9 @@ pipeline {
         }
         
         stage('🔗 Integration Tests') {
+            when {
+                not { branch 'gh-pages' }
+            }
             steps {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
                 echo '🔗 Ejecutando tests de integración...'
@@ -69,24 +85,115 @@ pipeline {
                 sh './tests/scripts/run_integration_tests.sh || echo "Integration tests no disponibles aún"'
             }
         }
+        
+        stage('🚀 Deploy Mock to AWS') {
+            when {
+                branch 'dev'
+            }
+            steps {
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                echo '🚀 Desplegando Mock (Nginx) en AWS App Server Plan B...'
+                echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+                withCredentials([sshUserPrivateKey(
+                    credentialsId: 'aws-app-server-key',
+                    keyFileVariable: 'SSH_KEY_FILE',
+                    usernameVariable: 'SSH_USER'
+                )]) {
+                    sh '''
+                        TARGET="${APP_SERVER_USER}@${APP_SERVER_IP}"
+                        COMPOSE_FILE="infrastructure/docker/docker-compose.mock.yml"
+                        SSH_OPTS="-i $SSH_KEY_FILE -o StrictHostKeyChecking=no"
+
+                        echo ">>> Copiando docker-compose.mock.yml a ${TARGET}..."
+                        scp $SSH_OPTS \
+                            $COMPOSE_FILE \
+                            $TARGET:/home/ubuntu/docker-compose.mock.yml
+
+                        echo ">>> Ejecutando deploy en ${TARGET}..."
+                        ssh $SSH_OPTS $TARGET "
+                            docker compose -f /home/ubuntu/docker-compose.mock.yml up -d --remove-orphans
+                            echo '--- Estado de contenedores ---'
+                            docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+                        "
+                        echo "✅ Mock desplegado en http://${APP_SERVER_IP}"
+                    '''
+                }
+            }
+        }
+
     }
+
     
     post {
+        always {
+            script {
+                // Generar reportes detallados para WhatsApp
+                sh '''
+                    # Capturar builds_report.md
+                    if [ -f builds.log ]; then
+                        echo "## 📦 REPORTE DE COMPILACIÓN" > builds_report.md
+                        sed -r 's/\\x1b\\[[0-9;]*m//g' builds.log >> builds_report.md
+                    else
+                        echo "No builds log available" > builds_report.md
+                    fi
+                    
+                    # Capturar tests_report.md (ejecutando run_all_tests.sh si existe)
+                    if [ -f ./tests/scripts/run_all_tests.sh ]; then
+                        echo "## 🧪 REPORTE DE TESTS" > tests_report.md
+                        ./tests/scripts/run_all_tests.sh | sed -r 's/\\x1b\\[[0-9;]*m//g' >> tests_report.md
+                    else
+                        echo "No tests report available" > tests_report.md
+                    fi
+                '''
+            }
+        }
         success {
             echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
             echo '✅ ¡TODOS LOS COMPONENTES PASARON!'
             echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
             echo '🎉 El proyecto está listo para merge'
+            
+            // Notificación WhatsApp (Issue #10)
+            script {
+                try {
+                        withCredentials([
+                            string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT'),
+                            string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY')
+                        ]) {
+                            def branchName = env.CHANGE_BRANCH ?: env.BRANCH_NAME ?: 'unknown'
+                            def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS \"${branchName}\" \"${commitHash}\" builds_report.md tests_report.md"
+                        }
+                } catch (Exception e) {
+                    echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
+                }
+            }
         }
         failure {
             echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
             echo '❌ ALGUNOS COMPONENTES FALLARON'
             echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
             echo '⚠️  Revisa los logs arriba para ver qué falló'
+            
+            // Notificación WhatsApp (Issue #10)
+            script {
+                try {
+                        withCredentials([
+                            string(credentialsId: 'waha-recipient', variable: 'WAHA_RECIPIENT'),
+                            string(credentialsId: 'waha-api-key', variable: 'WAHA_API_KEY')
+                        ]) {
+                            def branchName = env.CHANGE_BRANCH ?: env.BRANCH_NAME ?: 'unknown'
+                            def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                            sh "./ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE \"${branchName}\" \"${commitHash}\" builds_report.md tests_report.md"
+                        }
+                } catch (Exception e) {
+                    echo "⚠️ No se pudo enviar notificación de WhatsApp: ${e.message}"
+                }
+            }
         }
-        always {
+        cleanup {
             echo '🧹 Limpiando workspace...'
-            cleanWs()
+            deleteDir() // Más exhaustivo que cleanWs()
         }
     }
 }

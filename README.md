@@ -1,9 +1,8 @@
-# EquineLead – Motor de Crecimiento Basado en Datos para la Industria Ecuestre
+# 01. 🏠 EquineLead – Motor de Crecimiento Basado en Datos para la Industria Ecuestre
 
-> **📌 Versión 2.0 - Documentación Técnica**  
-> Este README presenta la arquitectura técnica planificada y las tecnologías seleccionadas para EquineLead.  
-> **Nota importante**: El código fuente aún está en desarrollo en ramas feature individuales y no es visible en el repositorio principal.<br> 
-Esta documentación sirve como **blueprint técnico** del proyecto, mostrando las versiones confirmadas de herramientas de testing y las tecnologías propuestas para cada componente.
+> **📌 Versión 2.1 - Blueprint Técnico Real**  
+> Este README es el punto de entrada oficial para el equipo. Refleja la arquitectura confirmada por los Leads de Backend y Data Science.  
+> **Nota importante**: Solo los scripts de testing están en `main`. El desarrollo activo ocurre en las ramas `feature/`.
 
 EquineLead es una plataforma MVP diseñada para ayudar a empresas de la industria ecuestre a identificar, calificar y convertir leads de alto valor utilizando estrategias de crecimiento basadas en datos.
 
@@ -52,53 +51,43 @@ Construir un **MVP de Motor de Crecimiento** que convierta tráfico anónimo en 
 graph TB
     subgraph "Capa de Cliente"
         WEB[Dashboard Web<br/>React + Node.js 18]
-        MOBILE[Apps Móviles<br/>iOS Swift / Android Kotlin]
+        MOBILE[App Móvil<br/>Android Kotlin]
         LANDING[Landing Page<br/>Formularios de Captura]
     end
-    
-    subgraph "Capa de API Gateway"
-        GATEWAY[API Gateway<br/>ASP.NET Core 8.0]
-    end
-    
-    subgraph "Servicios Backend"
-        BACKEND[API Backend<br/>.NET 8.0<br/>Lógica de Negocio]
+
+    subgraph "Servicios Backend MVP"
+        BACKEND[API Backend<br/>.NET 8.0<br/>Entrada + Lógica de Negocio]
         ML[Servicio ML<br/>Python 3.12.3<br/>FastAPI]
         SCRAPPER[Servicio Scrapper<br/>Rust 1.75.0<br/>Recolección de Datos]
     end
-    
+
     subgraph "Capa de Datos"
         DB[(PostgreSQL<br/>Base de Datos Principal)]
         CACHE[(Redis<br/>Capa de Caché)]
-        QUEUE[Cola de Mensajes<br/>RabbitMQ]
     end
-    
+
     subgraph "CI/CD"
         JENKINS[Jenkins<br/>Instancia OCI]
         DOCKER[Docker Registry]
     end
-    
-    WEB --> GATEWAY
-    MOBILE --> GATEWAY
-    LANDING --> GATEWAY
-    
-    GATEWAY --> BACKEND
-    GATEWAY --> ML
-    
+
+    WEB --> BACKEND
+    MOBILE --> BACKEND
+    LANDING --> BACKEND
+
+    SCRAPPER --> BACKEND
+
+    BACKEND --> ML
+    ML --> BACKEND
+
     BACKEND --> DB
     BACKEND --> CACHE
-    BACKEND --> QUEUE
-    
-    ML --> DB
-    ML --> CACHE
-    
-    SCRAPPER --> QUEUE
-    SCRAPPER --> DB
-    
+
     JENKINS --> DOCKER
     DOCKER --> BACKEND
     DOCKER --> ML
     DOCKER --> SCRAPPER
-    
+
     style WEB fill:#4CAF50,stroke:#2E7D32,color:#fff
     style MOBILE fill:#4CAF50,stroke:#2E7D32,color:#fff
     style BACKEND fill:#2196F3,stroke:#1565C0,color:#fff
@@ -108,30 +97,27 @@ graph TB
     style JENKINS fill:#607D8B,stroke:#37474F,color:#fff
 ```
 
-### **Componentes de Arquitectura**
+### **Componentes de Arquitectura (MVP)**
+
+> **💡 Nota:** Para el MVP, el API Backend absorbe el rol de puerta de entrada (API Gateway). No existe un Gateway separado.
 
 #### **Capa de Cliente**
-- **Dashboard Web**: Interfaz de analíticas y gestión basada en React
-- **Apps Móviles**: Apps nativas iOS (Swift) y Android (Kotlin) para equipo de ventas
-- **Landing Page**: Formularios de captura de leads con tracking de sentimiento
-
-#### **API Gateway**
-- **Tecnología**: ASP.NET Core 8.0
-- **Propósito**: Punto de entrada único, autenticación, rate limiting, enrutamiento
+- **Dashboard Web**: Interfaz de analíticas basada en React — Ronald
+- **App Móvil (Android)**: App para agentes CRM y supervisores — Franklin
+- **Landing Page**: Formularios de captura de leads
 
 #### **Servicios Backend**
-- **API Backend (.NET 8.0)**: Lógica de negocio core, orquestación de datos, endpoints API
-- **Servicio ML (Python 3.12.3)**: Análisis de sentimiento, scoring de leads, predicciones
-- **Scrapper (Rust 1.75.0)**: Recolección de datos de alto rendimiento desde fuentes externas
+- **API Backend (.NET 8.0)**: Punto de entrada único + lógica de negocio. Recibe leads del scrapper, llama al servicio ML para scoring y persiste resultados en DB — Junior
+- **Servicio ML (Python 3.12.3 / FastAPI)**: Calcula el score del lead y devuelve clasificación (Cold/Warm/Hot) al Backend — Leandro + David Alejandro
+- **Scrapper (Rust 1.75.0)**: Extrae leads de fuentes públicas y los envía al API Backend — Jorge
 
 #### **Capa de Datos**
-- **PostgreSQL**: Base de datos relacional primaria para datos estructurados
-- **Redis**: Capa de caché para optimización de rendimiento
-- **RabbitMQ**: Cola de mensajes para procesamiento asíncrono y comunicación entre servicios
+- **PostgreSQL**: Base de datos principal (tablas: `Users`, `LeadInteractions`, `LeadScores`, `Products`) — Diseño: Isabel
+- **Redis**: Caché para optimización de rendimiento 💡 _(pendiente de confirmación)_
 
 #### **CI/CD**
-- **Jenkins**: Testing, building y deployment automatizados
-- **Docker**: Containerización de todos los servicios
+- **Jenkins**: Testing automático y validación de PRs — Diego
+- **Docker**: Containerización de todos los servicios 💡
 
 ---
 
@@ -152,13 +138,10 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 
 ### **Data Science / Machine Learning**
 - **Runtime**: Python 3.12.3 ✅
-- **Framework API**: FastAPI 0.100+ 💡 _(pendiente de confirmación)_
-- **Librerías ML**:
-  - scikit-learn 1.3+ 💡 (Lead Scoring) _(pendiente de confirmación)_
-  - transformers 4.30+ 💡 (Análisis de Sentimiento - BERT) _(pendiente de confirmación)_
-  - pandas 2.0+ 💡 (Procesamiento de Datos) _(pendiente de confirmación)_
-  - numpy 1.24+ 💡 (Computación Numérica) _(pendiente de confirmación)_
-- **Testing**: pytest 7.4+ 💡 _(pendiente de confirmación)_
+- **Framework API**: FastAPI ✅
+- **Modelo de Scoring**: Basado en Reglas (Rule-Based) ✅ (Lógica: I + B + T - P)
+- **Análisis de Sentimiento**: BERT (Integración planeada) 💡
+- **Testing**: pytest 7.4+ ✅
 
 ### **Scrapper / Servicios de Alto Rendimiento**
 - **Lenguaje**: Rust 1.75.0 ✅ (Edition 2021)
@@ -181,9 +164,9 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 - **Testing**: XCTest (iOS), JUnit (Android) 💡 _(pendiente de confirmación)_
 
 ### **Base de Datos & Caché**
-- **Base de Datos Principal**: PostgreSQL 15+ 💡 _(pendiente de confirmación)_
-- **Caché**: Redis 7.0+ 💡 _(pendiente de confirmación)_
-- **Cola de Mensajes**: RabbitMQ 3.12+ 💡 _(pendiente de confirmación)_
+- **Base de Datos Principal**: PostgreSQL 15+ ✅ (Esquema v2 Confirmado)
+- **Caché**: Redis 7.0+ 💡
+- **Cola de Mensajes**: RabbitMQ 3.12+ 💡
 
 ### **DevOps & Infraestructura**
 - **CI/CD**: Jenkins ✅ (Actualizado a Java 21 para soporte LTSC)
@@ -204,58 +187,34 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 
 > **💡 Nota**: Este esquema representa el diseño planificado de la base de datos. La implementación está en desarrollo.
 
-### **Base de Datos Principal: PostgreSQL 15+** _(pendiente de confirmación)_
+### **Base de Datos Principal: PostgreSQL 15+** ✅ (Esquema v2 Confirmado)
 
 ```mermaid
 erDiagram
-    LEADS ||--o{ INTERACTIONS : tiene
-    LEADS ||--o{ SENTIMENT_SCORES : tiene
-    LEADS ||--|| LEAD_SCORES : tiene
-    LEADS }o--|| SEGMENTS : pertenece_a
+    Leads ||--o{ LeadInteractions : registra
+    Leads ||--|| LeadScores : posee
     
-    LEADS {
-        uuid id PK
-        string email
-        string phone
-        string name
-        string source
-        timestamp created_at
-        timestamp updated_at
-        string status
+    Leads {
+        INT id PK
+        VARCHAR email
+        VARCHAR name
+        TIMESTAMP_TZ created_at
     }
     
-    INTERACTIONS {
-        uuid id PK
-        uuid lead_id FK
-        string type
-        text content
-        timestamp created_at
-        json metadata
+    LeadInteractions {
+        INT id PK
+        INT lead_id FK
+        INT interaction_type_id
+        JSONB metadata
+        TIMESTAMP_TZ interaction_date
     }
     
-    SENTIMENT_SCORES {
-        uuid id PK
-        uuid lead_id FK
-        uuid interaction_id FK
-        string sentiment
-        float score
-        timestamp analyzed_at
-    }
-    
-    LEAD_SCORES {
-        uuid id PK
-        uuid lead_id FK
-        int score
-        string category
-        json features
-        timestamp calculated_at
-    }
-    
-    SEGMENTS {
-        uuid id PK
-        string name
-        string description
-        json criteria
+    LeadScores {
+        INT id PK
+        INT lead_id FK
+        INT score_value
+        INT classification_id
+        TIMESTAMP_TZ updated_at
     }
 ```
 
@@ -263,18 +222,20 @@ erDiagram
 
 | Tabla | Propósito | Campos Clave |
 |-------|-----------|--------------|
-| `leads` | Almacenar leads capturados | email, phone, name, source, status |
-| `interactions` | Rastrear todas las interacciones de leads | lead_id, type, content, metadata |
-| `sentiment_scores` | Resultados de análisis de sentimiento | lead_id, sentiment, score |
-| `lead_scores` | Scores de leads calculados | lead_id, score (0-100), category |
-| `segments` | Segmentación de leads | name, criteria |
+| `Leads` | Almacenar leads capturados | email, name, status, created_at |
+| `InteractionTypes` | Catálogo maestro de tipos de interacción | id, description (INT mapping) |
+| `LeadInteractions` | Historial completo de actividad del lead | lead_id, type_id, metadata, interaction_date |
+| `LeadScoreClassifications` | Catálogo maestro de estados (1-Cold, 2-Warm, 3-Hot) | id, description |
+| `LeadScores` | Almacenamiento del scoring vigente por lead | lead_id, value, classification_id |
 
-### **Categorías de Lead Scoring**
-- **Hot** (80-100): Alto valor, listo para comprar
-- **Warm** (50-79): Interesado, necesita nutrición
-- **Cold** (0-49): Bajo engagement
+### **Clasificación de Leads (Maestro)**
+| Valor INT | Clasificación | Significado |
+|-----------|---------------|-------------|
+| **1** | **Cold** | Bajo interés inicial / Inactivo |
+| **2** | **Warm** | Interés moderado / Nutrición |
+| **3** | **Hot** | Alta intención de compra / Urgente |
 
-📖 **Ver variables completas**: [docs/data-dictionary/](./docs/data-dictionary/)
+📖 **Diccionario de Datos**: [docs/database/especificacion-tecnica-db-v2.md](./docs/database/especificacion-tecnica-db-v2.md)
 
 ---
 
@@ -283,16 +244,22 @@ erDiagram
 > **💡 Nota**: Estos endpoints representan el diseño de API planificado. La implementación está en desarrollo.
 
 ### **API Backend (ASP.NET Core 8.0)** _(pendiente de confirmación)_
-URL Base: `https://api.equinelead.com/v1`
+URL Base: `http://<APP_SERVER_IP>:8000` _(IP pública del App Server — ver [Issue #7](https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues/7#issuecomment-3931069066): por mientras se gestiona la creación de instancia AWS como alternativa a OCI)_
 
-#### **Gestión de Leads**
+#### **Gestión de Leads inmediata**
 ```http
-POST   /api/leads              # Crear nuevo lead
-GET    /api/leads/{id}         # Obtener lead por ID
-GET    /api/leads              # Listar leads (paginado)
+POST   /api/users              # Recibir nuevo lead desde el scrapper
+GET    /api/leads              # Listar leads con score (paginado)
+```
+
+**Pendientes de implementar luego**
+```http
+GET    /api/leads/{id}         # Obtener lead por id
 PUT    /api/leads/{id}         # Actualizar lead
 DELETE /api/leads/{id}         # Eliminar lead
 ```
+
+> 💡 **Nota**: Endpoints en definición por Junior (Contrato 2 pendiente). Ver: [`docs/meetings/2026-02-19-flujo-pipeline-narrado.md`](./docs/meetings/2026-02-19-flujo-pipeline-narrado.md)
 
 **Ejemplo de Request:**
 ```json
@@ -343,8 +310,8 @@ GET    /api/leads/{id}/score   # Obtener score actual
 
 ---
 
-### **API de Servicio ML (Python FastAPI)** _(pendiente de confirmación)_
-URL Base: `https://ml.equinelead.com/v1` _(ejemplo ilustrativo)_
+### **API de Servicio ML (Python FastAPI)** ✅
+URL Base: `http://<APP_SERVER_IP>:8090` _(misma IP que el Backend, puerto 8090 — ver [Issue #7](https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues/7#issuecomment-3931069066): por mientras se gestiona la creación de instancia AWS como alternativa a OCI)_
 
 #### **Análisis de Sentimiento**
 ```http
@@ -402,7 +369,7 @@ POST /api/leads/predict
 }
 ```
 
-📖 **Ver documentación completa de API**: [docs/api-reference.md](./docs/api-reference.md) _(documento aún no implementado)_ | Swagger UI disponible en `/swagger`
+📖 **Contrato Técnico Scoring**: [docs/data-contracts/contrato-json-scoring-v1.md](./docs/data-contracts/contrato-json-scoring-v1.md)
 
 ---
 
@@ -473,7 +440,7 @@ JWT_AUDIENCE=equinelead-clients
 JWT_EXPIRY_MINUTES=60
 
 # Servicios Externos
-ML_SERVICE_URL=http://localhost:8080
+ML_SERVICE_URL=http://localhost:8090
 SCRAPPER_SERVICE_URL=http://localhost:8081
 
 # RabbitMQ
@@ -504,7 +471,7 @@ SCORING_MODEL=lead_scoring_rf_v1.pkl
 
 # Configuración API
 API_HOST=0.0.0.0
-API_PORT=8080
+API_PORT=8090
 API_WORKERS=4
 
 # Logging
@@ -544,7 +511,7 @@ Crear archivo `.env` en `src/frontend-web/`:
 ```bash
 # Endpoints API
 VITE_API_URL=http://localhost:8000/api
-VITE_ML_API_URL=http://localhost:8080/api
+VITE_ML_API_URL=http://localhost:8090/api
 
 # Autenticación
 VITE_AUTH_DOMAIN=auth.equinelead.com
@@ -561,7 +528,7 @@ VITE_ENABLE_CHAT=false
 
 ---
 
-### **⚠️ Notas de Seguridad**
+### **Notas de Seguridad**
 
 1. **Nunca commitear archivos `.env`** - Ya están en `.gitignore`
 2. **Usar secrets diferentes** para dev/staging/producción
@@ -580,9 +547,12 @@ equine-lead/
 │   ├── jenkins/            # Configuraciones y pipelines para Jenkins
 │   └── README.md           # Guía maestra de DevOps
 ├── docs/                   # 📚 Documentación técnica y de negocio
-│   ├── data-dictionary/    # Definiciones de variables de Scoring
-│   ├── DEVELOPER_ONBOARDING.md  # 🎓 Guía de onboarding para developers
-│   └── DOCUMENTATION_FLOW.md    # 📊 Mapa de navegación de documentación
+│   ├── database/           # Esquema DB, SQL y Diagramas v2
+│   ├── data-contracts/     # Contratos JSON y Notas de Diseño DS
+│   ├── guides/             # 📖 Guías operativas y estándares
+│   │   ├── DEVELOPER_ONBOARDING.md  # 🎓 Guía de onboarding para developers
+│   │   ├── DOCUMENTATION_FLOW.md    # 📊 Mapa de navegación de documentación
+│   │   └── GIT_WORKFLOW.md          # 🔄 Guía de flujo de Git
 ├── infrastructure/         # 🏗️ Configuración de la Nube (Oracle Cloud)
 │   ├── terraform/          # Infraestructura como código (IaC)
 │   └── docker/             # Configuración de servicios en contenedores
@@ -607,8 +577,9 @@ equine-lead/
 ## 👥 Roles del Equipo
 
 - **DevOps Lead**: Diego Zapata Salhuana
-- **Backend Developer**: Isabel
-- **Data Scientist**: Leandro
+- **Backend Developer (.NET)**: Junior
+- **Backend DB**: Isabel
+- **Data Scientist / FastAPI**: Leandro + David Alejandro
 - **Frontend Developer**: Franklin y Ronald
 - **Mobile Developer**: Franklin
 - **Scrapping Engineer**: Jorge
@@ -619,21 +590,21 @@ equine-lead/
 
 ## 📚 Hub de Documentación
 
-### **🎓 Para Nuevos Developers**
-- **[Guía de Onboarding](./docs/readmewebsite/docs/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
-- **[Mapa de Documentación](./docs/readmewebsite/docs/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
+### **Para Nuevos Developers**
+- **[Guía de Onboarding](./docs/guides/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
+- **[Mapa de Documentación](./docs/guides/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
 
-### **🏗️ Infraestructura y Deployment**
+### **Infraestructura y Deployment**
 - **[Infrastructure README](./infrastructure/README.md)** - Configuración de Oracle Cloud, Terraform, Docker
 - **[CI/CD README](./ci-cd/README.md)** - Automatización y procesos de deployment
 - **[Jenkins Pipelines](./ci-cd/jenkins/README.md)** - Configuración detallada de pipelines
 - **[Jenkins Paso a Paso](./ci-cd/jenkins/CONFIGURACION_PASO_A_PASO.md)** - Guía rápida de configuración y desbloqueo
 
-### **🧪 Testing y Calidad**
+### **Testing y Calidad**
 - **[Testing README](./tests/README.md)** - Guía completa de testing, health checks, y scripts
 - **[Test Scripts](./tests/scripts/README.md)** - Automatización de tests locales
 
-### **💻 Componentes Específicos**
+### **Componentes Específicos**
 
 > **⚠️ Nota**: Los READMEs de componentes individuales están en desarrollo o pendientes de creación. Los enlaces a continuación apuntan a las ubicaciones planificadas.
 
@@ -753,7 +724,7 @@ cd equine-lead
 | **Integration Tests** | Tests de integración entre servicios | `tests/*/IntegrationTests/` |
 | **E2E Tests** | Tests end-to-end del flujo completo | `tests/e2e/` |
 
-### **Analogía: El Auto de Carreras** 🏎️
+### **Analogía: El Auto de Carreras**
 
 Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 
@@ -799,8 +770,8 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 ## 🆘 Soporte
 
 ### **Documentación**
-- [Guía de Onboarding](./docs/DEVELOPER_ONBOARDING.md) - Para nuevos developers
-- [Mapa de Documentación](./docs/DOCUMENTATION_FLOW.md) - Navegación de docs
+- [Guía de Onboarding](./docs/guides/DEVELOPER_ONBOARDING.md) - Para nuevos developers
+- [Mapa de Documentación](./docs/guides/DOCUMENTATION_FLOW.md) - Navegación de docs
 - [Testing Guide](./tests/README.md) - Guía completa de testing
 - [Infrastructure Guide](./infrastructure/README.md) - Setup de infraestructura
 - [CI/CD Guide](./ci-cd/README.md) - Automatización y deployment
@@ -817,10 +788,18 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 
 ## 📄 Licencia
 
-[Especificar licencia]
+Este proyecto está bajo la **Licencia MIT**. Puedes ver los términos detallados en el archivo [LICENSE](./LICENSE)
 
----
+La Licencia MIT permite:<br>
+- ✅ Uso comercial <br>
+- ✅ Modificación <br>
+- ✅ Distribución <br>
+- ✅ Uso privado <br>
 
-> **Última actualización**: 2026-02-12  
-> **Versión**: 2.0 - Documentación Técnica  
-> **Estado**: Infraestructura de testing completada, implementación de componentes en progreso
+Condiciones:
+- ℹ️ Mantener el aviso de copyright y la licencia en las copias del software.
+
+
+> **Última actualización**: 2026-02-20  
+> **Versión**: 2.1 - Blueprint Técnico Real  
+> **Estado**: Sprint semana 2/4 en progreso — cuello de botella en API Backend (Junior)
