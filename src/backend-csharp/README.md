@@ -1,5 +1,6 @@
 <h2 align="center">🏇 EquineLead – Backend C# .NET Core MVP V1</h2> <br>
-Este backend implementa una tubería de persistencia y cálculo de Lead Scoring desarrollada con ASP.NET Core, Entity Framework y base de datos PostgreSQL.
+Este backend implementa una tubería de persistencia para la gestión de usuarios (leads) y productos, incluyendo el registro de interacciones y el cálculo de Lead Score. 
+La solución está desarrollada con ASP.NET Core, Entity Framework y base de datos PostgreSQL.
 
 ## 🧱 Componentes principales
 
@@ -36,8 +37,7 @@ Nota: Cada nueva interacción dispara automáticamente el recálculo del lead sc
 
 ### 📊 LeadScores
 
-Almacena el puntaje calculado por usuario.
-
+Almacena el puntaje calculado por usuario
 Contiene:
 
 - Valor numérico del score  
@@ -47,8 +47,11 @@ Contiene:
 
 ## 🔄 Flujo principal
 
-1. Se registra una interacción  
-2. Se valida usuario y producto  
-3. Se guarda la interacción  
-4. Se recalcula automáticamente el lead score  
-5. Se actualiza o crea el registro en LeadScores  
+Usuario interactúa → Se valida usuario y producto → se guarda interacción → Se recalcula automáticamente el lead score  → se clasifica lead → Se actualiza o crea el registro en LeadScores.
+
+## Tecnologías usadas
+•	ASP.NET Core
+•	Entity Framework version 8.0
+•	PostgreSQL version 18.2
+•	Swagger 
+
