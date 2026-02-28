@@ -1,3 +1,7 @@
 fastapi
 pydantic
 uvicorn
+pandas
+python-dotenv
+matplotlib
+psycopg2-binary

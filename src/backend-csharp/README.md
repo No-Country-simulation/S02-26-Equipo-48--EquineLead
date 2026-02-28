@@ -54,6 +54,36 @@ Para entender cómo se hablan **C#** y **Python**, imaginemos este flujo paso a 
 
 ---
 
+## 🐳 Levantamiento con Docker Compose (Recomendado)
+
+Esta es la forma más simple de levantar todo el stack: base de datos, Data Science y Backend en un solo comando.
+
+**Prerrequisito**: Tener Docker instalado.
+
+```bash
+# Desde la RAÍZ del proyecto (equine-lead/)
+
+# 1. Copia las credenciales de entorno
+cp .env.example .env
+
+# 2. Levanta todos los servicios (build + start)
+docker compose up -d --build
+
+# 3. Crea las tablas (solo la primera vez)
+docker exec equine-backend dotnet ef database update --context AppDbContext
+```
+
+Una vez levantado:
+- **Swagger Backend**: [http://localhost:5286/swagger](http://localhost:5286/swagger)
+- **Swagger Data Science**: [http://localhost:8090/docs](http://localhost:8090/docs)
+
+Para detener todos los servicios:
+```bash
+docker compose down
+```
+
+---
+
 ## 🚀 Guía de Levantamiento Local (Paso a Paso)
 
 Para que el sistema funcione correctamente, se deben levantar los componentes en el orden indicado. 
@@ -140,6 +170,28 @@ Retornado tras calcular el score:
   "scoreModelVersion": "v1-rule-based"
 }
 ```
+
+---
+
+## 🌱 Poblar la Base de Datos (Dataset Sintético)
+
+Para probar el sistema con datos realistas (100k usuarios), usar el workflow de **tres pasos**:
+
+```bash
+# Paso 1: Generar CSVs (~20-40 seg)
+PYTHONPATH=src/data-science ./venv/bin/python3 src/data-science/scripts/generate_seed_data.py
+
+# Paso 2: Cargar en la DB (PostgreSQL en Docker — Hito 1 y Hito 2)
+./venv/bin/python3 src/data-science/scripts/load_seed_data.py --mode docker
+
+# Paso 3: Calcular LeadScores en bulk (~2 min, 100k scores)
+PYTHONPATH=src/data-science ./venv/bin/python3 src/data-science/scripts/bulk_score.py
+```
+
+> [!NOTE]
+> Usar `--mode docker` si PostgreSQL corre en contenedor (lo normal en desarrollo local).
+> Usar `--mode local` solo si `psql` está instalado nativamente en el host.
+> CSVs en `.gitignore`. Doc. completa: [docs/data/README.md](../../docs/data/README.md).
 
 ---
 
