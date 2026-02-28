@@ -1,32 +1,48 @@
+# ============================================================
+# ETAPA 1 (MOCK) - HISTÓRICO - NO ELIMINAR
+# ============================================================
+# Este archivo corresponde a la Etapa 1 del proyecto, donde los
+# servicios reales aún no existían y se usaban mocks con nginx.
+#
+# A partir del Hito 1 (v0.1.0-hito1-local), los servicios reales
+# tienen sus propios Dockerfiles y se orquestan desde la raíz:
+#   → /docker-compose.yml (Backend C# + Data Science + PostgreSQL)
+#
+# Solo WAHA (WhatsApp API) sigue activo desde este archivo.
+# ============================================================
+
 version: '3.8'
 
 services:
-  # Mock del Frontend (Puerto 80)
-  mock-frontend:
-    image: nginx:alpine
-    container_name: mock-web-frontend
-    ports:
-      - "80:80"
-    restart: always
+  # ── MOCKS REEMPLAZADOS POR DOCKERFILES REALES (Hito 2) ──────────────────────
 
-  # Mock de la API (Puerto 8000)
-  mock-backend:
-    image: nginx:alpine
-    container_name: mock-api-backend
-    ports:
-      - "8000:80"
-    restart: always
+  # Mock del Frontend (Puerto 80) → Reemplazado por src/frontend-web (pendiente)
+  # mock-frontend:
+  #   image: nginx:alpine
+  #   container_name: mock-web-frontend
+  #   ports:
+  #     - "80:80"
+  #   restart: always
 
-  # Mock de ML (Puerto 8080)
-  mock-ml-service:
-    image: nginx:alpine
-    container_name: mock-ml-service
-    ports:
-      - "8090:80"
-    restart: always
+  # Mock de la API Backend (Puerto 8000) → Reemplazado por src/backend-csharp/Dockerfile
+  # mock-backend:
+  #   image: nginx:alpine
+  #   container_name: mock-api-backend
+  #   ports:
+  #     - "8000:80"
+  #   restart: always
 
-  # WAHA - WhatsApp HTTP API (Open Source)
-  # Este servicio permite a Jenkins enviar mensajes de WhatsApp
+  # Mock del servicio ML (Puerto 8090) → Reemplazado por src/data-science/Dockerfile
+  # mock-ml-service:
+  #   image: nginx:alpine
+  #   container_name: mock-ml-service
+  #   ports:
+  #     - "8090:80"
+  #   restart: always
+
+  # ── ACTIVO: WAHA - WhatsApp HTTP API ────────────────────────────────────────
+  # Este servicio permite a Jenkins enviar mensajes de WhatsApp.
+  # Sigue activo ya que no forma parte del stack de aplicación principal.
   waha:
     image: devlikeapro/waha
     container_name: equine-lead-waha

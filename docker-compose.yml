@@ -1,0 +1,77 @@
+# ============================================================
+# EquineLead - Docker Compose (Desarrollo Local / Hito 2)
+# ============================================================
+# Uso:
+#   docker compose up -d --build
+#   docker compose down
+#
+# Variables de entorno: se leen del archivo ".env" en la raíz.
+# Ver ".env.example" para el template.
+# ============================================================
+
+services:
+
+  # ─── 1. BASE DE DATOS ──────────────────────────────────────────────────────────
+  db:
+    image: postgres:15
+    container_name: equine-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - equine-net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── 2. DATA SCIENCE (FastAPI Python) ─────────────────────────────────────────
+  data-science:
+    build:
+      context: ./src/data-science
+      dockerfile: Dockerfile
+    container_name: equine-data-science
+    restart: always
+    ports:
+      - "8090:8090"
+    networks:
+      - equine-net
+
+  # ─── 3. BACKEND (ASP.NET Core 8) ──────────────────────────────────────────────
+  backend:
+    build:
+      context: ./src/backend-csharp
+      dockerfile: Dockerfile
+    container_name: equine-backend
+    restart: always
+    ports:
+      - "5286:80"
+    environment:
+      # Connection string construida con las variables del .env
+      - ConnectionStrings__DefaultConnection=Host=${DB_HOST};Port=${DB_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      # URL del servicio de Data Science (nombre del servicio en la red interna)
+      - DataScience__BaseUrl=${DATASCIENCE_BASEURL}
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      db:
+        condition: service_healthy
+      data-science:
+        condition: service_started
+    networks:
+      - equine-net
+
+# ─── VOLÚMENES Y REDES ──────────────────────────────────────────────────────────
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  equine-net:
+    driver: bridge

@@ -18,13 +18,14 @@ terraform/
 ├── .gitignore           # Protección de archivos sensibles
 │
 ├── modules/             # Módulos reutilizables
-│   ├── jenkins/         # ✅ Servidor Jenkins (1GB)
-│   ├── app-server/      # ⚠️ Servidor de aplicaciones (6GB) - Pendiente
-│   ├── backend-csharp/  # ⚠️ API C# - Pendiente
-│   ├── database/        # ⚠️ Base de datos - Pendiente
-│   ├── scrapper-rust/   # ⚠️ Scrapper - Pendiente
-│   ├── data-science/    # ⚠️ API FastAPI - Pendiente
-│   └── frontend-web/    # ⚠️ Dashboard - Pendiente
+│   ├── jenkins/         # ✅ Jenkins en OCI (1GB) — 129.151.114.218
+│   ├── aws-app-server/  # ✅ App Server en AWS (t3.small, 2GB+4GB swap) — 44.202.43.214
+│   ├── app-server/      # ❌ Descartado (OCI 6GB — Plan A reemplazado por Plan B AWS)
+│   ├── backend-csharp/  # ⏳ Pendiente de despliegue en app server
+│   ├── database/        # ⏳ Pendiente de despliegue en app server
+│   ├── scrapper-rust/   # ⏳ Pendiente
+│   ├── data-science/    # ⏳ Pendiente de despliegue en app server
+│   └── frontend-web/    # ⏳ Pendiente
 │
 └── evidence/            # Documentación de despliegues
     └── README.md
@@ -34,19 +35,25 @@ terraform/
 
 ## 🚀 Estado Actual
 
-### **Implementado**
-- **Módulo Jenkins**: Instancia de 1GB con Jenkins, Docker, Git instalados automáticamente
-- **Networking**: VCN, Subnet pública, Internet Gateway, Security Lists
-- **Datasources**: Búsqueda automática de imágenes Ubuntu 24.04
+### ✅ Infraestructura Activa
 
-### **Pendiente de Coordinación**
-Los siguientes módulos están preparados pero requieren definición de los equipos:
-- **app-server**: Servidor de 6GB para contenedores Docker
-- **backend-csharp**: API central (Isabel)
-- **database**: Base de datos (Isabel)
-- **scrapper-rust**: Scrapper de datos (Jorge)
-- **data-science**: API de ML (Leandro)
-- **frontend-web**: Dashboard (Franklin)
+| Instancia | Nube | Tipo | RAM | IP Pública | Estado |
+|-----------|------|------|-----|-----------|--------|
+| **Jenkins Server** | OCI | VM.Standard.E2.1.Micro | 1GB | `129.151.114.218` | ✅ Corriendo |
+| **App Server (Plan B)** | AWS | `t3.small` | 2GB + 4GB Swap | `44.202.43.214` | ✅ Corriendo |
+
+- **Jenkins**: [http://129.151.114.218:8080](http://129.151.114.218:8080) — Jenkins, Docker, Git, OpenJDK 21
+- **App Server**: Ubuntu 22.04, Docker instalado, 30GB disco. Listo para recibir `docker compose up`.
+
+### ⏳ Pendiente de Despliegue (en App Server AWS)
+Los siguientes servicios ya tienen sus Dockerfiles listos en `src/` y se orquestan desde `docker-compose.yml`:
+- **backend-csharp**: API C# — Dockerfile en `src/backend-csharp/`
+- **data-science**: FastAPI ML — Dockerfile en `src/data-science/`
+- **database**: PostgreSQL 15 — gestionado por docker-compose
+- **scrapper-rust**: Pendiente
+- **frontend-web**: Pendiente
+
+> **Nota**: La instancia de 6GB en OCI (`app-server/`) fue el Plan A original. Fue reemplazada por el **Plan B en AWS** (`aws-app-server/`) que está activa.
 
 ---
 
@@ -197,16 +204,21 @@ Cuando un equipo esté listo para implementar su componente:
 
 ---
 
-## 📊 Recursos Creados
+## 📊 Recursos Activos
 
+### 🔵 OCI
 | Recurso | Descripción | Estado |
 |---------|-------------|--------|
-| VCN | Red virtual privada | ✅ Activo |
-| Subnet | Subred pública | ✅ Activo |
-| Internet Gateway | Salida a internet | ✅ Activo |
-| Security List | Firewall (puertos 22, 3000, 8000, 8080) | ✅ Activo |
-| Jenkins Instance | Servidor CI/CD (1GB) | ✅ Activo |
-| App Server | Servidor de aplicaciones (6GB) | ⚠️ Pendiente |
+| VCN + Subnet + Internet Gateway | Red y salida a internet | ✅ Activo |
+| Security List | Puertos 22, 8080, 3000, 8000 | ✅ Activo |
+| Jenkins Instance | CI/CD Server 1GB — `129.151.114.218` | ✅ Activo |
+
+### 🟠 AWS (Plan B)
+| Recurso | Descripción | Estado |
+|---------|-------------|--------|
+| VPC + Subnet + IGW | Red y salida a internet | ✅ Activo |
+| Security Group | Puertos 22, 80, 8000, 8080, 3005 | ✅ Activo |
+| App Server (`t3.small`) | 2GB RAM + 4GB Swap, Ubuntu 22.04 — `44.202.43.214` | ✅ Activo |
 
 ---
 

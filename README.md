@@ -112,8 +112,14 @@ graph TB
 - **Scrapper (Rust 1.75.0)**: Extrae leads de fuentes públicas y los envía al API Backend — Jorge
 
 #### **Capa de Datos**
-- **PostgreSQL**: Base de datos principal (tablas: `Users`, `LeadInteractions`, `LeadScores`, `Products`) — Diseño: Isabel
+- **PostgresSQL**: Base de datos principal. **C# es el único dueño de la persistencia**.
 - **Redis**: Caché para optimización de rendimiento 💡 _(pendiente de confirmación)_
+
+#### **Filosofía de Desacoplamiento (Data Ownership)**
+Para evitar el patrón de "Monolito Distribuido", el sistema sigue estas reglas:
+1. **Single Source of Truth**: Solo el Backend C# tiene credenciales y acceso a la base de datos.
+2. **Stateless Brain**: El servicio de Data Science (Python) no guarda ni lee de la base de datos. Recibe datos vía JSON, calcula el score y devuelve el resultado.
+3. **Persistencia Centralizada**: El Backend C# es el encargado de recibir la respuesta de Python y persistirla en Postgres.
 
 #### **CI/CD**
 - **Jenkins**: Testing automático y validación de PRs — Diego
@@ -165,16 +171,19 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 
 ### **Base de Datos & Caché**
 - **Base de Datos Principal**: PostgreSQL 15+ ✅ (Esquema v2 Confirmado)
-- **Caché**: Redis 7.0+ 💡
-- **Cola de Mensajes**: RabbitMQ 3.12+ 💡
+- **Caché**: Redis 7.0+ 💡 _(Visión Futura — Fase 3. No implementado. No necesario para el MVP. Evaluar cuando supere 1.000 requests/min concurrentes)_
+- **Cola de Mensajes**: RabbitMQ 3.12+ 💡 _(Visión Futura — Fase 3. No implementado. Necesario recién cuando el Scrapper Rust procese miles de leads/hora. La instancia t3.small de 2GB no soporta este servicio adicional)_
 
 ### **DevOps & Infraestructura**
-- **CI/CD**: Jenkins ✅ (Actualizado a Java 21 para soporte LTSC)
-- **Memoria Virtual**: Swap File 2GB ✅ (Estabilidad garantizada en OCI)
-- **Containerización**: Docker 💡 _(pendiente de confirmación de versión)_
-- **Orquestación**: Docker Compose ✅ _(configuración pendiente de aprobación de PR)_
-- **IaC**: Terraform ✅ (en uso activo)
-- **Nube**: Oracle Cloud Infrastructure (OCI) ✅ (en uso activo)
+- **CI/CD**: Jenkins ✅ (Java 21, IP: `129.151.114.218` en OCI)
+- **App Server**: AWS `t3.small` ✅ (2GB RAM + 4GB Swap, IP: `44.202.43.214`)
+- **Memoria Virtual**: Swap File 4GB ✅ (configurado en el App Server AWS)
+- **Containerización**: Docker + Docker Compose ✅ (instalado en App Server)
+- **Orquestación**: `docker-compose.yml` (raíz del proyecto) ✅
+- **IaC**: Terraform ✅ (en uso activo — OCI para Jenkins, AWS para App Server)
+- **Nube**: 
+  - OCI (Jenkins) ✅
+  - AWS us-east-1 (App Server Plan B) ✅
 
 ### **Herramientas de Desarrollo**
 - **Control de Versiones**: Git + GitHub
@@ -243,8 +252,10 @@ erDiagram
 
 > **💡 Nota**: Estos endpoints representan el diseño de API planificado. La implementación está en desarrollo.
 
-### **API Backend (ASP.NET Core 8.0)** _(pendiente de confirmación)_
-URL Base: `http://<APP_SERVER_IP>:8000` _(IP pública del App Server — ver [Issue #7](https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues/7#issuecomment-3931069066): por mientras se gestiona la creación de instancia AWS como alternativa a OCI)_
+### **API Backend (ASP.NET Core 8.0)**
+URL Base (App Server): `http://44.202.43.214:8000` _(AWS Plan B activo — [Ver Terraform outputs](./infrastructure/terraform/))_
+
+URL Base (Local): `http://localhost:5286`
 
 #### **Gestión de Leads inmediata**
 ```http
@@ -311,7 +322,9 @@ GET    /api/leads/{id}/score   # Obtener score actual
 ---
 
 ### **API de Servicio ML (Python FastAPI)** ✅
-URL Base: `http://<APP_SERVER_IP>:8090` _(misma IP que el Backend, puerto 8090 — ver [Issue #7](https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues/7#issuecomment-3931069066): por mientras se gestiona la creación de instancia AWS como alternativa a OCI)_
+URL Base (App Server): `http://44.202.43.214:8090` _(AWS Plan B activo)_
+
+URL Base (Local): `http://localhost:8090`
 
 #### **Análisis de Sentimiento**
 ```http

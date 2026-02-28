@@ -57,6 +57,7 @@ bin/
 obj/
 [Bb]in/
 [Oo]bj/
+.vs/
 *.user
 *.suo
 *.userosscache
@@ -67,3 +68,9 @@ site/
 
 # --- MkDocs Staging (Technical) ---
 .docs_staging/
+
+# --- Datasets Sintéticos (Archivos grandes, no commitear) ---
+# Ver: docs/data/README.md para instrucciones de uso
+docs/data/synthetic/*.csv
+docs/data/synthetic/*.json
+docs/data/synthetic/*.xlsx

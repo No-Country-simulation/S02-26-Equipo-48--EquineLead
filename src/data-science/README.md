@@ -18,6 +18,12 @@ Este modelo corresponde a la versión **MVP v1.0** y utiliza un motor basado en 
 
 ## 🔎 Convenciones Técnicas (Backend Alignment)
 
+### 🧼 Naturaleza Stateless
+Este servicio está diseñado como un **"Motor de Cálculo Puro"**:
+- **Sin Base de Datos**: No tiene conexión ni credenciales de Postgres.
+- **Sin Memoria**: Cada petición es independiente. Recibe todo lo necesario en el JSON de entrada.
+- **Desacoplado**: No conoce la estructura de las tablas, solo el contrato de datos (JSON).
+
 Para garantizar la armonía con la base de datos de Isabel y el Backend de Junior, se utilizan valores enteros (`INT`) para categorías y tipos.
 
 ### 🔢 Diccionario de Interacciones
@@ -69,7 +75,7 @@ Ideal para verificar cálculos matemáticos rápidamente. Requiere instalar depe
 
 ```bash
 # 1. Instalar dependencias de desarrollo
-./venv/bin/pip install -r src/data-science/requirements-dev.txt
+./venv/bin/pip install -r src/data-science/requirements.txt
 
 # 2. Ejecutar Simulación (20 leads aleatorios con gráficos)
 PYTHONPATH=src/data-science ./venv/bin/python3 src/data-science/scripts/demo_simulation.py
@@ -99,3 +105,30 @@ Para pruebas de integración con el Backend.
 *   **Modelo**: Rule-Based (Basado en reglas).
 *   **Infraestructura**: Puerto **8090** (Evita conflicto con Jenkins).
 *   **Pipeline**: Integrado mediante contratos JSON definidos en `docs/data-contracts/`.
+
+---
+
+## 📁 Scripts Disponibles
+
+| Script | Propósito | Genera CSV? | Requiere DB? |
+|--------|-----------|-------------|---------------|
+| [`demo_simulation.py`](scripts/demo_simulation.py) | Prueba matemática del scoring. Muestra gráficos. Sin conexión a DB. | ❌ No | ❌ No |
+| [`generate_seed_data.py`](scripts/generate_seed_data.py) | Genera 100k usuarios + 50 productos + ~300k interacciones (CSV). | ✅ Sí | ❌ No |
+| [`load_seed_data.py`](scripts/load_seed_data.py) | Carga los CSVs en PostgreSQL vía `psql \copy` (Docker). | ❌ No | ✅ Sí |
+| [`bulk_score.py`](scripts/bulk_score.py) | Calcula LeadScores en bulk para todos los usuarios (sin HTTP). | ❌ No | ✅ Sí |
+
+### Flujo completo de datos sintéticos
+```bash
+# Paso 1: Generar CSVs
+PYTHONPATH=src/data-science ./venv/bin/python3 src/data-science/scripts/generate_seed_data.py
+
+# Paso 2: Cargar datos en DB
+./venv/bin/python3 src/data-science/scripts/load_seed_data.py --mode docker
+
+# Paso 3: Calcular LeadScores en bulk
+PYTHONPATH=src/data-science ./venv/bin/python3 src/data-science/scripts/bulk_score.py
+```
+> `--mode docker` = PostgreSQL corre en contenedor (desarrollo local y Docker Compose).
+> `--mode local` = requiere `psql` instalado nativamente en el host.
+
+📖 **Documentación completa**: [docs/data/README.md](../../docs/data/README.md)
