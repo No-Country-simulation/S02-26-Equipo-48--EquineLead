@@ -96,11 +96,16 @@ check_build() {
 
 # Verificar cada componente
 check_build "Backend C#" "dotnet build" "$PROJECT_ROOT/src/backend-csharp"
-# NOTA: En Python, "BUILD FALLÓ" significa que la aplicación no pudo cargarse
-# correctamente (ej. errores de importación o dependencias faltantes).
-# PYTHONPATH apunta a src/data-science directamente: el directorio usa guión
-# (inválido como módulo Python), por eso el import es 'from api import app'
-# y no 'from src.data_science.api import app'.
+# NOTA: Instalar dependencias primero asegura que el "Build" de Python sea real
+# y no falle por falta de librerías, eliminando el falso positivo.
+echo -e "${BLUE}▶ Preparando entorno virtual Python para verificación...${NC}"
+cd "$PROJECT_ROOT/src/data-science" || exit
+if [ ! -d "$PROJECT_ROOT/venv" ]; then
+    python3 -m venv "$PROJECT_ROOT/venv"
+fi
+"$PROJECT_ROOT/venv/bin/pip" install -q -r requirements.txt
+cd "$PROJECT_ROOT" || exit
+
 check_build "Data Science" "PYTHONPATH=$PROJECT_ROOT/src/data-science $VENV_PYTHON -c 'from api import app'" "$PROJECT_ROOT/src/data-science"
 check_build "Scrapper Rust" "cargo build" "$PROJECT_ROOT/src/scrapper-rust"
 check_build "Frontend Web" "npm install && npm run build" "$PROJECT_ROOT/src/frontend-web"
