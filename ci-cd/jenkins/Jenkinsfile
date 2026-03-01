@@ -86,36 +86,47 @@ pipeline {
             }
         }
         
-        stage('🚀 Deploy Mock to AWS') {
+        stage('🚀 Deploy to AWS (Plan B)') {
             when {
                 branch 'dev'
             }
             steps {
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
-                echo '🚀 Desplegando Mock (Nginx) en AWS App Server Plan B...'
+                echo '🚀 Desplegando Aplicación Real en AWS App Server Plan B...'
                 echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
-                withCredentials([sshUserPrivateKey(
-                    credentialsId: 'aws-app-server-key',
-                    keyFileVariable: 'SSH_KEY_FILE',
-                    usernameVariable: 'SSH_USER'
-                )]) {
+                withCredentials([
+                    sshUserPrivateKey(credentialsId: 'aws-app-server-key', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USER'),
+                    string(credentialsId: 'postgres-db', variable: 'DB_NAME'),
+                    string(credentialsId: 'postgres-user', variable: 'DB_USER'),
+                    string(credentialsId: 'postgres-password', variable: 'DB_PASS')
+                ]) {
                     sh '''
                         TARGET="${APP_SERVER_USER}@${APP_SERVER_IP}"
-                        COMPOSE_FILE="infrastructure/docker/docker-compose.mock.yml"
                         SSH_OPTS="-i $SSH_KEY_FILE -o StrictHostKeyChecking=no"
 
-                        echo ">>> Copiando docker-compose.mock.yml a ${TARGET}..."
-                        scp $SSH_OPTS \
-                            $COMPOSE_FILE \
-                            $TARGET:/home/ubuntu/docker-compose.mock.yml
+                        echo ">>> Sincronizando código fuente y configuración a ${TARGET}..."
+                        # Sincronizar directorios necesarios y el compose principal
+                        scp $SSH_OPTS docker-compose.yml ${TARGET}:/home/ubuntu/
+                        scp $SSH_OPTS -r src infrastructure ${TARGET}:/home/ubuntu/
 
-                        echo ">>> Ejecutando deploy en ${TARGET}..."
+                        echo ">>> Generando archivo .env con secretos en ${TARGET}..."
                         ssh $SSH_OPTS $TARGET "
-                            docker compose -f /home/ubuntu/docker-compose.mock.yml up -d --remove-orphans
-                            echo '--- Estado de contenedores ---'
+                            echo 'POSTGRES_DB=${DB_NAME}' > /home/ubuntu/.env
+                            echo 'POSTGRES_USER=${DB_USER}' >> /home/ubuntu/.env
+                            echo 'POSTGRES_PASSWORD=${DB_PASS}' >> /home/ubuntu/.env
+                            echo 'DB_HOST=db' >> /home/ubuntu/.env
+                            echo 'DB_PORT=5432' >> /home/ubuntu/.env
+                            echo 'DATASCIENCE_BASEURL=http://data-science:8090' >> /home/ubuntu/.env
+                        "
+
+                        echo ">>> Ejecutando build y despliegue en ${TARGET}..."
+                        ssh $SSH_OPTS $TARGET "
+                            cd /home/ubuntu
+                            docker compose up -d --build --remove-orphans
+                            echo '--- Estado de contenedores reales ---'
                             docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
                         "
-                        echo "✅ Mock desplegado en http://${APP_SERVER_IP}"
+                        echo "✅ Aplicación desplegada en http://${APP_SERVER_IP}:5286"
                     '''
                 }
             }

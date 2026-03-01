@@ -44,13 +44,24 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Habilitar Swagger siempre en este hito para validación
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "EquineLead API V1");
+    c.RoutePrefix = "swagger"; // Sirve en /swagger
+});
+
+app.UseStaticFiles(); // Necesario para el UI de Swagger en algunos entornos
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    // Bloque adicional si es necesario
 }
-
-app.UseHttpsRedirection();
+else
+{
+    app.UseHttpsRedirection();
+}
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
