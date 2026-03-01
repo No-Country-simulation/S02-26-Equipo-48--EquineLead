@@ -135,7 +135,7 @@ notify_whatsapp.sh
 📦 *Compilación:* https://dpaste.com/ABCDEF
 🧪 *Tests:* https://dpaste.com/GHIJKL
 
-🔗 *Log Jenkins:* http://129.151.114.218:8080/
+🔗 *Log Jenkins:* http://[IP-DE-JENKINS]:8080/
 
 _Enviado automáticamente por Jenkins_
 ```
@@ -155,7 +155,7 @@ Para confirmar que todo funciona:
 ```bash
 export WAHA_RECIPIENT="120363407034115167@g.us"
 export WAHA_API_KEY="admin"
-export WAHA_URL="http://129.151.114.218:3005"
+export WAHA_URL="http://[IP-DEL-SERVIDOR-WAHA]:3005"
 
 ./ci-cd/jenkins/scripts/notify_whatsapp.sh SUCCESS "dev" "abc1234" builds_report.md tests_report.md
 ```

@@ -17,11 +17,21 @@ TEST_REPORT=$5
 
 PROJECT_NAME=${PROJECT_NAME:-"EquineLead"}
 WAHA_URL=${WAHA_URL:-"http://${APP_SERVER_IP:-localhost}:3005"}
+WAHA_URL="${WAHA_URL%/}" # Elimina slash final si existe para evitar //api
 WAHA_SESSION=${WAHA_SESSION:-"default"}
 RECIPIENT=${WAHA_RECIPIENT}
 
 if [ -z "$STATUS" ]; then
     echo "Uso: $0 <STATUS> [BRANCH] [COMMIT_HASH] [BUILD_REPORT] [TEST_REPORT]"
+    exit 1
+fi
+
+# Validación de variables críticas
+ERROR=0
+if [ -z "$WAHA_RECIPIENT" ]; then echo "❌ Error: Variable WAHA_RECIPIENT no definida."; ERROR=1; fi
+if [ -z "$WAHA_API_KEY" ]; then echo "❌ Error: Variable WAHA_API_KEY no definida."; ERROR=1; fi
+if [ "$ERROR" -eq 1 ]; then
+    echo "⚠️ Por favor, exporta las variables antes de ejecutar el script."
     exit 1
 fi
 
@@ -77,15 +87,16 @@ send_text() {
     escaped_text=$(echo -e "$text" | python3 -c 'import json, sys; print(json.dumps(sys.stdin.read()))')
     
     echo ">>> Enviando mensaje de texto..."
-    curl -s -X POST "${WAHA_URL}/api/sendText" \
+    local response
+    response=$(curl -s -X POST "${WAHA_URL}/api/sendText" \
          -H "Content-Type: application/json" \
          -H "X-Api-Key: ${WAHA_API_KEY}" \
          -d "{
            \"chatId\": \"$RECIPIENT\",
            \"text\": $escaped_text,
            \"session\": \"$WAHA_SESSION\"
-         }"
-    echo -e "\n"
+         }")
+    echo -e ">>> Respuesta API: $response\n"
 }
 
 # Función para enviar archivo (base64 via Python para evitar problemas de shell)

@@ -39,8 +39,20 @@ Nuestros componentes necesitan variables de entorno (como `JWT_SECRET`, `DB_PASS
 4.  **ID**: Dale un nombre descriptivo (ej: `backend-jwt-secret`).
 5.  **Uso**: Estas IDs se inyectarán automáticamente en los contenedores de Docker durante el despliegue.
 
----
+### 📋 Inventario de Credenciales Actuales
+| ID Credencial | Tipo | Descripción |
+| :--- | :--- | :--- |
+| `github-auth` | Username with password | Token de acceso a GitHub / Personal Access Token |
+| `JWT_SECRET` | Secret text | Clave secreta para la autenticación del Backend C# |
+| `aws-app-server-key` | SSH Username with private key | Llave privada para acceder al servidor Ubuntu en AWS |
+| `app-server-ip` | Secret text | Dirección IP pública del App Server (Plan B) |
+| `waha-recipient` | Secret text | Número de destino para notificaciones de WhatsApp |
+| `waha-api-key` | Secret text | API Key para el servicio WAHA |
+| `db-name` | Secret text | Nombre de la base de datos PostgreSQL (`NoCountryE48DB`) |
+| `db-user` | Secret text | Usuario administrador de PostgreSQL (`postgres`) |
+| `db-password` | Secret text | Contraseña del usuario administrador (`postgres123`) |
 
+---
 ## 4. 🏗️ Creación del Multibranch Pipeline
 **Objetivo**: Crear el tablero de control automático para todas las ramas.
 

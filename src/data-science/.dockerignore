@@ -1,0 +1,25 @@
+# .dockerignore para Data Science (FastAPI)
+
+# Entornos virtuales (se reinstalan dentro del contenedor)
+venv/
+.venv/
+env/
+
+# Cache de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Tests y reportes
+tests/
+*.xml
+
+# IDEs y git
+.vscode/
+.idea/
+.git/
+.gitignore
+
+# Archivos de desarrollo locales
+*.log

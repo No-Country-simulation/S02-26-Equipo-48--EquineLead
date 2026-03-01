@@ -8,9 +8,10 @@ Este directorio contiene toda la configuración de infraestructura del proyecto 
 
 ---
 
-## 📊 Arquitectura de Infraestructura
+## 📊 Arquitectura de Infraestructura (Hito 1 Activa)
 
-Flujo de despliegue desde tu máquina local hacia Oracle Cloud:
+> [!IMPORTANT]
+> La infraestructura usa **dos nubes diferentes**: Jenkins en **OCI** y el App Server en **AWS** (Plan B activo).
 
 ```mermaid
 graph TB
@@ -19,36 +20,33 @@ graph TB
         TERRAFORM[⚙️ Terraform CLI]
     end
 
-    subgraph "☁️ Oracle Cloud Infrastructure OCI"
-        subgraph "🔧 Instancia 1: Jenkins Server 1GB"
-            JENKINS[🤖 Jenkins CI/CD]
-            DOCKER_J[🐳 Docker Engine]
+    subgraph "☁️ Oracle Cloud Infrastructure (OCI)"
+        subgraph "🔧 Jenkins Server (1GB RAM) ✅ ACTIVO"
+            JENKINS["🤖 Jenkins CI/CD\n129.151.114.218:8080"]
         end
-
-        subgraph "🚀 Instancia 2: App Server 6GB"
-            DOCKER_COMPOSE[🐳 Docker Compose]
-            BACKEND[⚙️ Backend C#]
-            FASTAPI[🤖 FastAPI ML]
-            SCRAPPER[🦀 Scrapper Rust]
-            DB[🗄️ PostgreSQL]
-        end
-
-        VCN[🌐 Virtual Cloud Network]
+        VCN[🌐 VCN + Subnet]
     end
 
-    REPO -->|1 terraform apply| TERRAFORM
-    TERRAFORM -->|2 Crea infraestructura| VCN
-    VCN -->|3 Provisiona| JENKINS
-    VCN -->|3 Provisiona| DOCKER_COMPOSE
-    REPO -->|4 git push| JENKINS
-    JENKINS -->|5 CI/CD Pipeline| DOCKER_COMPOSE
+    subgraph "☁️ Amazon Web Services (AWS - Plan B)"
+        subgraph "🚀 App Server (t3.small - 2GB RAM + 4GB Swap) ✅ ACTIVO"
+            DOCKER_COMPOSE[🐳 Docker Compose]
+            BACKEND["⚙️ Backend C#\nPuerto 8000"]
+            FASTAPI["🤖 FastAPI ML\nPuerto 8090"]
+            DB["🗄️ PostgreSQL\nInterno"]
+        end
+    end
+
+    REPO -->|terraform apply| TERRAFORM
+    TERRAFORM -->|Provisiona| VCN
+    VCN -->|Instala| JENKINS
+    TERRAFORM -->|Provisiona| DOCKER_COMPOSE
+    REPO -->|git push| JENKINS
+    JENKINS -->|CI/CD Pipeline| DOCKER_COMPOSE
     DOCKER_COMPOSE -->|Orquesta| BACKEND
     DOCKER_COMPOSE -->|Orquesta| FASTAPI
-    DOCKER_COMPOSE -->|Orquesta| SCRAPPER
     DOCKER_COMPOSE -->|Orquesta| DB
     BACKEND -.->|Consulta| DB
-    FASTAPI -.->|Consulta| DB
-    SCRAPPER -.->|Escribe| DB
+    FASTAPI -.->|Llama para scoring| BACKEND
 
     style JENKINS fill:#e1f5ff
     style DOCKER_COMPOSE fill:#fff4e1
@@ -249,16 +247,24 @@ Código en /ci-cd/jenkins/ → Jenkins lee y ejecuta → Despliega en App Server
 
 ---
 
-## 📋 Recursos Creados
+## 📋 Recursos Activos
 
-| Recurso | Descripción | Estado |
-|---------|-------------|--------|
-| **VCN** | Red virtual privada | ✅ Activo |
-| **Internet Gateway** | Salida a internet | ✅ Activo |
-| **Security List** | Firewall (puertos 22, 3000, 8000, 8080, 8090) | ✅ Activo |
-| **Subnet** | Subred pública | ✅ Activo |
-| **Jenkins Instance** | Servidor CI/CD (1GB) | ✅ Activo |
-| **App Server Instance** | Servidor de aplicaciones (6GB) | ⚠️ Pendiente |
+### 🔵 Oracle Cloud Infrastructure (OCI)
+| Recurso | Descripción | IP / URL | Estado |
+|---------|-------------|----------|--------|
+| **VCN + Subnet** | Red virtual + subred pública | — | ✅ Activo |
+| **Internet Gateway** | Salida a internet | — | ✅ Activo |
+| **Security List** | Firewall (22, 8080, 3000, 8000) | — | ✅ Activo |
+| **Jenkins Instance** | CI/CD Server (1GB RAM, OCI VM.Standard.E2.1.Micro) | `129.151.114.218` / [Jenkins UI](http://129.151.114.218:8080) | ✅ Activo |
+
+### 🟠 Amazon Web Services (AWS — Plan B)
+| Recurso | Descripción | IP / URL | Estado |
+|---------|-------------|----------|--------|
+| **VPC + Subnet** | Red virtual + subred pública | — | ✅ Activo |
+| **Security Group** | Puertos: 22, 80, 8000, 8080, 3005 | — | ✅ Activo |
+| **App Server** | `t3.small` (2GB RAM + 4GB Swap, Ubuntu 22.04, 30GB disco) | `44.202.43.214` | ✅ Activo |
+
+> **Nota**: La instancia App Server de 6GB en OCI fue descartada. El **Plan B en AWS** (`t3.small`) es la infraestructura de App Server activa.
 
 ---
 

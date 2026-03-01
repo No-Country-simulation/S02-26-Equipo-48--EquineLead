@@ -2,6 +2,7 @@
 **Estatus:** Finalizado / Auditado  
 **Responsable Original:** Isabel (Backend Lead)  
 **Ref. de Proyecto:** [Issue #12 - Implementación Backend](...)
+**Ref. de Implementación:** [Backend C# README](../../src/backend-csharp/README.md)
 
 ---
 
@@ -36,8 +37,8 @@ erDiagram
         int InteractionId PK
         int UserId FK
         int ProductId FK
-        int InteractionSource "1=FB, 2=IG, 3=Web"
-        int InteractionType "1=Visit, 2=Click, 3=Contact"
+        int InteractionSource "0=Unknown, 1=Facebook, 2=Instagram, 3=Formulario, 4=Web, 5=Evento, 6=Otro"
+        int InteractionType "0=Unknown, 1=View, 2=Click, 3=Download, 4=Consult, 5=ContactRequest"
         jsonb InteractionMetadataJson "Flexibilidad técnica"
         timestamptz InteractionDate
     }
@@ -66,20 +67,22 @@ erDiagram
 - **ProductCategory**: Etiquetas como "Caballos", "Eventos", "Servicios".
 
 ### 3. **Tabla: LeadInteractions** (La Actividad)
-- **InteractionSource**: ¿Vino de Facebook, Instagram o la Web?
-- **InteractionMetadataJson**: Una "maleta" donde podemos meter detalles extra (ej: desde qué celular escribió) sin romper nada.
+- **InteractionSource**: Origen del lead. Valores: Facebook (1), Instagram (2), Formulario (3), Web (4), Evento (5), Otro (6).
+- **InteractionType**: Tipo de acción. Valores: View (1), Click (2), Download (3), Consult (4), ContactRequest (5).
+- **InteractionMetadataJson**: Una "maleta" donde podemos meter detalles extra (ej: User-Agent, Referrer) sin romper nada.
 
 ### 4. **Tabla: LeadScores** (El Termómetro)
-- **LeadScoreValue**: El puntaje calculado por Leandro.
-- **LeadScoreClassification**: El color del semáforo (Frío, Tibio, Caliente).
-- **ScoreModelVersion**: Qué versión de la "receta" de Leandro usamos para este cálculo.
+- **LeadScoreValue**: El puntaje calculado por el motor de IA.
+- **LeadScoreClassification**: Categoría del lead. Valores: Cold (1), Warm (2), Hot (3).
+- **ScoreModelVersion**: Versión del algoritmo/modelo utilizado (ej: "v1-rule-based").
 
 ---
 
 ## 💡 Notas de Implementación (Isabel)
-- **Uso de INT**: Se decidió usar números (`INT`) en lugar de texto para que el sistema sea más rápido y no haya errores porque alguien escribió "Facebook" con minúscula o mayúscula.
+- **Uso de INT**: Se decidió usar números (`INT`) en lugar de texto para que el sistema sea más rápido.
+- **Mapeo de Enums (C#)**: El backend utiliza un convertidor (`JsonStringEnumConverter`) que permite enviar el nombre en texto (ej: "Facebook") en el JSON, el cual se transforma automáticamente al número correspondiente (1) en la base de datos.
 - **Presupuesto (UserBudget)**: Solo guardamos el **último** presupuesto proporcionado. No guardamos el historial para mantener el MVP simple y veloz.
-- **Cálculo de Score**: El valor se recalcula con cada nueva interacción para tener siempre el dato más fresco posible.
+- **Cálculo de Score**: El valor se recalcula con cada nueva interacción para tener siempre el dato más fresco posible, persistiendo el resultado en la tabla `LeadScores`.
 
 ---
 **Sincronizado con:** Issue #11 y #12.

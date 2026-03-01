@@ -1,0 +1,19 @@
+# .dockerignore para el Backend C#
+# Excluye archivos innecesarios del contexto de build
+
+# Artefactos de compilación
+bin/
+obj/
+
+# Config de usuario (se pasan por env vars en docker-compose)
+appsettings.Development.json
+*.user
+
+# IDEs
+.vs/
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
