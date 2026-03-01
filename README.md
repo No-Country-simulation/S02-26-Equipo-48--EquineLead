@@ -112,8 +112,8 @@ graph TB
 - **Scrapper (Rust 1.75.0)**: Extrae leads de fuentes públicas y los envía al API Backend — Jorge
 
 #### **Capa de Datos**
-- **PostgresSQL**: Base de datos principal. **C# es el único dueño de la persistencia**.
-- **Redis**: Caché para optimización de rendimiento 💡 _(pendiente de confirmación)_
+- **PostgresSQL 15**: Base de datos principal. **C# es el único dueño de la persistencia**.
+  - *Nota técnica:* Se utiliza un Volumen de Docker (`postgres_data`) para asegurar que los datos persistan en el disco duro del servidor (AWS o Local) incluso si el contenedor se recrea.
 
 #### **Filosofía de Desacoplamiento (Data Ownership)**
 Para evitar el patrón de "Monolito Distribuido", el sistema sigue estas reglas:

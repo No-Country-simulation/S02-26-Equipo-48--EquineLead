@@ -23,6 +23,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
+      # ⚠️ PERSISTENCIA: Vincula los datos de la DB al disco del host (AWS/Local).
+      # Permite que los datos (ej: 100k leads) sobrevivan a reinicios o borrado de contenedores.
       - postgres_data:/var/lib/postgresql/data
     networks:
       - equine-net
@@ -52,8 +54,9 @@ services:
     container_name: equine-backend
     restart: always
     ports:
-      - "5286:80"
+      - "80:80"
     environment:
+      - ASPNETCORE_HTTP_PORTS=80
       # Connection string construida con las variables del .env
       - ConnectionStrings__DefaultConnection=Host=${DB_HOST};Port=${DB_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       # URL del servicio de Data Science (nombre del servicio en la red interna)

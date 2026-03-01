@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copiar dependencias e instalarlas primero (cache de capas)
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=100 -r requirements.txt
 
 # Copiar el código fuente del módulo
 COPY . ./
