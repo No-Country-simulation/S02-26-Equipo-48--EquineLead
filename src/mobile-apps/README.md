@@ -1,26 +1,45 @@
-# 📱 EquineLead - Mobile Apps
-
-> 📍 **Navegación**: [🏠 Inicio](../../README.md) → Componentes → Mobile Apps
+# Android App – Descargas (EquineLead)
 
 ---
 
-## 🚦 **Estado de Documentación**
-
-> [!IMPORTANT]
-> **DOCUMENTACIÓN PENDIENTE**: El contenido detallado de este componente se encuentra actualmente **pendiente de documentación por parte del encargado asignado**.
+## Objetivo
+Proveer un APK Android descargable desde el dashboard.
+Cada descarga representa una métrica de engagement del funnel.
 
 ---
 
-## 🏁 **Analogía del Auto de Carreras**
+## App
+- Nombre: EquineLeadDownloader
+- Lenguaje: Kotlin
+- Tipo: APK Debug (MVP)
 
-Este componente representa la **App de Telemetría (Ventas en Tiempo Real)** de nuestro vehículo EquineLead:
-- **Rol**: Interfaz móvil nativa para que el equipo de ventas gestione leads en cualquier lugar.
-- **Mantenimiento**: Verificado automáticamente por pipelines de Jenkins para iOS/Android.
+---
+
+## Generar APK
+Desde Android Studio:
+Build → Generate App Bundles or APKs → Generate APKs
+
+O por terminal:
+./gradlew assembleDebug
+
+## Ubicación del APK
+src/mobile-apps/android/apk/app-debug.apk
+
+---
+
+## Evento esperado
+POST /api/events/download
+
+Body:
+{
+  "platform": "android",
+  "source": "dashboard",
+  "artifact": "apk"
+}
 
 ---
 
 ## 🛠️ **Tecnologías Propuestas**
-- **iOS**: Swift (SwiftUI)
 - **Android**: Kotlin (Jetpack Compose)
 
 ---
@@ -31,5 +50,5 @@ Para ver las pruebas de salud y calidad de este componente, consulta:
 
 ---
 
-> **Última actualización**: 2026-02-14  
-> **Encargado**: Franklin
+> **Última actualización**: 2026-03-01  
+> **Encargado**: David
