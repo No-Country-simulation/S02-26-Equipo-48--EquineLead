@@ -1,0 +1,16 @@
+# ==============================================================================
+# Configuración Principal de Prometheus
+# ==============================================================================
+# Este archivo define las reglas generales de monitoreo y los servicios a los 
+# que Prometheus debe hacer "scrape" (pull de las métricas HTTP expuestas).
+# ==============================================================================
+
+global:
+  # Intervalo de tiempo. Cada 15 segundos irá a leer el estado base actual.
+  scrape_interval: 15s
+
+scrape_configs:
+  # Monitoreo del propio servicio e infraestructura de Prometheus (por defecto)
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

@@ -141,18 +141,20 @@ El módulo Jenkins provisiona una instancia de 1GB con:
 
 Una vez finalizado el `terraform apply`, puedes verificar el estado de la instalación con estos comandos desde tu pc local (no en la instancia creada):
 
+#### **1. Jenkins (OCI)**
+
 ```bash
 # 1. Ver las últimas líneas del log de instalación
-ssh -i /path/to/your/key ubuntu@<IP_PUBLICA> 'tail -50 /opt/equine-lead/evidence/instalacion_jenkins_*.log'
+ssh -i /path/to/your/key ubuntu@<IP_PUBLICA_JENKINS> 'tail -50 /opt/equine-lead/evidence/instalacion_jenkins_*.log'
 
 # 2. Ver el log completo
-ssh -i /path/to/your/key ubuntu@<IP_PUBLICA> 'cat /opt/equine-lead/evidence/instalacion_jenkins_*.log'
+ssh -i /path/to/your/key ubuntu@<IP_PUBLICA_JENKINS> 'cat /opt/equine-lead/evidence/instalacion_jenkins_*.log'
 
 # 3. Verificar si los servicios están activos
-ssh -i /path/to/your/key ubuntu@<IP_PUBLICA> 'systemctl is-active jenkins docker'
+ssh -i /path/to/your/key ubuntu@<IP_PUBLICA_JENKINS> 'systemctl is-active jenkins docker'
 
 # 4. Ver estado detallado de servicios
-ssh -i /path/to/your/key ubuntu@<IP_PUBLICA> 'systemctl status jenkins docker --no-pager'
+ssh -i /path/to/your/key ubuntu@<IP_PUBLICA_JENKINS> 'systemctl status jenkins docker --no-pager'
 ```
 
 **Para descargar el log completo a tu máquina local (opcional):**
@@ -162,7 +164,7 @@ ssh -i /path/to/your/key ubuntu@<IP_PUBLICA> 'systemctl status jenkins docker --
 cd infrastructure/terraform
 
 # Descargar el log de instalación
-scp -i /path/to/your/key ubuntu@<IP_PUBLICA>:/opt/equine-lead/evidence/instalacion_jenkins_*.log ./evidence/
+scp -i /path/to/your/key ubuntu@<IP_PUBLICA_JENKINS>:/opt/equine-lead/evidence/instalacion_jenkins_*.log ./evidence/
 ```
 
 > **Nota sobre el log:** 
@@ -171,11 +173,61 @@ scp -i /path/to/your/key ubuntu@<IP_PUBLICA>:/opt/equine-lead/evidence/instalaci
 > - El archivo `.gitignore` protege los `*.log` para que no se suban a Git
 > - Descárgalo solo cuando necesites documentar un despliegue específico
 
-### **Puertos Abiertos**
+#### **2. App Server (AWS)**
+
+Primero, puedes acceder directamente a la instancia para verificar los servicios desde adentro:
+
+```bash
+# Ingresar a la instancia de AWS
+ssh -i /path/to/your/key ubuntu@<IP_PUBLICA_AWS>
+
+# --- UNA VEZ DENTRO DE LA INSTANCIA, EJECUTA ---
+
+# 1. Verificar contenedores activos
+#    Mapea qué puertos están abiertos y el estado de salud de cada contenedor.
+docker ps
+
+# 2. Ver los logs del Backend (C#) en tiempo real
+#    Útil para ver si la API arrojó excepciones o si está recibiendo tráfico.
+docker logs -f equine-backend
+
+# 3. Ver los logs de Data Science (Python) en tiempo real
+#    Útil para verificar el arranque de Uvicorn/FastAPI y las predicciones.
+docker logs -f equine-data-science
+
+# 4. Ver los logs de Base de Datos (PostgreSQL) en tiempo real
+#    Muestra conexiones entrantes y estado del motor de base de datos.
+docker logs -f equine-postgres
+```
+
+**Verificar log de instalación automatizada (UserData):**
+
+AWS ejecuta un script en el primer arranque para instalar Docker y levantar el repositorio. Puedes revisar o descargar este log:
+
+```bash
+# Ver las últimas líneas del log de inicialización remoto
+ssh -i /path/to/your/key ubuntu@<IP_PUBLICA_AWS> 'tail -50 /var/log/cloud-init-output.log'
+
+# Descargar el log completo a tu máquina local (opcional)
+# IMPORTANTE: Ejecuta este comando desde la carpeta terraform/
+cd infrastructure/terraform
+scp -i /path/to/your/key ubuntu@<IP_PUBLICA_AWS>:/var/log/cloud-init-output.log ./evidence/instalacion_aws_app_server.log
+```
+
+> **Nota sobre accesos web:**
+> Para acceder a los servicios, revisa el **Security Group de AWS**. Asegúrate de agregar reglas "Inbound" (Custom TCP) permitiendo tráfico desde `0.0.0.0/0` en caso de que un servicio rechace la conexión externamente.
+
+### **Puertos Abiertos Esperados**
+
+**En Jenkins (OCI):**
 - **22**: SSH
 - **8080**: Jenkins UI
-- **3000**: Frontend
-- **8000**: Backend API
+
+**En App Server (AWS):**
+- **22**: SSH
+- **80**: Backend API
+- **8090**: Data Science API / Swagger
+- **5432**: Postgres Database (Solo accesible vía red interna y AWS SG)
 
 ---
 

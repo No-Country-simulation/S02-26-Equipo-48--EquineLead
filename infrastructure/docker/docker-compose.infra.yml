@@ -1,0 +1,70 @@
+version: '3.8'
+
+# ==============================================================================
+# Infraestructura de Observabilidad y Documentación Universal (Instancia OCI 2)
+# ==============================================================================
+# Este archivo levanta componentes críticos de monitoreo y gobernanza que no
+# deben verse afectados por la carga de los pipelines de Jenkins ni por el
+# tráfico en producción de AWS.
+#
+# Servicios:
+# 1. Prometheus: Recolección y retención de métricas (Time Series DB).
+# 2. Grafana: Visualización de dashboards (conectado a Prometheus).
+# 3. Docsify: Motor ligero para renderizar toda la documentación (*.md) desde la raíz.
+# ==============================================================================
+
+services:
+  # Monitoreo (Issue 9)
+  # Recolecta métricas expuestas por todos nuestros servicios
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: equine-prometheus
+    environment:
+      # Límite "soft" de memoria de Go para evitar caídas (OOM Kills)
+      - GOMEMLIMIT=200MiB
+    deploy:
+      resources:
+        limits:
+          # Límite "hard" de 300MB asignados por Docker
+          memory: 300M
+    volumes:
+      # Mapea configuración desde el host al contenedor
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      # Volumen persistente para almacenar el histórico de las métricas
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      # Configura almacenar los datos máximo 7 días para no saturar el disco de 1GB RAM
+      - '--storage.tsdb.retention.time=7d'
+    restart: always
+
+  # Panel de visualización de los datos capturados en Prometheus
+  grafana:
+    image: grafana/grafana:latest
+    container_name: equine-grafana
+    deploy:
+      resources:
+        limits:
+          memory: 250M
+    ports:
+      - "3000:3000" # Puerto expuesto en HTTP para ingresar al entorno gráfico de Grafana
+    restart: always
+  # MkDocs Universal (Sirviendo la raíz de la documentación sin duplicados)
+  docs:
+    build:
+      context: ../../
+      dockerfile: infrastructure/docker/docs.Dockerfile
+    container_name: equine-docs
+    volumes:
+      - ../../:/repo
+    ports:
+      - "80:8000" # Mapea el puerto 80 externo al 8000 interno de MkDocs
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    restart: always
+
+volumes:
+  # Define el volumen con persistencia en el daemon Docker
+  prometheus_data:

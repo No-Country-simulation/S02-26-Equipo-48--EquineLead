@@ -278,13 +278,13 @@ ORDER BY s.\"LeadScoreValue\" DESC;"
 
 ## 🔮 Visión y Escalabilidad (Scraping & Landing Page)
 
-Esta arquitectura está diseñada para ser el núcleo de un sistema más grande:
-1.  **Origen Landing Page**: El backend C# ya tiene los endpoints listos para recibir los datos de contacto y presupuesto que los usuarios dejen en la landing.
-2.  **Origen Scraping (Rust)**: El módulo de Scrapper puede enviar periódicamente nuevos productos o actualizaciones de precios a través de la API de C#, manteniendo el catálogo sincronizado.
-3.  **Flexibilidad de Data Science**: Al estar desacoplado, el motor de Python puede evolucionar para usar datos más complejos recolectados por el scrapper (como tendencias de mercado) sin necesidad de modificar drásticamente el backend de C#.
-4.  **Dataset Sintético - El Laboratorio**: El proyecto cuenta con un dataset sintético que permite:
-    - **Simular Escenarios**: Probar cómo reacciona el sistema ante miles de leads antes de tener tráfico real.
-    - **Calibrar Reglas**: Ajustar los umbrales (40/80) basándose en distribuciones realistas de datos.
+Esta arquitectura está diseñada para ser el núcleo de un sistema más grande:<br>
+1.  **Origen Landing Page**: El backend C# ya tiene los endpoints listos para recibir los datos de contacto y presupuesto que los usuarios dejen en la landing.<br>
+2.  **Origen Scraping (Rust)**: El módulo de Scrapper puede enviar periódicamente nuevos productos o actualizaciones de precios a través de la API de C#, manteniendo el catálogo sincronizado.<br>
+3.  **Flexibilidad de Data Science**: Al estar desacoplado, el motor de Python puede evolucionar para usar datos más complejos recolectados por el scrapper (como tendencias de mercado) sin necesidad de modificar drásticamente el backend de C#.<br>
+4.  **Dataset Sintético - El Laboratorio**: El proyecto cuenta con un dataset sintético que permite:<br>
+    - **Simular Escenarios**: Probar cómo reacciona el sistema ante miles de leads antes de tener tráfico real.<br>
+    - **Calibrar Reglas**: Ajustar los umbrales (40/80) basándose en distribuciones realistas de datos.<br>
     - **Entrenamiento Futuro**: Servir como base para pasar de un modelo de "reglas fijas" a un modelo de "Aprendizaje Automático (Machine Learning)" real.
 
 ## Tecnologías usadas
