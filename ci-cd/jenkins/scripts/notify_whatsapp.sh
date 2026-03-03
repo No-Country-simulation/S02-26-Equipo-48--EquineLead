@@ -66,11 +66,36 @@ TEST_URL=""
 
 # 2. Construcción del Mensaje de Resumen con links
 MESSAGE="*${ICON} ${PROJECT_NAME}* | Reporte Generado\n"
+
+if [[ "$BRANCH" == feature/* ]]; then
+    MESSAGE+="_Se hizo push al repositorio en la rama ${BRANCH}, debajo los detalles_\n"
+else
+    MESSAGE+="_Se hizo push al repositorio en la rama ${BRANCH}, debajo los detalles_\n"
+fi
+
 MESSAGE+="━━━━━━━━━━━━━━━━━\n"
 MESSAGE+="*Rama:* ${BRANCH}\n"
 MESSAGE+="*Autor:* ${AUTHOR}\n"
 MESSAGE+="*Fecha:* ${TIMEZONE_DATE} (PE)\n"
-MESSAGE+="*Commit:* ${SHORT_COMMIT}\n\n"
+MESSAGE+="*Commit:* ${SHORT_COMMIT}\n"
+MESSAGE+="━━━━━━━━━━━━━━━━━\n"
+MESSAGE+="*ℹ️ Observaciones del Pipeline:*\n"
+
+if [[ "$BRANCH" == feature/* ]]; then
+    MESSAGE+="• 🏗️ *Build:* Verificación de sintaxis y ensamblado correcto del código.\n"
+    MESSAGE+="• 🧪 *Tests:* Ejecución de pruebas automatizadas (salud, unitarias, integración).\n"
+    MESSAGE+="• 🛑 *Deploy:* Omitido (No se despliega automáticamente desde ramas feature).\n"
+elif [[ "$BRANCH" == "dev" ]]; then
+    MESSAGE+="• 🏗️ *Build:* Verificación de sintaxis y ensamblado correcto del código.\n"
+    MESSAGE+="• 🧪 *Tests:* Ejecución de pruebas automatizadas (salud, unitarias, integración).\n"
+    MESSAGE+="• 🚀 *Deploy:* Despliegue en servidor AWS activado.\n"
+else
+    MESSAGE+="• 🏗️ *Build:* Verificación de sintaxis y ensamblado correcto del código.\n"
+    MESSAGE+="• 🧪 *Tests:* Ejecución de pruebas automatizadas.\n"
+fi
+
+MESSAGE+="━━━━━━━━━━━━━━━━━\n"
+
 if [ ! -z "$BUILD_URL" ]; then
     MESSAGE+="📦 *Compilación:* ${BUILD_URL}\n"
 fi

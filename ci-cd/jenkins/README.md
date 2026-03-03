@@ -286,6 +286,10 @@ registradas en **Manage Jenkins → Credentials → System → Global credential
 |----|------|-------------|----------------|
 | `app-server-ip` | Secret text | IP pública del App Server activo | Valor: IP del servidor (ej. `44.202.43.214`) |
 | `aws-app-server-key` | SSH Username with private key | Acceso SSH al App Server | Username: `ubuntu`, Key: contenido del `.pem` |
+| `db-name` | Secret text | Nombre de la base de datos PostgreSQL | Valor: Nombre de la base de datos (ej. `equine_db`) |
+| `db-user` | Secret text | Usuario administrador de PostgreSQL | Valor: Nombre del usuario de la BD |
+| `db-password` | Secret text | Contraseña del usuario administrador | Valor: Contraseña segura de la BD |
+| `JWT_SECRET` | Secret text | Clave secreta para el Backend C# | Valor: Una cadena larga y segura de caracteres |
 
 > ⚠️ **Importante**: Si el App Server cambia de IP (reinstalación de instancia, migración de AWS a OCI),
 > basta con actualizar el valor de `app-server-ip` en Jenkins. No se necesita tocar el código.
