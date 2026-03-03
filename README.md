@@ -121,6 +121,11 @@ Para evitar el patrón de "Monolito Distribuido", el sistema sigue estas reglas:
 2. **Stateless Brain**: El servicio de Data Science (Python) no guarda ni lee de la base de datos. Recibe datos vía JSON, calcula el score y devuelve el resultado.
 3. **Persistencia Centralizada**: El Backend C# es el encargado de recibir la respuesta de Python y persistirla en Postgres.
 
+#### **Centro de Documentación y Observabilidad (Hub)** 🚀
+- **MkDocs Hub**: Servidor de documentación centralizado que mapea todo el repositorio en tiempo real.
+- **Stack de Observabilidad**: Prometheus + Grafana para el monitoreo de salud de todos los servicios.
+- **Ubicación**: Segunda instancia en Oracle Cloud (OCI).
+
 #### **CI/CD**
 - **Jenkins**: Testing automático y validación de PRs — Diego
 - **Docker**: Containerización de todos los servicios 💡

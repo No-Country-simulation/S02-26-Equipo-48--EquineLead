@@ -24,6 +24,10 @@ graph TB
         subgraph "🔧 Jenkins Server (1GB RAM) ✅ ACTIVO"
             JENKINS["🤖 Jenkins CI/CD\n129.151.114.218:8080"]
         end
+        subgraph "📊 Docs & Obs Hub (1GB RAM) ✅ ACTIVO"
+            MKDOCS["📚 MkDocs Hub\nPuerto 80"]
+            PROM["📈 Prometheus/Grafana\nPuerto 3000"]
+        end
         VCN[🌐 VCN + Subnet]
     end
 
@@ -39,6 +43,8 @@ graph TB
     REPO -->|terraform apply| TERRAFORM
     TERRAFORM -->|Provisiona| VCN
     VCN -->|Instala| JENKINS
+    VCN -->|Instala| MKDOCS
+    VCN -->|Instala| PROM
     TERRAFORM -->|Provisiona| DOCKER_COMPOSE
     REPO -->|git push| JENKINS
     JENKINS -->|CI/CD Pipeline| DOCKER_COMPOSE
@@ -49,6 +55,8 @@ graph TB
     FASTAPI -.->|Llama para scoring| BACKEND
 
     style JENKINS fill:#e1f5ff
+    style MKDOCS fill:#e1f5ff
+    style PROM fill:#f0f8ff
     style DOCKER_COMPOSE fill:#fff4e1
     style VCN fill:#f0f0f0
 ```
@@ -256,6 +264,7 @@ Código en /ci-cd/jenkins/ → Jenkins lee y ejecuta → Despliega en App Server
 | **Internet Gateway** | Salida a internet | — | ✅ Activo |
 | **Security List** | Firewall (22, 8080, 3000, 8000) | — | ✅ Activo |
 | **Jenkins Instance** | CI/CD Server (1GB RAM, OCI VM.Standard.E2.1.Micro) | `129.151.114.218` / [Jenkins UI](http://129.151.114.218:8080) | ✅ Activo |
+| **Docs & Obs Hub** | MkDocs + Prometheus (1GB RAM, OCI E2.1.Micro) | `129.151.114.214` / [Docs Hub](http://localhost) | ✅ Activo |
 
 ### 🟠 Amazon Web Services (AWS — Plan B)
 | Recurso | Descripción | IP / URL | Estado |

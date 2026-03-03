@@ -88,6 +88,7 @@ nav:
   - "01. Inicio": README.md
   - "02. Infraestructura":
     - "General": infrastructure/README.md
+    - "Contenedores y Observabilidad": infrastructure/docker/README.md
     - "Terraform (IaC)": infrastructure/terraform/README.md
     - "Jenkins Module": infrastructure/terraform/modules/jenkins/README.md
     - "App Server Module": infrastructure/terraform/modules/app-server/README.md
