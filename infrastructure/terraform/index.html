@@ -1,0 +1,3234 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Motor de Crecimiento Basado en Datos para la Industria Ecuestre">
+      
+      
+        <meta name="author" content="EquineLead Team">
+      
+      
+      
+        <link rel="prev" href="../docker/">
+      
+      
+        <link rel="next" href="modules/jenkins/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>Terraform (IaC) - EquineLead Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#021-equinelead-infraestructura-como-codigo-terraform" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="EquineLead Documentation" class="md-header__button md-logo" aria-label="EquineLead Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EquineLead Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Terraform (IaC)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/No-Country-simulation/equine-lead" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    equine-lead
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  01. Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  02. Infraestructura
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tests/" class="md-tabs__link">
+          
+  
+  
+  03. Testing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ci-cd/" class="md-tabs__link">
+          
+  
+  
+  04. CI/CD & DevOps
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../src/backend-csharp/" class="md-tabs__link">
+          
+  
+  
+  05. Componentes (Source)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../docs/guides/DEVELOPER_ONBOARDING/" class="md-tabs__link">
+          
+  
+  
+  06. Documentación
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EquineLead Documentation" class="md-nav__button md-logo" aria-label="EquineLead Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EquineLead Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/No-Country-simulation/equine-lead" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    equine-lead
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Infraestructura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02. Infraestructura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contenedores y Observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terraform (IaC)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terraform (IaC)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-del-proyecto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📁 Estructura del Proyecto
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estado-actual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Estado Actual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Estado Actual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#infraestructura-activa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Infraestructura Activa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pendiente-de-despliegue-en-app-server-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏳ Pendiente de Despliegue (en App Server AWS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requisitos-previos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Requisitos Previos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Uso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Uso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inicializar-terraform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inicializar Terraform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validar-la-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validar la configuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#previsualizar-los-cambios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Previsualizar los cambios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aplicar-la-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicar la configuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ver-los-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ver los outputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔐 Seguridad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#archivos-protegidos-por-gitignore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archivos Protegidos por .gitignore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nunca-subas-estos-archivos-al-repositorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NUNCA subas estos archivos al repositorio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-jenkins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Módulo Jenkins
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Módulo Jenkins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#acceso-post-instalacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acceso Post-Instalación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificacion-del-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación del Despliegue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verificación del Despliegue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-jenkins-oci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Jenkins (OCI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-app-server-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. App Server (AWS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puertos-abiertos-esperados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puertos Abiertos Esperados
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agregar-nuevos-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Agregar Nuevos Módulos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recursos-activos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Recursos Activos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Recursos Activos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔵 OCI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-plan-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟠 AWS (Plan B)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🆘 Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆘 Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#image-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image not found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insufficient-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Insufficient capacity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-puedo-acceder-a-jenkins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No puedo acceder a Jenkins
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentacion-adicional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Documentación Adicional
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#responsables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        👥 Responsables
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="modules/jenkins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Jenkins Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="modules/app-server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    App Server Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Testing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03. Testing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.1. Scripts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/backend-csharp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.2. Backend Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/data-science/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.3. Data Science Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/scrapper-rust/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.4. Scrapper Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/frontend-web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.5. Frontend Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. CI/CD & DevOps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    04. CI/CD & DevOps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci-cd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guía Maestra
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci-cd/docs/01-Arquitectura-y-Vision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura y Visión
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci-cd/docs/02-Flujo-Git-y-Responsabilidades/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flujo Git y Responsabilidades
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci-cd/docs/03-Automatizacion-Jenkins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automatización Jenkins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Jenkins Pipelines
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    05. Jenkins Pipelines
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci-cd/jenkins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci-cd/jenkins/CONFIGURACION_PASO_A_PASO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración Paso a Paso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci-cd/jenkins/NOTIFICACIONES_WHATSAPP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notificaciones WhatsApp
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Componentes (Source)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    05. Componentes (Source)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/backend-csharp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backend C#
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/data-science/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Science
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/scrapper-rust/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scrapper Rust
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/mobile-apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mobile Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/frontend-web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Documentación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    06. Documentación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/guides/DEVELOPER_ONBOARDING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Onboarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/guides/DOCUMENTATION_FLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Mapa de Flujo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/guides/GIT_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Workflow de Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/guides/VERIFICACION_LOCAL_DESPLIEGUE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Verificación Local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Referencia Técnica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Base de Datos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    06. Base de Datos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/database/especificacion-tecnica-db-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Especificación v2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/database/db-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Comandos Útiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Contratos y Datos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    07. Contratos y Datos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/data-contracts/contrato-json-scoring-v1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contrato JSON Scoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gestión de Datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Reuniones y Bitácoras
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    08. Reuniones y Bitácoras
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/meetings/estandar_reuniones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estándar de Reuniones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/meetings/2026-02-17-sprint-sync-mvp-leads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint Sync (17-Feb)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/meetings/2026-02-19-flujo-pipeline-narrado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flujo Pipeline Narrado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/meetings/2026-02-19-week2out4-sprint-mvp-/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint MVP W2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-del-proyecto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📁 Estructura del Proyecto
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estado-actual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Estado Actual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Estado Actual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#infraestructura-activa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Infraestructura Activa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pendiente-de-despliegue-en-app-server-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏳ Pendiente de Despliegue (en App Server AWS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requisitos-previos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Requisitos Previos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Uso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Uso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inicializar-terraform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inicializar Terraform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validar-la-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validar la configuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#previsualizar-los-cambios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Previsualizar los cambios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aplicar-la-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicar la configuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ver-los-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ver los outputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔐 Seguridad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#archivos-protegidos-por-gitignore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archivos Protegidos por .gitignore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nunca-subas-estos-archivos-al-repositorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NUNCA subas estos archivos al repositorio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-jenkins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Módulo Jenkins
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Módulo Jenkins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#acceso-post-instalacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acceso Post-Instalación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificacion-del-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación del Despliegue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verificación del Despliegue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-jenkins-oci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Jenkins (OCI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-app-server-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. App Server (AWS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puertos-abiertos-esperados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puertos Abiertos Esperados
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agregar-nuevos-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Agregar Nuevos Módulos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recursos-activos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Recursos Activos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Recursos Activos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔵 OCI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-plan-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟠 AWS (Plan B)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🆘 Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆘 Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#image-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image not found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insufficient-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Insufficient capacity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-puedo-acceder-a-jenkins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No puedo acceder a Jenkins
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentacion-adicional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Documentación Adicional
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#responsables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        👥 Responsables
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+
+                  
+
+
+  
+  
+
+
+<h1 id="021-equinelead-infraestructura-como-codigo-terraform">02.1. 🏗️ EquineLead - Infraestructura como Código (Terraform)<a class="headerlink" href="#021-equinelead-infraestructura-como-codigo-terraform" title="Permanent link">&para;</a></h1>
+<p>Este directorio contiene la configuración de Terraform para provisionar la infraestructura del proyecto <strong>EquineLead</strong> en Oracle Cloud Infrastructure (OCI).</p>
+<hr />
+<h2 id="estructura-del-proyecto">📁 Estructura del Proyecto<a class="headerlink" href="#estructura-del-proyecto" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>terraform/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── main.tf              # Orquestación de módulos
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── provider.tf          # Configuración del provider OCI
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── variables.tf         # Variables globales
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── terraform.tfvars     # Valores reales (GITIGNORED)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>├── network.tf           # VCN, Subnet, Internet Gateway, Security Lists
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>├── datasources.tf       # Búsqueda dinámica de imágenes y ADs
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>├── outputs.tf           # Outputs principales
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>├── .gitignore           # Protección de archivos sensibles
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>├── modules/             # Módulos reutilizables
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   ├── jenkins/         # ✅ Jenkins en OCI (1GB) — 129.151.114.218
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   ├── aws-app-server/  # ✅ App Server en AWS (t3.small, 2GB+4GB swap) — 44.202.43.214
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   ├── app-server/      # ❌ Descartado (OCI 6GB — Plan A reemplazado por Plan B AWS)
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│   ├── backend-csharp/  # ⏳ Pendiente de despliegue en app server
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│   ├── database/        # ⏳ Pendiente de despliegue en app server
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│   ├── scrapper-rust/   # ⏳ Pendiente
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│   ├── data-science/    # ⏳ Pendiente de despliegue en app server
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│   └── frontend-web/    # ⏳ Pendiente
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>└── evidence/            # Documentación de despliegues
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    └── README.md
+</code></pre></div>
+<hr />
+<h2 id="estado-actual">🚀 Estado Actual<a class="headerlink" href="#estado-actual" title="Permanent link">&para;</a></h2>
+<h3 id="infraestructura-activa">✅ Infraestructura Activa<a class="headerlink" href="#infraestructura-activa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Instancia</th>
+<th>Nube</th>
+<th>Tipo</th>
+<th>RAM</th>
+<th>IP Pública</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Jenkins Server</strong></td>
+<td>OCI</td>
+<td>VM.Standard.E2.1.Micro</td>
+<td>1GB</td>
+<td><code>129.151.114.218</code></td>
+<td>✅ Corriendo</td>
+</tr>
+<tr>
+<td><strong>App Server (Plan B)</strong></td>
+<td>AWS</td>
+<td><code>t3.small</code></td>
+<td>2GB + 4GB Swap</td>
+<td><code>44.202.43.214</code></td>
+<td>✅ Corriendo</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Jenkins</strong>: <a href="http://129.151.114.218:8080">http://129.151.114.218:8080</a> — Jenkins, Docker, Git, OpenJDK 21</li>
+<li><strong>App Server</strong>: Ubuntu 22.04, Docker instalado, 30GB disco. Listo para recibir <code>docker compose up</code>.</li>
+</ul>
+<h3 id="pendiente-de-despliegue-en-app-server-aws">⏳ Pendiente de Despliegue (en App Server AWS)<a class="headerlink" href="#pendiente-de-despliegue-en-app-server-aws" title="Permanent link">&para;</a></h3>
+<p>Los siguientes servicios ya tienen sus Dockerfiles listos en <code>src/</code> y se orquestan desde <code>docker-compose.yml</code>:
+- <strong>backend-csharp</strong>: API C# — Dockerfile en <code>src/backend-csharp/</code>
+- <strong>data-science</strong>: FastAPI ML — Dockerfile en <code>src/data-science/</code>
+- <strong>database</strong>: PostgreSQL 15 — gestionado por docker-compose
+- <strong>scrapper-rust</strong>: Pendiente
+- <strong>frontend-web</strong>: Pendiente</p>
+<blockquote>
+<p><strong>Nota</strong>: La instancia de 6GB en OCI (<code>app-server/</code>) fue el Plan A original. Fue reemplazada por el <strong>Plan B en AWS</strong> (<code>aws-app-server/</code>) que está activa.</p>
+</blockquote>
+<hr />
+<h2 id="requisitos-previos">📋 Requisitos Previos<a class="headerlink" href="#requisitos-previos" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Terraform instalado</strong> (versión &gt;= 1.0)</li>
+<li><strong>Credenciales de OCI configuradas</strong> en <code>terraform.tfvars</code>:</li>
+<li>Tenancy OCID</li>
+<li>User OCID</li>
+<li>Fingerprint</li>
+<li>Private Key Path</li>
+<li>Region</li>
+<li>Compartment OCID</li>
+<li><strong>SSH Key Pair</strong> para acceso a las instancias</li>
+</ol>
+<hr />
+<h2 id="uso">🔧 Uso<a class="headerlink" href="#uso" title="Permanent link">&para;</a></h2>
+<h3 id="inicializar-terraform"><strong>Inicializar Terraform</strong><a class="headerlink" href="#inicializar-terraform" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>infrastructure/terraform
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>terraform<span class="w"> </span>init
+</code></pre></div>
+<h3 id="validar-la-configuracion"><strong>Validar la configuración</strong><a class="headerlink" href="#validar-la-configuracion" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>terraform<span class="w"> </span>validate
+</code></pre></div>
+<h3 id="previsualizar-los-cambios"><strong>Previsualizar los cambios</strong><a class="headerlink" href="#previsualizar-los-cambios" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>terraform<span class="w"> </span>plan
+</code></pre></div>
+<h3 id="aplicar-la-configuracion"><strong>Aplicar la configuración</strong><a class="headerlink" href="#aplicar-la-configuracion" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>terraform<span class="w"> </span>apply
+</code></pre></div>
+<h3 id="ver-los-outputs"><strong>Ver los outputs</strong><a class="headerlink" href="#ver-los-outputs" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>terraform<span class="w"> </span>output
+</code></pre></div>
+<p>Ejemplo de outputs:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>jenkins_public_ip = &quot;129.x.x.x&quot;
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>jenkins_url = &quot;http://129.x.x.x:8080&quot;
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>jenkins_ssh = &quot;ssh -i /path/to/your/key ubuntu@129.x.x.x&quot;
+</code></pre></div></p>
+<hr />
+<h2 id="seguridad">🔐 Seguridad<a class="headerlink" href="#seguridad" title="Permanent link">&para;</a></h2>
+<h3 id="archivos-protegidos-por-gitignore"><strong>Archivos Protegidos por .gitignore</strong><a class="headerlink" href="#archivos-protegidos-por-gitignore" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>terraform.tfvars</code> - Credenciales reales</li>
+<li><code>*.pem</code>, <code>*.key</code> - Llaves privadas</li>
+<li><code>.terraform/</code> - Dependencias del provider</li>
+<li><code>terraform.tfstate*</code> - Estado de la infraestructura</li>
+</ul>
+<h3 id="nunca-subas-estos-archivos-al-repositorio"><strong>NUNCA subas estos archivos al repositorio</strong><a class="headerlink" href="#nunca-subas-estos-archivos-al-repositorio" title="Permanent link">&para;</a></h3>
+<hr />
+<h2 id="modulo-jenkins">📦 Módulo Jenkins<a class="headerlink" href="#modulo-jenkins" title="Permanent link">&para;</a></h2>
+<p>El módulo Jenkins provisiona una instancia de 1GB con:
+- <strong>Jenkins</strong> (última versión estable)
+- <strong>Docker Engine + Docker Compose</strong>
+- <strong>Git</strong>
+- <strong>OpenJDK 21</strong> (Actualizado para soporte Long Term)
+- <strong>Swap File (2GB)</strong>: Memoria virtual para mayor estabilidad</p>
+<h3 id="acceso-post-instalacion"><strong>Acceso Post-Instalación</strong><a class="headerlink" href="#acceso-post-instalacion" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Esperar ~5 minutos a que Jenkins termine de instalarse</li>
+<li>Acceder a la URL mostrada en los outputs</li>
+<li>Obtener la contraseña inicial:
+   <code>bash
+    cat ~/jenkins-initial-password.txt</code></li>
+</ol>
+<h3 id="verificacion-del-despliegue"><strong>Verificación del Despliegue</strong><a class="headerlink" href="#verificacion-del-despliegue" title="Permanent link">&para;</a></h3>
+<p>Una vez finalizado el <code>terraform apply</code>, puedes verificar el estado de la instalación con estos comandos desde tu pc local (no en la instancia creada):</p>
+<h4 id="1-jenkins-oci"><strong>1. Jenkins (OCI)</strong><a class="headerlink" href="#1-jenkins-oci" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># 1. Ver las últimas líneas del log de instalación</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>ssh<span class="w"> </span>-i<span class="w"> </span>/path/to/your/key<span class="w"> </span>ubuntu@&lt;IP_PUBLICA_JENKINS&gt;<span class="w"> </span><span class="s1">&#39;tail -50 /opt/equine-lead/evidence/instalacion_jenkins_*.log&#39;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># 2. Ver el log completo</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>ssh<span class="w"> </span>-i<span class="w"> </span>/path/to/your/key<span class="w"> </span>ubuntu@&lt;IP_PUBLICA_JENKINS&gt;<span class="w"> </span><span class="s1">&#39;cat /opt/equine-lead/evidence/instalacion_jenkins_*.log&#39;</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># 3. Verificar si los servicios están activos</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>ssh<span class="w"> </span>-i<span class="w"> </span>/path/to/your/key<span class="w"> </span>ubuntu@&lt;IP_PUBLICA_JENKINS&gt;<span class="w"> </span><span class="s1">&#39;systemctl is-active jenkins docker&#39;</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># 4. Ver estado detallado de servicios</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>ssh<span class="w"> </span>-i<span class="w"> </span>/path/to/your/key<span class="w"> </span>ubuntu@&lt;IP_PUBLICA_JENKINS&gt;<span class="w"> </span><span class="s1">&#39;systemctl status jenkins docker --no-pager&#39;</span>
+</code></pre></div>
+<p><strong>Para descargar el log completo a tu máquina local (opcional):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># IMPORTANTE: Ejecuta este comando desde la carpeta terraform/</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">cd</span><span class="w"> </span>infrastructure/terraform
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Descargar el log de instalación</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>scp<span class="w"> </span>-i<span class="w"> </span>/path/to/your/key<span class="w"> </span>ubuntu@&lt;IP_PUBLICA_JENKINS&gt;:/opt/equine-lead/evidence/instalacion_jenkins_*.log<span class="w"> </span>./evidence/
+</code></pre></div>
+<blockquote>
+<p><strong>Nota sobre el log:</strong> 
+- Se guarda automáticamente en la instancia: <code>/opt/equine-lead/evidence/instalacion_jenkins_YYYYMMDD_HHMMSS.log</code>
+- El comando <code>scp</code> lo descarga a: <code>./evidence/</code> (relativo a la carpeta <code>terraform/</code>)
+- El archivo <code>.gitignore</code> protege los <code>*.log</code> para que no se suban a Git
+- Descárgalo solo cuando necesites documentar un despliegue específico</p>
+</blockquote>
+<h4 id="2-app-server-aws"><strong>2. App Server (AWS)</strong><a class="headerlink" href="#2-app-server-aws" title="Permanent link">&para;</a></h4>
+<p>Primero, puedes acceder directamente a la instancia para verificar los servicios desde adentro:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Ingresar a la instancia de AWS</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>ssh<span class="w"> </span>-i<span class="w"> </span>/path/to/your/key<span class="w"> </span>ubuntu@&lt;IP_PUBLICA_AWS&gt;
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># --- UNA VEZ DENTRO DE LA INSTANCIA, EJECUTA ---</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># 1. Verificar contenedores activos</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">#    Mapea qué puertos están abiertos y el estado de salud de cada contenedor.</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>docker<span class="w"> </span>ps
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># 2. Ver los logs del Backend (C#) en tiempo real</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="c1">#    Útil para ver si la API arrojó excepciones o si está recibiendo tráfico.</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>equine-backend
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1"># 3. Ver los logs de Data Science (Python) en tiempo real</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="c1">#    Útil para verificar el arranque de Uvicorn/FastAPI y las predicciones.</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>equine-data-science
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="c1"># 4. Ver los logs de Base de Datos (PostgreSQL) en tiempo real</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="c1">#    Muestra conexiones entrantes y estado del motor de base de datos.</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>equine-postgres
+</code></pre></div>
+<p><strong>Verificar log de instalación automatizada (UserData):</strong></p>
+<p>AWS ejecuta un script en el primer arranque para instalar Docker y levantar el repositorio. Puedes revisar o descargar este log:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Ver las últimas líneas del log de inicialización remoto</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>ssh<span class="w"> </span>-i<span class="w"> </span>/path/to/your/key<span class="w"> </span>ubuntu@&lt;IP_PUBLICA_AWS&gt;<span class="w"> </span><span class="s1">&#39;tail -50 /var/log/cloud-init-output.log&#39;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Descargar el log completo a tu máquina local (opcional)</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># IMPORTANTE: Ejecuta este comando desde la carpeta terraform/</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nb">cd</span><span class="w"> </span>infrastructure/terraform
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>scp<span class="w"> </span>-i<span class="w"> </span>/path/to/your/key<span class="w"> </span>ubuntu@&lt;IP_PUBLICA_AWS&gt;:/var/log/cloud-init-output.log<span class="w"> </span>./evidence/instalacion_aws_app_server.log
+</code></pre></div>
+<blockquote>
+<p><strong>Nota sobre accesos web:</strong>
+Para acceder a los servicios, revisa el <strong>Security Group de AWS</strong>. Asegúrate de agregar reglas "Inbound" (Custom TCP) permitiendo tráfico desde <code>0.0.0.0/0</code> en caso de que un servicio rechace la conexión externamente.</p>
+</blockquote>
+<h3 id="puertos-abiertos-esperados"><strong>Puertos Abiertos Esperados</strong><a class="headerlink" href="#puertos-abiertos-esperados" title="Permanent link">&para;</a></h3>
+<p><strong>En Jenkins (OCI):</strong>
+- <strong>22</strong>: SSH
+- <strong>8080</strong>: Jenkins UI</p>
+<p><strong>En App Server (AWS):</strong>
+- <strong>22</strong>: SSH
+- <strong>80</strong>: Backend API
+- <strong>8090</strong>: Data Science API / Swagger
+- <strong>5432</strong>: Postgres Database (Solo accesible vía red interna y AWS SG)</p>
+<hr />
+<h2 id="agregar-nuevos-modulos">🔄 Agregar Nuevos Módulos<a class="headerlink" href="#agregar-nuevos-modulos" title="Permanent link">&para;</a></h2>
+<p>Cuando un equipo esté listo para implementar su componente:</p>
+<ol>
+<li>
+<p><strong>Crear archivos en el módulo correspondiente</strong>:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>modules/&lt;componente&gt;/
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── main.tf
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>├── variables.tf
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>├── outputs.tf
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>└── README.md
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Descomentar el módulo en <code>main.tf</code></strong>:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kr">module</span><span class="w"> </span><span class="nv">&quot;componente&quot;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./modules/componente&quot;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1">  # ... configuración</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="p">}</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Ejecutar <code>terraform plan</code> y <code>terraform apply</code></strong></p>
+</li>
+</ol>
+<hr />
+<h2 id="recursos-activos">📊 Recursos Activos<a class="headerlink" href="#recursos-activos" title="Permanent link">&para;</a></h2>
+<h3 id="oci">🔵 OCI<a class="headerlink" href="#oci" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Descripción</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VCN + Subnet + Internet Gateway</td>
+<td>Red y salida a internet</td>
+<td>✅ Activo</td>
+</tr>
+<tr>
+<td>Security List</td>
+<td>Puertos 22, 8080, 3000, 8000</td>
+<td>✅ Activo</td>
+</tr>
+<tr>
+<td>Jenkins Instance</td>
+<td>CI/CD Server 1GB — <code>129.151.114.218</code></td>
+<td>✅ Activo</td>
+</tr>
+</tbody>
+</table>
+<h3 id="aws-plan-b">🟠 AWS (Plan B)<a class="headerlink" href="#aws-plan-b" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Descripción</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VPC + Subnet + IGW</td>
+<td>Red y salida a internet</td>
+<td>✅ Activo</td>
+</tr>
+<tr>
+<td>Security Group</td>
+<td>Puertos 22, 80, 8000, 8080, 3005</td>
+<td>✅ Activo</td>
+</tr>
+<tr>
+<td>App Server (<code>t3.small</code>)</td>
+<td>2GB RAM + 4GB Swap, Ubuntu 22.04 — <code>44.202.43.214</code></td>
+<td>✅ Activo</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="troubleshooting">🆘 Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="image-not-found"><strong>Image not found</strong><a class="headerlink" href="#image-not-found" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Verifica que la región en <code>terraform.tfvars</code> sea correcta</li>
+<li>Confirma que el shape especificado esté disponible en tu región</li>
+</ul>
+<h3 id="insufficient-capacity"><strong>Insufficient capacity</strong><a class="headerlink" href="#insufficient-capacity" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Intenta cambiar el Availability Domain en <code>variables.tf</code></li>
+<li>Considera usar un shape diferente</li>
+</ul>
+<h3 id="no-puedo-acceder-a-jenkins"><strong>No puedo acceder a Jenkins</strong><a class="headerlink" href="#no-puedo-acceder-a-jenkins" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Verifica que el puerto 8080 esté abierto en la Security List</li>
+<li>Confirma que la instancia esté en estado "Running" en OCI Console</li>
+<li>Espera ~5 minutos para que Jenkins termine de instalarse</li>
+</ul>
+<hr />
+<h2 id="documentacion-adicional">📚 Documentación Adicional<a class="headerlink" href="#documentacion-adicional" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://registry.terraform.io/providers/oracle/oci/latest/docs">Terraform OCI Provider</a></li>
+<li><a href="https://www.oracle.com/cloud/free/">OCI Always Free Tier</a></li>
+<li><a href="https://www.jenkins.io/doc/">Jenkins Documentation</a></li>
+</ul>
+<hr />
+<h2 id="responsables">👥 Responsables<a class="headerlink" href="#responsables" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Infraestructura (Terraform)</strong>: Diego</li>
+<li><strong>Jenkins (CI/CD)</strong>: Diego</li>
+<li><strong>Coordinación de Módulos</strong>: Equipos de desarrollo</li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>Nota</strong>: Este es un proyecto en desarrollo. Los módulos pendientes se implementarán a medida que los equipos definan sus requisitos técnicos.</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../docker/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Contenedores y Observabilidad">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Contenedores y Observabilidad
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="modules/jenkins/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Jenkins Module">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Jenkins Module
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

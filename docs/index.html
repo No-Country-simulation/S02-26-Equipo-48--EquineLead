@@ -1,0 +1,3336 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Motor de Crecimiento Basado en Datos para la Industria Ecuestre" name="description"/>
+<meta content="EquineLead Team" name="author"/>
+<link href="guides/VERIFICACION_LOCAL_DESPLIEGUE/" rel="prev"/>
+<link href="database/especificacion-tecnica-db-v2/" rel="next"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.3" name="generator"/>
+<title>05. Referencia Técnica - EquineLead Documentation</title>
+<link href="../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../custom.css" rel="stylesheet"/>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#08-equinelead-centro-de-referencia-tecnica">
+          Saltar a contenido
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Cabecera" class="md-header__inner md-grid">
+<a aria-label="EquineLead Documentation" class="md-header__button md-logo" data-md-component="logo" href=".." title="EquineLead Documentation">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            EquineLead Documentation
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              05. Referencia Técnica
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Búsqueda" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Búsqueda" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Buscar" class="md-search__options">
+<button aria-label="Limpiar" class="md-search__icon md-icon" tabindex="-1" title="Limpiar" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/No-Country-simulation/equine-lead" title="Ir al repositorio">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    equine-lead
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Pestañas" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="..">
+        
+  
+  
+    
+  
+  01. Inicio
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../infrastructure/">
+          
+  
+  
+  02. Infraestructura
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../tests/">
+          
+  
+  
+  03. Testing
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../ci-cd/">
+          
+  
+  
+  04. CI/CD &amp; DevOps
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../src/backend-csharp/">
+          
+  
+  
+  05. Componentes (Source)
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="guides/DEVELOPER_ONBOARDING/">
+          
+  
+  
+  06. Documentación
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navegación" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="EquineLead Documentation" class="md-nav__button md-logo" data-md-component="logo" href=".." title="EquineLead Documentation">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    EquineLead Documentation
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/No-Country-simulation/equine-lead" title="Ir al repositorio">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    equine-lead
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
+<span class="md-ellipsis">
+    
+  
+    01. Inicio
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    02. Infraestructura
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    02. Infraestructura
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../infrastructure/">
+<span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../infrastructure/docker/">
+<span class="md-ellipsis">
+    
+  
+    Contenedores y Observabilidad
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../infrastructure/terraform/">
+<span class="md-ellipsis">
+    
+  
+    Terraform (IaC)
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../infrastructure/terraform/modules/jenkins/">
+<span class="md-ellipsis">
+    
+  
+    Jenkins Module
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../infrastructure/terraform/modules/app-server/">
+<span class="md-ellipsis">
+    
+  
+    App Server Module
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    03. Testing
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    03. Testing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../tests/">
+<span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../tests/scripts/">
+<span class="md-ellipsis">
+    
+  
+    03.1. Scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../tests/backend-csharp/">
+<span class="md-ellipsis">
+    
+  
+    03.2. Backend Tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../tests/data-science/">
+<span class="md-ellipsis">
+    
+  
+    03.3. Data Science Tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../tests/scrapper-rust/">
+<span class="md-ellipsis">
+    
+  
+    03.4. Scrapper Tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../tests/frontend-web/">
+<span class="md-ellipsis">
+    
+  
+    03.5. Frontend Tests
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    04. CI/CD &amp; DevOps
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    04. CI/CD &amp; DevOps
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ci-cd/">
+<span class="md-ellipsis">
+    
+  
+    Guía Maestra
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ci-cd/docs/01-Arquitectura-y-Vision/">
+<span class="md-ellipsis">
+    
+  
+    Arquitectura y Visión
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ci-cd/docs/02-Flujo-Git-y-Responsabilidades/">
+<span class="md-ellipsis">
+    
+  
+    Flujo Git y Responsabilidades
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ci-cd/docs/03-Automatizacion-Jenkins/">
+<span class="md-ellipsis">
+    
+  
+    Automatización Jenkins
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    05. Jenkins Pipelines
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    05. Jenkins Pipelines
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ci-cd/jenkins/">
+<span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ci-cd/jenkins/CONFIGURACION_PASO_A_PASO/">
+<span class="md-ellipsis">
+    
+  
+    Configuración Paso a Paso
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ci-cd/jenkins/NOTIFICACIONES_WHATSAPP/">
+<span class="md-ellipsis">
+    
+  
+    Notificaciones WhatsApp
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    05. Componentes (Source)
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    05. Componentes (Source)
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../src/backend-csharp/">
+<span class="md-ellipsis">
+    
+  
+    Backend C#
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../src/data-science/">
+<span class="md-ellipsis">
+    
+  
+    Data Science
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../src/scrapper-rust/">
+<span class="md-ellipsis">
+    
+  
+    Scrapper Rust
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../src/mobile-apps/">
+<span class="md-ellipsis">
+    
+  
+    Mobile Apps
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../src/frontend-web/">
+<span class="md-ellipsis">
+    
+  
+    Frontend Web
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    06. Documentación
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    06. Documentación
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="guides/DEVELOPER_ONBOARDING/">
+<span class="md-ellipsis">
+    
+  
+    01. Onboarding
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="guides/DOCUMENTATION_FLOW/">
+<span class="md-ellipsis">
+    
+  
+    02. Mapa de Flujo
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="guides/GIT_WORKFLOW/">
+<span class="md-ellipsis">
+    
+  
+    03. Workflow de Git
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="guides/VERIFICACION_LOCAL_DESPLIEGUE/">
+<span class="md-ellipsis">
+    
+  
+    04. Verificación Local
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    05. Referencia Técnica
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    05. Referencia Técnica
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Tabla de contenidos" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#recursos-tecnicos-centralizados">
+<span class="md-ellipsis">
+      
+        🏗️ Recursos Técnicos Centralizados
+      
+    </span>
+</a>
+<nav aria-label="🏗️ Recursos Técnicos Centralizados" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#diccionarios-y-datos">
+<span class="md-ellipsis">
+      
+        Diccionarios y Datos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flujos-y-procesos">
+<span class="md-ellipsis">
+      
+        Flujos y Procesos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#apis-e-integracion">
+<span class="md-ellipsis">
+      
+        APIs e Integración
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gestion-y-seguimiento">
+<span class="md-ellipsis">
+      
+        Gestión y Seguimiento
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-analogia-del-proyecto">
+<span class="md-ellipsis">
+      
+        🏁 La Analogía del Proyecto
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#herramientas-de-desarrollo">
+<span class="md-ellipsis">
+      
+        🛠️ Herramientas de Desarrollo
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#problema">
+<span class="md-ellipsis">
+      
+        🚨 Problema
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#objetivo">
+<span class="md-ellipsis">
+      
+        🎯 Objetivo
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#funcionalidades-core-del-mvp">
+<span class="md-ellipsis">
+      
+        🧠 Funcionalidades Core del MVP
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitectura-detallada">
+<span class="md-ellipsis">
+      
+        🏗 Arquitectura Detallada
+      
+    </span>
+</a>
+<nav aria-label="🏗 Arquitectura Detallada" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#componentes-de-arquitectura">
+<span class="md-ellipsis">
+      
+        Componentes de Arquitectura
+      
+    </span>
+</a>
+<nav aria-label="Componentes de Arquitectura" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#capa-de-cliente">
+<span class="md-ellipsis">
+      
+        Capa de Cliente
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-gateway">
+<span class="md-ellipsis">
+      
+        API Gateway
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#servicios-backend">
+<span class="md-ellipsis">
+      
+        Servicios Backend
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#capa-de-datos">
+<span class="md-ellipsis">
+      
+        Capa de Datos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cicd">
+<span class="md-ellipsis">
+      
+        CI/CD
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stack-tecnologico-completo">
+<span class="md-ellipsis">
+      
+        🛠 Stack Tecnológico Completo
+      
+    </span>
+</a>
+<nav aria-label="🛠 Stack Tecnológico Completo" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#backend">
+<span class="md-ellipsis">
+      
+        Backend
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-science-machine-learning">
+<span class="md-ellipsis">
+      
+        Data Science / Machine Learning
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#scrapper-servicios-de-alto-rendimiento">
+<span class="md-ellipsis">
+      
+        Scrapper / Servicios de Alto Rendimiento
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#frontend-web">
+<span class="md-ellipsis">
+      
+        Frontend Web
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#movil">
+<span class="md-ellipsis">
+      
+        Móvil
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#base-de-datos-cache">
+<span class="md-ellipsis">
+      
+        Base de Datos &amp; Caché
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#devops-infraestructura">
+<span class="md-ellipsis">
+      
+        DevOps &amp; Infraestructura
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#herramientas-de-desarrollo_1">
+<span class="md-ellipsis">
+      
+        Herramientas de Desarrollo
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#esquema-de-base-de-datos">
+<span class="md-ellipsis">
+      
+        🗄️ Esquema de Base de Datos
+      
+    </span>
+</a>
+<nav aria-label="🗄️ Esquema de Base de Datos" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#base-de-datos-principal-postgresql-15-pendiente-de-confirmacion">
+<span class="md-ellipsis">
+      
+        Base de Datos Principal: PostgreSQL 15+ (pendiente de confirmación)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tablas-principales">
+<span class="md-ellipsis">
+      
+        Tablas Principales
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#categorias-de-lead-scoring">
+<span class="md-ellipsis">
+      
+        Categorías de Lead Scoring
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#endpoints-de-api">
+<span class="md-ellipsis">
+      
+        🔌 Endpoints de API
+      
+    </span>
+</a>
+<nav aria-label="🔌 Endpoints de API" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-backend-aspnet-core-80-pendiente-de-confirmacion">
+<span class="md-ellipsis">
+      
+        API Backend (ASP.NET Core 8.0) (pendiente de confirmación)
+      
+    </span>
+</a>
+<nav aria-label="API Backend (ASP.NET Core 8.0) (pendiente de confirmación)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gestion-de-leads">
+<span class="md-ellipsis">
+      
+        Gestión de Leads
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#lead-scoring">
+<span class="md-ellipsis">
+      
+        Lead Scoring
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-de-servicio-ml-python-fastapi-pendiente-de-confirmacion">
+<span class="md-ellipsis">
+      
+        API de Servicio ML (Python FastAPI) (pendiente de confirmación)
+      
+    </span>
+</a>
+<nav aria-label="API de Servicio ML (Python FastAPI) (pendiente de confirmación)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#analisis-de-sentimiento">
+<span class="md-ellipsis">
+      
+        Análisis de Sentimiento
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#prediccion-de-lead-scoring">
+<span class="md-ellipsis">
+      
+        Predicción de Lead Scoring
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#seguridad">
+<span class="md-ellipsis">
+      
+        🔐 Seguridad
+      
+    </span>
+</a>
+<nav aria-label="🔐 Seguridad" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#autenticacion-autorizacion-pendiente-de-confirmacion">
+<span class="md-ellipsis">
+      
+        Autenticación &amp; Autorización (pendiente de confirmación)
+      
+    </span>
+</a>
+<nav aria-label="Autenticación &amp; Autorización (pendiente de confirmación)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#autenticacion-de-api">
+<span class="md-ellipsis">
+      
+        Autenticación de API
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#apps-moviles">
+<span class="md-ellipsis">
+      
+        Apps Móviles
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#proteccion-de-datos">
+<span class="md-ellipsis">
+      
+        Protección de Datos
+      
+    </span>
+</a>
+<nav aria-label="Protección de Datos" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#encriptacion">
+<span class="md-ellipsis">
+      
+        Encriptación
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gestion-de-secrets">
+<span class="md-ellipsis">
+      
+        Gestión de Secrets
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mejores-practicas-de-seguridad">
+<span class="md-ellipsis">
+      
+        Mejores Prácticas de Seguridad
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#variables-de-entorno">
+<span class="md-ellipsis">
+      
+        ⚙️ Variables de Entorno
+      
+    </span>
+</a>
+<nav aria-label="⚙️ Variables de Entorno" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#backend-net-80">
+<span class="md-ellipsis">
+      
+        Backend (.NET 8.0)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#servicio-ml-python-3123">
+<span class="md-ellipsis">
+      
+        Servicio ML (Python 3.12.3)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#scrapper-rust-1750">
+<span class="md-ellipsis">
+      
+        Scrapper (Rust 1.75.0)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#frontend-web-nodejs-18191">
+<span class="md-ellipsis">
+      
+        Frontend Web (Node.js 18.19.1)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#notas-de-seguridad">
+<span class="md-ellipsis">
+      
+        Notas de Seguridad
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estructura-del-proyecto">
+<span class="md-ellipsis">
+      
+        📁 Estructura del Proyecto
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#roles-del-equipo">
+<span class="md-ellipsis">
+      
+        👥 Roles del Equipo
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hub-de-documentacion">
+<span class="md-ellipsis">
+      
+        📚 Hub de Documentación
+      
+    </span>
+</a>
+<nav aria-label="📚 Hub de Documentación" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#para-nuevos-developers">
+<span class="md-ellipsis">
+      
+        Para Nuevos Developers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#infraestructura-y-deployment">
+<span class="md-ellipsis">
+      
+        Infraestructura y Deployment
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#testing-y-calidad">
+<span class="md-ellipsis">
+      
+        Testing y Calidad
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#componentes-especificos">
+<span class="md-ellipsis">
+      
+        Componentes Específicos
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flujo-de-desarrollo">
+<span class="md-ellipsis">
+      
+        🔄 Flujo de Desarrollo
+      
+    </span>
+</a>
+<nav aria-label="🔄 Flujo de Desarrollo" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pasos-del-desarrollador">
+<span class="md-ellipsis">
+      
+        Pasos del Desarrollador
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#getting-started">
+<span class="md-ellipsis">
+      
+        🚀 Getting Started
+      
+    </span>
+</a>
+<nav aria-label="🚀 Getting Started" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#prerrequisitos">
+<span class="md-ellipsis">
+      
+        Prerrequisitos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#setup-rapido">
+<span class="md-ellipsis">
+      
+        Setup Rápido
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ejecutar-tests-localmente">
+<span class="md-ellipsis">
+      
+        Ejecutar Tests Localmente
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#infraestructura-de-testing">
+<span class="md-ellipsis">
+      
+        🧪 Infraestructura de Testing
+      
+    </span>
+</a>
+<nav aria-label="🧪 Infraestructura de Testing" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estado-actual">
+<span class="md-ellipsis">
+      
+        Estado Actual
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tipos-de-tests">
+<span class="md-ellipsis">
+      
+        Tipos de Tests
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#analogia-el-auto-de-carreras">
+<span class="md-ellipsis">
+      
+        Analogía: El Auto de Carreras
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#entregables">
+<span class="md-ellipsis">
+      
+        📦 Entregables
+      
+    </span>
+</a>
+<nav aria-label="📦 Entregables" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-1-infraestructura-de-testing-completado">
+<span class="md-ellipsis">
+      
+        Fase 1: Infraestructura de Testing ✅ Completado
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-2-implementacion-de-componentes-en-progreso">
+<span class="md-ellipsis">
+      
+        Fase 2: Implementación de Componentes 🔄 En Progreso
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-3-integracion-y-deployment-pendiente">
+<span class="md-ellipsis">
+      
+        Fase 3: Integración y Deployment ⏳ Pendiente
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#soporte">
+<span class="md-ellipsis">
+      
+        🆘 Soporte
+      
+    </span>
+</a>
+<nav aria-label="🆘 Soporte" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#documentacion">
+<span class="md-ellipsis">
+      
+        Documentación
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#troubleshooting">
+<span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#contacto">
+<span class="md-ellipsis">
+      
+        Contacto
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#licencia">
+<span class="md-ellipsis">
+      
+        📄 Licencia
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    06. Base de Datos
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    06. Base de Datos
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="database/especificacion-tecnica-db-v2/">
+<span class="md-ellipsis">
+    
+  
+    Especificación v2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="database/db-commands/">
+<span class="md-ellipsis">
+    
+  
+    Comandos Útiles
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    07. Contratos y Datos
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    07. Contratos y Datos
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="data-contracts/contrato-json-scoring-v1/">
+<span class="md-ellipsis">
+    
+  
+    Contrato JSON Scoring
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="data/">
+<span class="md-ellipsis">
+    
+  
+    Gestión de Datos
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    08. Reuniones y Bitácoras
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    08. Reuniones y Bitácoras
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="meetings/estandar_reuniones/">
+<span class="md-ellipsis">
+    
+  
+    Estándar de Reuniones
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="meetings/2026-02-17-sprint-sync-mvp-leads/">
+<span class="md-ellipsis">
+    
+  
+    Sprint Sync (17-Feb)
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="meetings/2026-02-19-flujo-pipeline-narrado/">
+<span class="md-ellipsis">
+    
+  
+    Flujo Pipeline Narrado
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="meetings/2026-02-19-week2out4-sprint-mvp-/">
+<span class="md-ellipsis">
+    
+  
+    Sprint MVP W2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Tabla de contenidos" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#recursos-tecnicos-centralizados">
+<span class="md-ellipsis">
+      
+        🏗️ Recursos Técnicos Centralizados
+      
+    </span>
+</a>
+<nav aria-label="🏗️ Recursos Técnicos Centralizados" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#diccionarios-y-datos">
+<span class="md-ellipsis">
+      
+        Diccionarios y Datos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flujos-y-procesos">
+<span class="md-ellipsis">
+      
+        Flujos y Procesos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#apis-e-integracion">
+<span class="md-ellipsis">
+      
+        APIs e Integración
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gestion-y-seguimiento">
+<span class="md-ellipsis">
+      
+        Gestión y Seguimiento
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-analogia-del-proyecto">
+<span class="md-ellipsis">
+      
+        🏁 La Analogía del Proyecto
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#herramientas-de-desarrollo">
+<span class="md-ellipsis">
+      
+        🛠️ Herramientas de Desarrollo
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#problema">
+<span class="md-ellipsis">
+      
+        🚨 Problema
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#objetivo">
+<span class="md-ellipsis">
+      
+        🎯 Objetivo
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#funcionalidades-core-del-mvp">
+<span class="md-ellipsis">
+      
+        🧠 Funcionalidades Core del MVP
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arquitectura-detallada">
+<span class="md-ellipsis">
+      
+        🏗 Arquitectura Detallada
+      
+    </span>
+</a>
+<nav aria-label="🏗 Arquitectura Detallada" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#componentes-de-arquitectura">
+<span class="md-ellipsis">
+      
+        Componentes de Arquitectura
+      
+    </span>
+</a>
+<nav aria-label="Componentes de Arquitectura" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#capa-de-cliente">
+<span class="md-ellipsis">
+      
+        Capa de Cliente
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-gateway">
+<span class="md-ellipsis">
+      
+        API Gateway
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#servicios-backend">
+<span class="md-ellipsis">
+      
+        Servicios Backend
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#capa-de-datos">
+<span class="md-ellipsis">
+      
+        Capa de Datos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cicd">
+<span class="md-ellipsis">
+      
+        CI/CD
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stack-tecnologico-completo">
+<span class="md-ellipsis">
+      
+        🛠 Stack Tecnológico Completo
+      
+    </span>
+</a>
+<nav aria-label="🛠 Stack Tecnológico Completo" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#backend">
+<span class="md-ellipsis">
+      
+        Backend
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-science-machine-learning">
+<span class="md-ellipsis">
+      
+        Data Science / Machine Learning
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#scrapper-servicios-de-alto-rendimiento">
+<span class="md-ellipsis">
+      
+        Scrapper / Servicios de Alto Rendimiento
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#frontend-web">
+<span class="md-ellipsis">
+      
+        Frontend Web
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#movil">
+<span class="md-ellipsis">
+      
+        Móvil
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#base-de-datos-cache">
+<span class="md-ellipsis">
+      
+        Base de Datos &amp; Caché
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#devops-infraestructura">
+<span class="md-ellipsis">
+      
+        DevOps &amp; Infraestructura
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#herramientas-de-desarrollo_1">
+<span class="md-ellipsis">
+      
+        Herramientas de Desarrollo
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#esquema-de-base-de-datos">
+<span class="md-ellipsis">
+      
+        🗄️ Esquema de Base de Datos
+      
+    </span>
+</a>
+<nav aria-label="🗄️ Esquema de Base de Datos" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#base-de-datos-principal-postgresql-15-pendiente-de-confirmacion">
+<span class="md-ellipsis">
+      
+        Base de Datos Principal: PostgreSQL 15+ (pendiente de confirmación)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tablas-principales">
+<span class="md-ellipsis">
+      
+        Tablas Principales
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#categorias-de-lead-scoring">
+<span class="md-ellipsis">
+      
+        Categorías de Lead Scoring
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#endpoints-de-api">
+<span class="md-ellipsis">
+      
+        🔌 Endpoints de API
+      
+    </span>
+</a>
+<nav aria-label="🔌 Endpoints de API" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-backend-aspnet-core-80-pendiente-de-confirmacion">
+<span class="md-ellipsis">
+      
+        API Backend (ASP.NET Core 8.0) (pendiente de confirmación)
+      
+    </span>
+</a>
+<nav aria-label="API Backend (ASP.NET Core 8.0) (pendiente de confirmación)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gestion-de-leads">
+<span class="md-ellipsis">
+      
+        Gestión de Leads
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#lead-scoring">
+<span class="md-ellipsis">
+      
+        Lead Scoring
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#api-de-servicio-ml-python-fastapi-pendiente-de-confirmacion">
+<span class="md-ellipsis">
+      
+        API de Servicio ML (Python FastAPI) (pendiente de confirmación)
+      
+    </span>
+</a>
+<nav aria-label="API de Servicio ML (Python FastAPI) (pendiente de confirmación)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#analisis-de-sentimiento">
+<span class="md-ellipsis">
+      
+        Análisis de Sentimiento
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#prediccion-de-lead-scoring">
+<span class="md-ellipsis">
+      
+        Predicción de Lead Scoring
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#seguridad">
+<span class="md-ellipsis">
+      
+        🔐 Seguridad
+      
+    </span>
+</a>
+<nav aria-label="🔐 Seguridad" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#autenticacion-autorizacion-pendiente-de-confirmacion">
+<span class="md-ellipsis">
+      
+        Autenticación &amp; Autorización (pendiente de confirmación)
+      
+    </span>
+</a>
+<nav aria-label="Autenticación &amp; Autorización (pendiente de confirmación)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#autenticacion-de-api">
+<span class="md-ellipsis">
+      
+        Autenticación de API
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#apps-moviles">
+<span class="md-ellipsis">
+      
+        Apps Móviles
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#proteccion-de-datos">
+<span class="md-ellipsis">
+      
+        Protección de Datos
+      
+    </span>
+</a>
+<nav aria-label="Protección de Datos" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#encriptacion">
+<span class="md-ellipsis">
+      
+        Encriptación
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gestion-de-secrets">
+<span class="md-ellipsis">
+      
+        Gestión de Secrets
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mejores-practicas-de-seguridad">
+<span class="md-ellipsis">
+      
+        Mejores Prácticas de Seguridad
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#variables-de-entorno">
+<span class="md-ellipsis">
+      
+        ⚙️ Variables de Entorno
+      
+    </span>
+</a>
+<nav aria-label="⚙️ Variables de Entorno" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#backend-net-80">
+<span class="md-ellipsis">
+      
+        Backend (.NET 8.0)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#servicio-ml-python-3123">
+<span class="md-ellipsis">
+      
+        Servicio ML (Python 3.12.3)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#scrapper-rust-1750">
+<span class="md-ellipsis">
+      
+        Scrapper (Rust 1.75.0)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#frontend-web-nodejs-18191">
+<span class="md-ellipsis">
+      
+        Frontend Web (Node.js 18.19.1)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#notas-de-seguridad">
+<span class="md-ellipsis">
+      
+        Notas de Seguridad
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estructura-del-proyecto">
+<span class="md-ellipsis">
+      
+        📁 Estructura del Proyecto
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#roles-del-equipo">
+<span class="md-ellipsis">
+      
+        👥 Roles del Equipo
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hub-de-documentacion">
+<span class="md-ellipsis">
+      
+        📚 Hub de Documentación
+      
+    </span>
+</a>
+<nav aria-label="📚 Hub de Documentación" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#para-nuevos-developers">
+<span class="md-ellipsis">
+      
+        Para Nuevos Developers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#infraestructura-y-deployment">
+<span class="md-ellipsis">
+      
+        Infraestructura y Deployment
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#testing-y-calidad">
+<span class="md-ellipsis">
+      
+        Testing y Calidad
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#componentes-especificos">
+<span class="md-ellipsis">
+      
+        Componentes Específicos
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flujo-de-desarrollo">
+<span class="md-ellipsis">
+      
+        🔄 Flujo de Desarrollo
+      
+    </span>
+</a>
+<nav aria-label="🔄 Flujo de Desarrollo" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pasos-del-desarrollador">
+<span class="md-ellipsis">
+      
+        Pasos del Desarrollador
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#getting-started">
+<span class="md-ellipsis">
+      
+        🚀 Getting Started
+      
+    </span>
+</a>
+<nav aria-label="🚀 Getting Started" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#prerrequisitos">
+<span class="md-ellipsis">
+      
+        Prerrequisitos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#setup-rapido">
+<span class="md-ellipsis">
+      
+        Setup Rápido
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ejecutar-tests-localmente">
+<span class="md-ellipsis">
+      
+        Ejecutar Tests Localmente
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#infraestructura-de-testing">
+<span class="md-ellipsis">
+      
+        🧪 Infraestructura de Testing
+      
+    </span>
+</a>
+<nav aria-label="🧪 Infraestructura de Testing" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estado-actual">
+<span class="md-ellipsis">
+      
+        Estado Actual
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tipos-de-tests">
+<span class="md-ellipsis">
+      
+        Tipos de Tests
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#analogia-el-auto-de-carreras">
+<span class="md-ellipsis">
+      
+        Analogía: El Auto de Carreras
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#entregables">
+<span class="md-ellipsis">
+      
+        📦 Entregables
+      
+    </span>
+</a>
+<nav aria-label="📦 Entregables" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-1-infraestructura-de-testing-completado">
+<span class="md-ellipsis">
+      
+        Fase 1: Infraestructura de Testing ✅ Completado
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-2-implementacion-de-componentes-en-progreso">
+<span class="md-ellipsis">
+      
+        Fase 2: Implementación de Componentes 🔄 En Progreso
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fase-3-integracion-y-deployment-pendiente">
+<span class="md-ellipsis">
+      
+        Fase 3: Integración y Deployment ⏳ Pendiente
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#soporte">
+<span class="md-ellipsis">
+      
+        🆘 Soporte
+      
+    </span>
+</a>
+<nav aria-label="🆘 Soporte" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#documentacion">
+<span class="md-ellipsis">
+      
+        Documentación
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#troubleshooting">
+<span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#contacto">
+<span class="md-ellipsis">
+      
+        Contacto
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#licencia">
+<span class="md-ellipsis">
+      
+        📄 Licencia
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="08-equinelead-centro-de-referencia-tecnica">08. 📚 EquineLead - Centro de Referencia Técnica<a class="headerlink" href="#08-equinelead-centro-de-referencia-tecnica" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>📍 <strong>Navegación</strong>: <a href="../">🏠 Inicio</a> → Centro de Referencia</p>
+</blockquote>
+<p>Este documento actúa como el <strong>Hub de Referencia Técnica</strong> para los desarrolladores de EquineLead. Mientras que el <a href="../">README principal</a> proporciona la visión general y el blueprint, aquí encontrarás enlaces a especificaciones detalladas, diccionarios de datos y guías avanzadas.</p>
+<hr/>
+<h2 id="recursos-tecnicos-centralizados">🏗️ Recursos Técnicos Centralizados<a class="headerlink" href="#recursos-tecnicos-centralizados" title="Permanent link">¶</a></h2>
+<h3 id="diccionarios-y-datos"><strong>Diccionarios y Datos</strong><a class="headerlink" href="#diccionarios-y-datos" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong><a href="./data-dictionary/">Diccionario de Datos (Data Dictionary)</a></strong>: Definición exhaustiva de variables para Lead Scoring y Esquema DB.</li>
+<li><strong><a href="guides/GIT_WORKFLOW/">Guía de Sincronización de Git (Git Workflow)</a></strong>: Guía para el flujo de trabajo de Git.</li>
+<li><strong><a href="./machine-learning/">Modelos ML</a></strong>: Documentación de hiperparámetros y versiones de modelos BERT/RandomForest.</li>
+</ul>
+<h3 id="flujos-y-procesos"><strong>Flujos y Procesos</strong><a class="headerlink" href="#flujos-y-procesos" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong><a href="guides/DOCUMENTATION_FLOW/">Mapa de Navegación de Documentación</a></strong>: Cómo se conectan todos los archivos <code>.md</code>.</li>
+<li><strong><a href="guides/DEVELOPER_ONBOARDING/">Guía de Onboarding para desarrolladores</a></strong>: Ruta de aprendizaje paso a paso.</li>
+</ul>
+<h3 id="apis-e-integracion"><strong>APIs e Integración</strong><a class="headerlink" href="#apis-e-integracion" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong><a href="./api-reference.md">Referencia de API (API Reference)</a></strong>: Documentación detallada de endpoints (Swagger/OpenAPI). <em>[Pendiente de implementación]</em></li>
+<li><strong><a href="./environment-setup.md">Configuración de Entorno (Environment Setup)</a></strong>: Guía avanzada de variables de entorno y secrets. <em>[Pendiente de implementación]</em></li>
+</ul>
+<h3 id="gestion-y-seguimiento"><strong>Gestión y Seguimiento</strong><a class="headerlink" href="#gestion-y-seguimiento" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong><a href="https://github.com/orgs/No-Country-simulation/projects/357">Dashboard de Progreso</a></strong>: Visualización Kanban del flujo de trabajo y estado de tareas.</li>
+<li><strong><a href="https://github.com/No-Country-simulation/S02-26-Equipo-48--EquineLead/issues?q=is%3Aissue+label%3Adocumentation+label%3Adevops">Tracking Issues</a></strong>: Registro detallado de decisiones técnicas y avance DevOps.</li>
+</ul>
+<hr/>
+<h2 id="la-analogia-del-proyecto">🏁 La Analogía del Proyecto<a class="headerlink" href="#la-analogia-del-proyecto" title="Permanent link">¶</a></h2>
+<p>Recordatorio del marco conceptual:
+- <strong>EquineLead</strong> = Auto de carreras de alta tecnología.
+- <strong>Testing</strong> = Inspección técnica antes de la pista.
+- <strong>Jenkins</strong> = Director del taller mecánico.
+- <strong>Componentes</strong> = Partes del vehículo (Motor, Sensores, Tablero).</p>
+<hr/>
+<h2 id="herramientas-de-desarrollo">🛠️ Herramientas de Desarrollo<a class="headerlink" href="#herramientas-de-desarrollo" title="Permanent link">¶</a></h2>
+<p>Para una guía rápida sobre cómo configurar tu entorno, por favor consulta la sección <strong>"Getting Started"</strong> en el <a href="../">README.md principal</a> o sigue la <a href="guides/DEVELOPER_ONBOARDING/">Guía de Onboarding</a>.</p>
+<hr/>
+<blockquote>
+<p><strong>Última actualización</strong>: 2026-02-14<br/>
+<strong>Estado</strong>: Refactorizado para evitar duplicidad técnica ✅</p>
+</blockquote>
+<hr/>
+<h2 id="problema">🚨 Problema<a class="headerlink" href="#problema" title="Permanent link">¶</a></h2>
+<p>Las empresas en el nicho ecuestre tienen dificultades para identificar y capturar leads de alto valor.<br/>
+La industria está altamente fragmentada, lo que hace costoso e ineficiente llegar a:</p>
+<ul>
+<li>Propietarios individuales (B2C)</li>
+<li>Gerentes de establos, mayoristas y proveedores de servicios (B2B)</li>
+</ul>
+<hr/>
+<h2 id="objetivo">🎯 Objetivo<a class="headerlink" href="#objetivo" title="Permanent link">¶</a></h2>
+<p>Construir un <strong>MVP de Motor de Crecimiento</strong> que convierta tráfico anónimo en leads calificados para productos de alto valor como:</p>
+<ul>
+<li>Caballos de $50,000 USD</li>
+<li>Monturas de $2,000 USD</li>
+<li>Servicios y eventos ecuestres</li>
+</ul>
+<hr/>
+<h2 id="funcionalidades-core-del-mvp">🧠 Funcionalidades Core del MVP<a class="headerlink" href="#funcionalidades-core-del-mvp" title="Permanent link">¶</a></h2>
+<ul>
+<li>Sistema de captura de leads (formularios, tracking)</li>
+<li>Análisis de sentimiento y detección de intención</li>
+<li>Motor de scoring de leads</li>
+<li>Lógica de embudo automatizada</li>
+<li>APIs backend</li>
+<li>Scraping de datos (opcional)</li>
+<li>Dashboard de analíticas básico</li>
+<li>Automatización CI/CD</li>
+</ul>
+<hr/>
+<h2 id="arquitectura-detallada">🏗 Arquitectura Detallada<a class="headerlink" href="#arquitectura-detallada" title="Permanent link">¶</a></h2>
+<blockquote>
+<p><strong>💡 Nota</strong>: Esta arquitectura representa el diseño planificado. Algunos componentes están en desarrollo.</p>
+</blockquote>
+<pre class="mermaid"><code>graph TB
+    subgraph "Capa de Cliente"
+        WEB[Dashboard Web&lt;br/&gt;React + Node.js 18]
+        MOBILE[Apps Móviles&lt;br/&gt;iOS Swift / Android Kotlin]
+        LANDING[Landing Page&lt;br/&gt;Formularios de Captura]
+    end
+
+    subgraph "Capa de API Gateway"
+        GATEWAY[API Gateway&lt;br/&gt;ASP.NET Core 8.0]
+    end
+
+    subgraph "Servicios Backend"
+        BACKEND[API Backend&lt;br/&gt;.NET 8.0&lt;br/&gt;Lógica de Negocio]
+        ML[Servicio ML&lt;br/&gt;Python 3.12.3&lt;br/&gt;FastAPI]
+        SCRAPPER[Servicio Scrapper&lt;br/&gt;Rust 1.75.0&lt;br/&gt;Recolección de Datos]
+    end
+
+    subgraph "Capa de Datos"
+        DB[(PostgreSQL&lt;br/&gt;Base de Datos Principal)]
+        CACHE[(Redis&lt;br/&gt;Capa de Caché)]
+        QUEUE[Cola de Mensajes&lt;br/&gt;RabbitMQ]
+    end
+
+    subgraph "CI/CD"
+        JENKINS[Jenkins&lt;br/&gt;Instancia OCI]
+        DOCKER[Docker Registry]
+    end
+
+    WEB --&gt; GATEWAY
+    MOBILE --&gt; GATEWAY
+    LANDING --&gt; GATEWAY
+
+    GATEWAY --&gt; BACKEND
+    GATEWAY --&gt; ML
+
+    BACKEND --&gt; DB
+    BACKEND --&gt; CACHE
+    BACKEND --&gt; QUEUE
+
+    ML --&gt; DB
+    ML --&gt; CACHE
+
+    SCRAPPER --&gt; QUEUE
+    SCRAPPER --&gt; DB
+
+    JENKINS --&gt; DOCKER
+    DOCKER --&gt; BACKEND
+    DOCKER --&gt; ML
+    DOCKER --&gt; SCRAPPER
+
+    style WEB fill:#4CAF50,stroke:#2E7D32,color:#fff
+    style MOBILE fill:#4CAF50,stroke:#2E7D32,color:#fff
+    style BACKEND fill:#2196F3,stroke:#1565C0,color:#fff
+    style ML fill:#FF9800,stroke:#E65100,color:#fff
+    style SCRAPPER fill:#9C27B0,stroke:#6A1B9A,color:#fff
+    style DB fill:#F44336,stroke:#C62828,color:#fff
+    style JENKINS fill:#607D8B,stroke:#37474F,color:#fff</code></pre>
+<h3 id="componentes-de-arquitectura"><strong>Componentes de Arquitectura</strong><a class="headerlink" href="#componentes-de-arquitectura" title="Permanent link">¶</a></h3>
+<h4 id="capa-de-cliente"><strong>Capa de Cliente</strong><a class="headerlink" href="#capa-de-cliente" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>Dashboard Web</strong>: Interfaz de analíticas y gestión basada en React</li>
+<li><strong>Apps Móviles</strong>: Apps nativas iOS (Swift) y Android (Kotlin) para equipo de ventas</li>
+<li><strong>Landing Page</strong>: Formularios de captura de leads con tracking de sentimiento</li>
+</ul>
+<h4 id="api-gateway"><strong>API Gateway</strong><a class="headerlink" href="#api-gateway" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>Tecnología</strong>: ASP.NET Core 8.0</li>
+<li><strong>Propósito</strong>: Punto de entrada único, autenticación, rate limiting, enrutamiento</li>
+</ul>
+<h4 id="servicios-backend"><strong>Servicios Backend</strong><a class="headerlink" href="#servicios-backend" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>API Backend (.NET 8.0)</strong>: Lógica de negocio core, orquestación de datos, endpoints API</li>
+<li><strong>Servicio ML (Python 3.12.3)</strong>: Análisis de sentimiento, scoring de leads, predicciones</li>
+<li><strong>Scrapper (Rust 1.75.0)</strong>: Recolección de datos de alto rendimiento desde fuentes externas</li>
+</ul>
+<h4 id="capa-de-datos"><strong>Capa de Datos</strong><a class="headerlink" href="#capa-de-datos" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>PostgreSQL</strong>: Base de datos relacional primaria para datos estructurados</li>
+<li><strong>Redis</strong>: Capa de caché para optimización de rendimiento</li>
+<li><strong>RabbitMQ</strong>: Cola de mensajes para procesamiento asíncrono y comunicación entre servicios</li>
+</ul>
+<h4 id="cicd"><strong>CI/CD</strong><a class="headerlink" href="#cicd" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>Jenkins</strong>: Testing, building y deployment automatizados</li>
+<li><strong>Docker</strong>: Containerización de todos los servicios</li>
+</ul>
+<hr/>
+<h2 id="stack-tecnologico-completo">🛠 Stack Tecnológico Completo<a class="headerlink" href="#stack-tecnologico-completo" title="Permanent link">¶</a></h2>
+<blockquote>
+<p>✅ = Verificado desde configuraciones de testing<br/>
+💡 = Sugerido basado en mejores prácticas  </p>
+<p><strong>⚠️ Tecnologías Pendientes de Confirmación</strong>: <br/>
+Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún no ha confirmado oficialmente. Estas representan un primer vistazo de la arquitectura planificada.</p>
+</blockquote>
+<h3 id="backend"><strong>Backend</strong><a class="headerlink" href="#backend" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Runtime</strong>: .NET 8.0 ✅ (SDK 8.0.407)</li>
+<li><strong>Framework</strong>: ASP.NET Core 8.0 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>ORM</strong>: Entity Framework Core 8.0 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Documentación API</strong>: Swagger/OpenAPI 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Testing</strong>: xUnit 2.4.2 ✅</li>
+</ul>
+<h3 id="data-science-machine-learning"><strong>Data Science / Machine Learning</strong><a class="headerlink" href="#data-science-machine-learning" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Runtime</strong>: Python 3.12.3 ✅</li>
+<li><strong>Framework API</strong>: FastAPI 0.100+ 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Librerías ML</strong>:</li>
+<li>scikit-learn 1.3+ 💡 (Lead Scoring) <em>(pendiente de confirmación)</em></li>
+<li>transformers 4.30+ 💡 (Análisis de Sentimiento - BERT) <em>(pendiente de confirmación)</em></li>
+<li>pandas 2.0+ 💡 (Procesamiento de Datos) <em>(pendiente de confirmación)</em></li>
+<li>numpy 1.24+ 💡 (Computación Numérica) <em>(pendiente de confirmación)</em></li>
+<li><strong>Testing</strong>: pytest 7.4+ 💡 <em>(pendiente de confirmación)</em></li>
+</ul>
+<h3 id="scrapper-servicios-de-alto-rendimiento"><strong>Scrapper / Servicios de Alto Rendimiento</strong><a class="headerlink" href="#scrapper-servicios-de-alto-rendimiento" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Lenguaje</strong>: Rust 1.75.0 ✅ (Edition 2021)</li>
+<li><strong>Runtime Async</strong>: tokio 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Cliente HTTP</strong>: reqwest 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Parsing HTML</strong>: scraper 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Testing</strong>: Framework de testing integrado de Rust ✅</li>
+</ul>
+<h3 id="frontend-web"><strong>Frontend Web</strong><a class="headerlink" href="#frontend-web" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Runtime</strong>: Node.js 18.19.1 ✅</li>
+<li><strong>Framework</strong>: React 18.2+ 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Gestión de Estado</strong>: Redux Toolkit 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Librería UI</strong>: Material-UI (MUI) 5.0+ 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Build Tool</strong>: Vite 4.0+ 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Testing</strong>: Jest 29.5.0 ✅ + React Testing Library 14.0.0 ✅</li>
+</ul>
+<h3 id="movil"><strong>Móvil</strong><a class="headerlink" href="#movil" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>iOS</strong>: Swift 5.9+ 💡 (SwiftUI) <em>(pendiente de confirmación)</em></li>
+<li><strong>Android</strong>: Kotlin 1.9+ 💡 (Jetpack Compose) <em>(pendiente de confirmación)</em></li>
+<li><strong>Testing</strong>: XCTest (iOS), JUnit (Android) 💡 <em>(pendiente de confirmación)</em></li>
+</ul>
+<h3 id="base-de-datos-cache"><strong>Base de Datos &amp; Caché</strong><a class="headerlink" href="#base-de-datos-cache" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Base de Datos Principal</strong>: PostgreSQL 15+ 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Caché</strong>: Redis 7.0+ 💡 <em>(pendiente de confirmación)</em></li>
+<li><strong>Cola de Mensajes</strong>: RabbitMQ 3.12+ 💡 <em>(pendiente de confirmación)</em></li>
+</ul>
+<h3 id="devops-infraestructura"><strong>DevOps &amp; Infraestructura</strong><a class="headerlink" href="#devops-infraestructura" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>CI/CD</strong>: Jenkins ✅ (en uso activo en OCI)</li>
+<li><strong>Containerización</strong>: Docker 💡 <em>(pendiente de confirmación de versión)</em></li>
+<li><strong>Orquestación</strong>: Docker Compose ✅ <em>(configuración pendiente de aprobación de PR)</em></li>
+<li><strong>IaC</strong>: Terraform ✅ (en uso activo)</li>
+<li><strong>Nube</strong>: Oracle Cloud Infrastructure (OCI) ✅ (en uso activo)</li>
+</ul>
+<h3 id="herramientas-de-desarrollo_1"><strong>Herramientas de Desarrollo</strong><a class="headerlink" href="#herramientas-de-desarrollo_1" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Control de Versiones</strong>: Git + GitHub</li>
+<li><strong>Calidad de Código</strong>: ESLint, Prettier (Frontend), dotnet format (Backend)</li>
+<li><strong>Testing de API</strong>: Postman, Thunder Client</li>
+</ul>
+<hr/>
+<h2 id="esquema-de-base-de-datos">🗄️ Esquema de Base de Datos<a class="headerlink" href="#esquema-de-base-de-datos" title="Permanent link">¶</a></h2>
+<blockquote>
+<p><strong>💡 Nota</strong>: Este esquema representa el diseño planificado de la base de datos. La implementación está en desarrollo.</p>
+</blockquote>
+<h3 id="base-de-datos-principal-postgresql-15-pendiente-de-confirmacion"><strong>Base de Datos Principal: PostgreSQL 15+</strong> <em>(pendiente de confirmación)</em><a class="headerlink" href="#base-de-datos-principal-postgresql-15-pendiente-de-confirmacion" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>erDiagram
+    LEADS ||--o{ INTERACTIONS : tiene
+    LEADS ||--o{ SENTIMENT_SCORES : tiene
+    LEADS ||--|| LEAD_SCORES : tiene
+    LEADS }o--|| SEGMENTS : pertenece_a
+
+    LEADS {
+        uuid id PK
+        string email
+        string phone
+        string name
+        string source
+        timestamp created_at
+        timestamp updated_at
+        string status
+    }
+
+    INTERACTIONS {
+        uuid id PK
+        uuid lead_id FK
+        string type
+        text content
+        timestamp created_at
+        json metadata
+    }
+
+    SENTIMENT_SCORES {
+        uuid id PK
+        uuid lead_id FK
+        uuid interaction_id FK
+        string sentiment
+        float score
+        timestamp analyzed_at
+    }
+
+    LEAD_SCORES {
+        uuid id PK
+        uuid lead_id FK
+        int score
+        string category
+        json features
+        timestamp calculated_at
+    }
+
+    SEGMENTS {
+        uuid id PK
+        string name
+        string description
+        json criteria
+    }</code></pre>
+<h3 id="tablas-principales"><strong>Tablas Principales</strong><a class="headerlink" href="#tablas-principales" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tabla</th>
+<th>Propósito</th>
+<th>Campos Clave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>leads</code></td>
+<td>Almacenar leads capturados</td>
+<td>email, phone, name, source, status</td>
+</tr>
+<tr>
+<td><code>interactions</code></td>
+<td>Rastrear todas las interacciones de leads</td>
+<td>lead_id, type, content, metadata</td>
+</tr>
+<tr>
+<td><code>sentiment_scores</code></td>
+<td>Resultados de análisis de sentimiento</td>
+<td>lead_id, sentiment, score</td>
+</tr>
+<tr>
+<td><code>lead_scores</code></td>
+<td>Scores de leads calculados</td>
+<td>lead_id, score (0-100), category</td>
+</tr>
+<tr>
+<td><code>segments</code></td>
+<td>Segmentación de leads</td>
+<td>name, criteria</td>
+</tr>
+</tbody>
+</table>
+<h3 id="categorias-de-lead-scoring"><strong>Categorías de Lead Scoring</strong><a class="headerlink" href="#categorias-de-lead-scoring" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Hot</strong> (80-100): Alto valor, listo para comprar</li>
+<li><strong>Warm</strong> (50-79): Interesado, necesita nutrición</li>
+<li><strong>Cold</strong> (0-49): Bajo engagement</li>
+</ul>
+<p>📖 <strong>Ver variables completas</strong>: <a href="./data-dictionary/">docs/data-dictionary/</a></p>
+<hr/>
+<h2 id="endpoints-de-api">🔌 Endpoints de API<a class="headerlink" href="#endpoints-de-api" title="Permanent link">¶</a></h2>
+<blockquote>
+<p><strong>💡 Nota</strong>: Estos endpoints representan el diseño de API planificado. La implementación está en desarrollo.</p>
+</blockquote>
+<h3 id="api-backend-aspnet-core-80-pendiente-de-confirmacion"><strong>API Backend (ASP.NET Core 8.0)</strong> <em>(pendiente de confirmación)</em><a class="headerlink" href="#api-backend-aspnet-core-80-pendiente-de-confirmacion" title="Permanent link">¶</a></h3>
+<p>URL Base: <code>https://api.equinelead.com/v1</code></p>
+<h4 id="gestion-de-leads"><strong>Gestión de Leads</strong><a class="headerlink" href="#gestion-de-leads" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="err">POST   /api/leads              # Crear nuevo lead</span>
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="err">GET    /api/leads/{id}         # Obtener lead por ID</span>
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="err">GET    /api/leads              # Listar leads (paginado)</span>
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="err">PUT    /api/leads/{id}         # Actualizar lead</span>
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="err">DELETE /api/leads/{id}         # Eliminar lead</span>
+</code></pre></div>
+<p><strong>Ejemplo de Request:</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="err">POST</span><span class="w"> </span><span class="err">/api/leads</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="p">{</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cliente@example.com"</span><span class="p">,</span>
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">  </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+1234567890"</span><span class="p">,</span>
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Juan Pérez"</span><span class="p">,</span>
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"landing_page"</span><span class="p">,</span>
+<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span><span class="nt">"interest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"horse_purchase"</span><span class="p">,</span>
+<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="nt">"budget"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50000"</span>
+<a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="w">  </span><span class="p">}</span>
+<a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Ejemplo de Response:</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="p">{</span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cliente@example.com"</span><span class="p">,</span>
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span>
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-02-12T06:30:00Z"</span><span class="p">,</span>
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">  </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="p">}</span>
+</code></pre></div></p>
+<h4 id="lead-scoring"><strong>Lead Scoring</strong><a class="headerlink" href="#lead-scoring" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="err">POST   /api/leads/{id}/score   # Calcular score de lead</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="err">GET    /api/leads/{id}/score   # Obtener score actual</span>
+</code></pre></div>
+<p><strong>Ejemplo de Response:</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="p">{</span>
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">  </span><span class="nt">"lead_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">  </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mi">87</span><span class="p">,</span>
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">  </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hot"</span><span class="p">,</span>
+<a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="w">  </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.92</span><span class="p">,</span>
+<a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">  </span><span class="nt">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">    </span><span class="nt">"engagement_score"</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span>
+<a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="w">    </span><span class="nt">"budget_match"</span><span class="p">:</span><span class="w"> </span><span class="mi">95</span><span class="p">,</span>
+<a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="w">    </span><span class="nt">"intent_score"</span><span class="p">:</span><span class="w"> </span><span class="mi">82</span>
+<a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="w">  </span><span class="p">}</span>
+<a href="#__codelineno-4-11" id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="p">}</span>
+</code></pre></div></p>
+<hr/>
+<h3 id="api-de-servicio-ml-python-fastapi-pendiente-de-confirmacion"><strong>API de Servicio ML (Python FastAPI)</strong> <em>(pendiente de confirmación)</em><a class="headerlink" href="#api-de-servicio-ml-python-fastapi-pendiente-de-confirmacion" title="Permanent link">¶</a></h3>
+<p>URL Base: <code>https://ml.equinelead.com/v1</code> <em>(ejemplo ilustrativo)</em></p>
+<h4 id="analisis-de-sentimiento"><strong>Análisis de Sentimiento</strong><a class="headerlink" href="#analisis-de-sentimiento" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="err">POST   /api/sentiment/analyze  # Analizar sentimiento de texto</span>
+</code></pre></div>
+<p><strong>Ejemplo de Request:</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="err">POST</span><span class="w"> </span><span class="err">/api/se</span><span class="kc">nt</span><span class="err">ime</span><span class="kc">nt</span><span class="err">/a</span><span class="kc">nal</span><span class="err">yze</span>
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="p">{</span>
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">  </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Estoy muy interesado en comprar un caballo de alto rendimiento"</span><span class="p">,</span>
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">  </span><span class="nt">"language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"es"</span>
+<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Ejemplo de Response:</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="p">{</span>
+<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="w">  </span><span class="nt">"sentiment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"positive"</span><span class="p">,</span>
+<a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">  </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.89</span><span class="p">,</span>
+<a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">  </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.94</span><span class="p">,</span>
+<a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="w">  </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bert-base-spanish-wwm-cased"</span>
+<a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="p">}</span>
+</code></pre></div></p>
+<h4 id="prediccion-de-lead-scoring"><strong>Predicción de Lead Scoring</strong><a class="headerlink" href="#prediccion-de-lead-scoring" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="err">POST   /api/leads/predict      # Predecir score de lead</span>
+</code></pre></div>
+<p><strong>Ejemplo de Request:</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="err">POST</span><span class="w"> </span><span class="err">/api/leads/predic</span><span class="kc">t</span>
+<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="p">{</span>
+<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="w">  </span><span class="nt">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="w">    </span><span class="nt">"page_views"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">    </span><span class="nt">"time_on_site"</span><span class="p">:</span><span class="w"> </span><span class="mi">420</span><span class="p">,</span>
+<a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">    </span><span class="nt">"interactions"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="w">    </span><span class="nt">"budget_range"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50000-100000"</span><span class="p">,</span>
+<a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="w">    </span><span class="nt">"sentiment_avg"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span>
+<a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="w">  </span><span class="p">}</span>
+<a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Ejemplo de Response:</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="p">{</span>
+<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">  </span><span class="nt">"predicted_score"</span><span class="p">:</span><span class="w"> </span><span class="mi">87</span><span class="p">,</span>
+<a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">  </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hot"</span><span class="p">,</span>
+<a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">  </span><span class="nt">"probability"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="w">    </span><span class="nt">"hot"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.87</span><span class="p">,</span>
+<a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">    </span><span class="nt">"warm"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.11</span><span class="p">,</span>
+<a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">    </span><span class="nt">"cold"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.02</span>
+<a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="w">  </span><span class="p">}</span>
+<a href="#__codelineno-10-9" id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="p">}</span>
+</code></pre></div></p>
+<p>📖 <strong>Ver documentación completa de API</strong>: <a href="./api-reference.md">docs/api-reference.md</a> <em>(documento aún no implementado)</em> | Swagger UI disponible en <code>/swagger</code></p>
+<hr/>
+<h2 id="seguridad">🔐 Seguridad<a class="headerlink" href="#seguridad" title="Permanent link">¶</a></h2>
+<blockquote>
+<p><strong>💡 Nota</strong>: Esta configuración de seguridad representa las mejores prácticas planificadas. La implementación está en desarrollo.</p>
+</blockquote>
+<h3 id="autenticacion-autorizacion-pendiente-de-confirmacion"><strong>Autenticación &amp; Autorización</strong> <em>(pendiente de confirmación)</em><a class="headerlink" href="#autenticacion-autorizacion-pendiente-de-confirmacion" title="Permanent link">¶</a></h3>
+<h4 id="autenticacion-de-api"><strong>Autenticación de API</strong><a class="headerlink" href="#autenticacion-de-api" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>Método</strong>: JWT (JSON Web Tokens)</li>
+<li><strong>Expiración de Token</strong>: 1 hora (access token), 7 días (refresh token)</li>
+<li><strong>Header</strong>: <code>Authorization: Bearer &lt;token&gt;</code></li>
+</ul>
+<p><strong>Ejemplo:</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="err">GET /api/leads</span>
+<a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="err">Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+</code></pre></div></p>
+<h4 id="apps-moviles"><strong>Apps Móviles</strong><a class="headerlink" href="#apps-moviles" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>iOS/Android</strong>: OAuth 2.0 con PKCE</li>
+<li><strong>Biométrico</strong>: Face ID / Touch ID / Fingerprint</li>
+</ul>
+<h3 id="proteccion-de-datos"><strong>Protección de Datos</strong><a class="headerlink" href="#proteccion-de-datos" title="Permanent link">¶</a></h3>
+<h4 id="encriptacion"><strong>Encriptación</strong><a class="headerlink" href="#encriptacion" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>En Tránsito</strong>: TLS 1.3 (HTTPS)</li>
+<li><strong>En Reposo</strong>: Encriptación transparente de datos PostgreSQL</li>
+<li><strong>Campos Sensibles</strong>: Encriptación AES-256 para PII</li>
+</ul>
+<h4 id="gestion-de-secrets"><strong>Gestión de Secrets</strong><a class="headerlink" href="#gestion-de-secrets" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>Desarrollo Local</strong>: Archivos <code>.env</code> (¡nunca commitear!)</li>
+<li><strong>Producción</strong>: Oracle Cloud Secrets Manager</li>
+<li><strong>CI/CD</strong>: Almacén de credenciales de Jenkins</li>
+</ul>
+<h3 id="mejores-practicas-de-seguridad"><strong>Mejores Prácticas de Seguridad</strong><a class="headerlink" href="#mejores-practicas-de-seguridad" title="Permanent link">¶</a></h3>
+<ul>
+<li>✅ Rate limiting en todos los endpoints de API</li>
+<li>✅ Validación y sanitización de inputs</li>
+<li>✅ Prevención de inyección SQL (queries parametrizadas)</li>
+<li>✅ Protección XSS</li>
+<li>✅ Configuración CORS</li>
+<li>✅ Auditorías de seguridad regulares</li>
+</ul>
+<hr/>
+<h2 id="variables-de-entorno">⚙️ Variables de Entorno<a class="headerlink" href="#variables-de-entorno" title="Permanent link">¶</a></h2>
+<blockquote>
+<p><strong>💡 Nota</strong>: Estas configuraciones representan el setup planificado. Los valores específicos se definirán durante la implementación.</p>
+</blockquote>
+<h3 id="backend-net-80"><strong>Backend (.NET 8.0)</strong><a class="headerlink" href="#backend-net-80" title="Permanent link">¶</a></h3>
+<p>Crear archivo <code>.env</code> en <code>src/backend-csharp/</code>:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="c1"># Base de Datos</span>
+<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="nv">DATABASE_URL</span><span class="o">=</span>postgresql://user:password@localhost:5432/equinelead
+<a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="nv">DATABASE_POOL_SIZE</span><span class="o">=</span><span class="m">20</span>
+<a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a>
+<a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="c1"># Caché Redis</span>
+<a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="nv">REDIS_URL</span><span class="o">=</span>redis://localhost:6379
+<a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="nv">REDIS_TTL</span><span class="o">=</span><span class="m">3600</span>
+<a href="#__codelineno-12-8" id="__codelineno-12-8" name="__codelineno-12-8"></a>
+<a href="#__codelineno-12-9" id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="c1"># Autenticación JWT</span>
+<a href="#__codelineno-12-10" id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="nv">JWT_SECRET</span><span class="o">=</span>your-super-secret-key-change-in-production
+<a href="#__codelineno-12-11" id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="nv">JWT_ISSUER</span><span class="o">=</span>equinelead-api
+<a href="#__codelineno-12-12" id="__codelineno-12-12" name="__codelineno-12-12"></a><span class="nv">JWT_AUDIENCE</span><span class="o">=</span>equinelead-clients
+<a href="#__codelineno-12-13" id="__codelineno-12-13" name="__codelineno-12-13"></a><span class="nv">JWT_EXPIRY_MINUTES</span><span class="o">=</span><span class="m">60</span>
+<a href="#__codelineno-12-14" id="__codelineno-12-14" name="__codelineno-12-14"></a>
+<a href="#__codelineno-12-15" id="__codelineno-12-15" name="__codelineno-12-15"></a><span class="c1"># Servicios Externos</span>
+<a href="#__codelineno-12-16" id="__codelineno-12-16" name="__codelineno-12-16"></a><span class="nv">ML_SERVICE_URL</span><span class="o">=</span>http://localhost:8080
+<a href="#__codelineno-12-17" id="__codelineno-12-17" name="__codelineno-12-17"></a><span class="nv">SCRAPPER_SERVICE_URL</span><span class="o">=</span>http://localhost:8081
+<a href="#__codelineno-12-18" id="__codelineno-12-18" name="__codelineno-12-18"></a>
+<a href="#__codelineno-12-19" id="__codelineno-12-19" name="__codelineno-12-19"></a><span class="c1"># RabbitMQ</span>
+<a href="#__codelineno-12-20" id="__codelineno-12-20" name="__codelineno-12-20"></a><span class="nv">RABBITMQ_URL</span><span class="o">=</span>amqp://guest:guest@localhost:5672
+<a href="#__codelineno-12-21" id="__codelineno-12-21" name="__codelineno-12-21"></a>
+<a href="#__codelineno-12-22" id="__codelineno-12-22" name="__codelineno-12-22"></a><span class="c1"># Logging</span>
+<a href="#__codelineno-12-23" id="__codelineno-12-23" name="__codelineno-12-23"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>Information
+<a href="#__codelineno-12-24" id="__codelineno-12-24" name="__codelineno-12-24"></a><span class="nv">SENTRY_DSN</span><span class="o">=</span>https://your-sentry-dsn@sentry.io/project
+</code></pre></div>
+<hr/>
+<h3 id="servicio-ml-python-3123"><strong>Servicio ML (Python 3.12.3)</strong><a class="headerlink" href="#servicio-ml-python-3123" title="Permanent link">¶</a></h3>
+<p>Crear archivo <code>.env</code> en <code>src/data-science/</code>:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="c1"># Base de Datos</span>
+<a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="nv">DATABASE_URL</span><span class="o">=</span>postgresql://user:password@localhost:5432/equinelead
+<a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a>
+<a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="c1"># Caché Redis</span>
+<a href="#__codelineno-13-5" id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="nv">REDIS_URL</span><span class="o">=</span>redis://localhost:6379
+<a href="#__codelineno-13-6" id="__codelineno-13-6" name="__codelineno-13-6"></a>
+<a href="#__codelineno-13-7" id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="c1"># Modelos ML</span>
+<a href="#__codelineno-13-8" id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="nv">MODEL_PATH</span><span class="o">=</span>/models
+<a href="#__codelineno-13-9" id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="nv">SENTIMENT_MODEL</span><span class="o">=</span>bert-base-spanish-wwm-cased
+<a href="#__codelineno-13-10" id="__codelineno-13-10" name="__codelineno-13-10"></a><span class="nv">SCORING_MODEL</span><span class="o">=</span>lead_scoring_rf_v1.pkl
+<a href="#__codelineno-13-11" id="__codelineno-13-11" name="__codelineno-13-11"></a>
+<a href="#__codelineno-13-12" id="__codelineno-13-12" name="__codelineno-13-12"></a><span class="c1"># Configuración API</span>
+<a href="#__codelineno-13-13" id="__codelineno-13-13" name="__codelineno-13-13"></a><span class="nv">API_HOST</span><span class="o">=</span><span class="m">0</span>.0.0.0
+<a href="#__codelineno-13-14" id="__codelineno-13-14" name="__codelineno-13-14"></a><span class="nv">API_PORT</span><span class="o">=</span><span class="m">8080</span>
+<a href="#__codelineno-13-15" id="__codelineno-13-15" name="__codelineno-13-15"></a><span class="nv">API_WORKERS</span><span class="o">=</span><span class="m">4</span>
+<a href="#__codelineno-13-16" id="__codelineno-13-16" name="__codelineno-13-16"></a>
+<a href="#__codelineno-13-17" id="__codelineno-13-17" name="__codelineno-13-17"></a><span class="c1"># Logging</span>
+<a href="#__codelineno-13-18" id="__codelineno-13-18" name="__codelineno-13-18"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>INFO
+</code></pre></div>
+<hr/>
+<h3 id="scrapper-rust-1750"><strong>Scrapper (Rust 1.75.0)</strong><a class="headerlink" href="#scrapper-rust-1750" title="Permanent link">¶</a></h3>
+<p>Crear archivo <code>.env</code> en <code>src/scrapper-rust/</code>:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c1"># Base de Datos</span>
+<a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="nv">DATABASE_URL</span><span class="o">=</span>postgresql://user:password@localhost:5432/equinelead
+<a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a>
+<a href="#__codelineno-14-4" id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="c1"># RabbitMQ</span>
+<a href="#__codelineno-14-5" id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="nv">RABBITMQ_URL</span><span class="o">=</span>amqp://guest:guest@localhost:5672
+<a href="#__codelineno-14-6" id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="nv">QUEUE_NAME</span><span class="o">=</span>scrapper_tasks
+<a href="#__codelineno-14-7" id="__codelineno-14-7" name="__codelineno-14-7"></a>
+<a href="#__codelineno-14-8" id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="c1"># Configuración de Scrapping</span>
+<a href="#__codelineno-14-9" id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="nv">USER_AGENT</span><span class="o">=</span>EquineLead-Bot/1.0
+<a href="#__codelineno-14-10" id="__codelineno-14-10" name="__codelineno-14-10"></a><span class="nv">REQUEST_TIMEOUT</span><span class="o">=</span><span class="m">30</span>
+<a href="#__codelineno-14-11" id="__codelineno-14-11" name="__codelineno-14-11"></a><span class="nv">MAX_RETRIES</span><span class="o">=</span><span class="m">3</span>
+<a href="#__codelineno-14-12" id="__codelineno-14-12" name="__codelineno-14-12"></a><span class="nv">RATE_LIMIT_PER_SECOND</span><span class="o">=</span><span class="m">5</span>
+<a href="#__codelineno-14-13" id="__codelineno-14-13" name="__codelineno-14-13"></a>
+<a href="#__codelineno-14-14" id="__codelineno-14-14" name="__codelineno-14-14"></a><span class="c1"># Logging</span>
+<a href="#__codelineno-14-15" id="__codelineno-14-15" name="__codelineno-14-15"></a><span class="nv">RUST_LOG</span><span class="o">=</span>info
+</code></pre></div>
+<hr/>
+<h3 id="frontend-web-nodejs-18191"><strong>Frontend Web (Node.js 18.19.1)</strong><a class="headerlink" href="#frontend-web-nodejs-18191" title="Permanent link">¶</a></h3>
+<p>Crear archivo <code>.env</code> en <code>src/frontend-web/</code>:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="c1"># Endpoints API</span>
+<a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="nv">VITE_API_URL</span><span class="o">=</span>http://localhost:8000/api
+<a href="#__codelineno-15-3" id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="nv">VITE_ML_API_URL</span><span class="o">=</span>http://localhost:8080/api
+<a href="#__codelineno-15-4" id="__codelineno-15-4" name="__codelineno-15-4"></a>
+<a href="#__codelineno-15-5" id="__codelineno-15-5" name="__codelineno-15-5"></a><span class="c1"># Autenticación</span>
+<a href="#__codelineno-15-6" id="__codelineno-15-6" name="__codelineno-15-6"></a><span class="nv">VITE_AUTH_DOMAIN</span><span class="o">=</span>auth.equinelead.com
+<a href="#__codelineno-15-7" id="__codelineno-15-7" name="__codelineno-15-7"></a><span class="nv">VITE_AUTH_CLIENT_ID</span><span class="o">=</span>your-client-id
+<a href="#__codelineno-15-8" id="__codelineno-15-8" name="__codelineno-15-8"></a>
+<a href="#__codelineno-15-9" id="__codelineno-15-9" name="__codelineno-15-9"></a><span class="c1"># Analytics</span>
+<a href="#__codelineno-15-10" id="__codelineno-15-10" name="__codelineno-15-10"></a><span class="nv">VITE_GA_TRACKING_ID</span><span class="o">=</span>UA-XXXXXXXXX-X
+<a href="#__codelineno-15-11" id="__codelineno-15-11" name="__codelineno-15-11"></a><span class="nv">VITE_SENTRY_DSN</span><span class="o">=</span>https://your-sentry-dsn@sentry.io/project
+<a href="#__codelineno-15-12" id="__codelineno-15-12" name="__codelineno-15-12"></a>
+<a href="#__codelineno-15-13" id="__codelineno-15-13" name="__codelineno-15-13"></a><span class="c1"># Feature Flags</span>
+<a href="#__codelineno-15-14" id="__codelineno-15-14" name="__codelineno-15-14"></a><span class="nv">VITE_ENABLE_ANALYTICS</span><span class="o">=</span><span class="nb">true</span>
+<a href="#__codelineno-15-15" id="__codelineno-15-15" name="__codelineno-15-15"></a><span class="nv">VITE_ENABLE_CHAT</span><span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<hr/>
+<h3 id="notas-de-seguridad"><strong>Notas de Seguridad</strong><a class="headerlink" href="#notas-de-seguridad" title="Permanent link">¶</a></h3>
+<ol>
+<li><strong>Nunca commitear archivos <code>.env</code></strong> - Ya están en <code>.gitignore</code></li>
+<li><strong>Usar secrets diferentes</strong> para dev/staging/producción</li>
+<li><strong>Rotar secrets</strong> regularmente (cada 90 días)</li>
+<li><strong>Usar contraseñas fuertes</strong> - Mínimo 32 caracteres para producción</li>
+</ol>
+<p>📖 <strong>Ver configuración completa</strong>: <a href="./environment-setup.md">docs/environment-setup.md</a> <em>(documento aún no implementado)</em></p>
+<hr/>
+<h2 id="estructura-del-proyecto">📁 Estructura del Proyecto<a class="headerlink" href="#estructura-del-proyecto" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a>equine-lead/
+<a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a>├──<span class="w"> </span>ci-cd/<span class="w">                  </span><span class="c1"># 🤖 Automatización y Despliegue Continuo</span>
+<a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a>│<span class="w">   </span>├──<span class="w"> </span>jenkins/<span class="w">            </span><span class="c1"># Configuraciones y pipelines para Jenkins</span>
+<a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a>│<span class="w">   </span>└──<span class="w"> </span>README.md<span class="w">           </span><span class="c1"># Guía maestra de DevOps</span>
+<a href="#__codelineno-16-5" id="__codelineno-16-5" name="__codelineno-16-5"></a>├──<span class="w"> </span>docs/<span class="w">                   </span><span class="c1"># 📚 Documentación técnica y de negocio</span>
+<a href="#__codelineno-16-6" id="__codelineno-16-6" name="__codelineno-16-6"></a>│<span class="w">   </span>├──<span class="w"> </span>data-dictionary/<span class="w">    </span><span class="c1"># Definiciones de variables de Scoring</span>
+<a href="#__codelineno-16-7" id="__codelineno-16-7" name="__codelineno-16-7"></a>│<span class="w">   </span>├──<span class="w"> </span>guides/<span class="w">             </span><span class="c1"># 📖 Guías operativas y estándares</span>
+<a href="#__codelineno-16-8" id="__codelineno-16-8" name="__codelineno-16-8"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>DEVELOPER_ONBOARDING.md<span class="w">  </span><span class="c1"># 🎓 Guía de onboarding para developers</span>
+<a href="#__codelineno-16-9" id="__codelineno-16-9" name="__codelineno-16-9"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>DOCUMENTATION_FLOW.md<span class="w">    </span><span class="c1"># 📊 Mapa de navegación de documentación</span>
+<a href="#__codelineno-16-10" id="__codelineno-16-10" name="__codelineno-16-10"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>GIT_WORKFLOW.md<span class="w">          </span><span class="c1"># 🔄 Guía de flujo de Git</span>
+<a href="#__codelineno-16-11" id="__codelineno-16-11" name="__codelineno-16-11"></a>├──<span class="w"> </span>infrastructure/<span class="w">         </span><span class="c1"># 🏗️ Configuración de la Nube (Oracle Cloud)</span>
+<a href="#__codelineno-16-12" id="__codelineno-16-12" name="__codelineno-16-12"></a>│<span class="w">   </span>├──<span class="w"> </span>terraform/<span class="w">          </span><span class="c1"># Infraestructura como código (IaC)</span>
+<a href="#__codelineno-16-13" id="__codelineno-16-13" name="__codelineno-16-13"></a>│<span class="w">   </span>└──<span class="w"> </span>docker/<span class="w">             </span><span class="c1"># Configuración de servicios en contenedores</span>
+<a href="#__codelineno-16-14" id="__codelineno-16-14" name="__codelineno-16-14"></a>├──<span class="w"> </span>src/<span class="w">                    </span><span class="c1"># 💻 Código fuente de componentes</span>
+<a href="#__codelineno-16-15" id="__codelineno-16-15" name="__codelineno-16-15"></a>│<span class="w">   </span>├──<span class="w"> </span>backend-csharp/<span class="w">     </span><span class="c1"># API Backend en C# (.NET 8.0)</span>
+<a href="#__codelineno-16-16" id="__codelineno-16-16" name="__codelineno-16-16"></a>│<span class="w">   </span>├──<span class="w"> </span>data-science/<span class="w">       </span><span class="c1"># Modelos ML y análisis (Python 3.12.3)</span>
+<a href="#__codelineno-16-17" id="__codelineno-16-17" name="__codelineno-16-17"></a>│<span class="w">   </span>├──<span class="w"> </span>scrapper-rust/<span class="w">      </span><span class="c1"># Servicio de scraping (Rust 1.75.0)</span>
+<a href="#__codelineno-16-18" id="__codelineno-16-18" name="__codelineno-16-18"></a>│<span class="w">   </span>├──<span class="w"> </span>frontend-web/<span class="w">       </span><span class="c1"># Dashboard web (React + Node.js 18)</span>
+<a href="#__codelineno-16-19" id="__codelineno-16-19" name="__codelineno-16-19"></a>│<span class="w">   </span>└──<span class="w"> </span>mobile-apps/<span class="w">        </span><span class="c1"># Apps móviles (iOS Swift, Android Kotlin)</span>
+<a href="#__codelineno-16-20" id="__codelineno-16-20" name="__codelineno-16-20"></a>├──<span class="w"> </span>tests/<span class="w">                  </span><span class="c1"># 🧪 Infraestructura de Testing</span>
+<a href="#__codelineno-16-21" id="__codelineno-16-21" name="__codelineno-16-21"></a>│<span class="w">   </span>├──<span class="w"> </span>scripts/<span class="w">            </span><span class="c1"># Scripts de automatización de tests</span>
+<a href="#__codelineno-16-22" id="__codelineno-16-22" name="__codelineno-16-22"></a>│<span class="w">   </span>├──<span class="w"> </span>backend-csharp/<span class="w">     </span><span class="c1"># Tests del Backend</span>
+<a href="#__codelineno-16-23" id="__codelineno-16-23" name="__codelineno-16-23"></a>│<span class="w">   </span>├──<span class="w"> </span>data-science/<span class="w">       </span><span class="c1"># Tests de ML/IA</span>
+<a href="#__codelineno-16-24" id="__codelineno-16-24" name="__codelineno-16-24"></a>│<span class="w">   </span>├──<span class="w"> </span>scrapper-rust/<span class="w">      </span><span class="c1"># Tests del Scrapper</span>
+<a href="#__codelineno-16-25" id="__codelineno-16-25" name="__codelineno-16-25"></a>│<span class="w">   </span>├──<span class="w"> </span>frontend-web/<span class="w">       </span><span class="c1"># Tests del Frontend</span>
+<a href="#__codelineno-16-26" id="__codelineno-16-26" name="__codelineno-16-26"></a>│<span class="w">   </span>└──<span class="w"> </span>README.md<span class="w">           </span><span class="c1"># Guía completa de testing</span>
+<a href="#__codelineno-16-27" id="__codelineno-16-27" name="__codelineno-16-27"></a>└──<span class="w"> </span>README.md<span class="w">               </span><span class="c1"># 📖 Este archivo (Hub de documentación)</span>
+</code></pre></div>
+<hr/>
+<h2 id="roles-del-equipo">👥 Roles del Equipo<a class="headerlink" href="#roles-del-equipo" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>DevOps Lead</strong>: Diego Zapata Salhuana</li>
+<li><strong>Backend Developer</strong>: Isabel</li>
+<li><strong>Data Scientist</strong>: Leandro</li>
+<li><strong>Frontend Developer</strong>: Franklin y Ronald</li>
+<li><strong>Mobile Developer</strong>: Franklin</li>
+<li><strong>Scrapping Engineer</strong>: Jorge</li>
+<li><strong>Project Manager</strong>: Franklin</li>
+<li><strong>GitHub Manager</strong>: Junior</li>
+</ul>
+<hr/>
+<h2 id="hub-de-documentacion">📚 Hub de Documentación<a class="headerlink" href="#hub-de-documentacion" title="Permanent link">¶</a></h2>
+<h3 id="para-nuevos-developers"><strong>Para Nuevos Developers</strong><a class="headerlink" href="#para-nuevos-developers" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong><a href="guides/DEVELOPER_ONBOARDING/">Guía de Onboarding</a></strong> - Ruta de aprendizaje paso a paso desde cero hasta productividad completa</li>
+<li><strong><a href="guides/DOCUMENTATION_FLOW/">Mapa de Documentación</a></strong> - Navegación visual de todos los READMEs y orden de lectura recomendado</li>
+</ul>
+<h3 id="infraestructura-y-deployment"><strong>Infraestructura y Deployment</strong><a class="headerlink" href="#infraestructura-y-deployment" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong><a href="../infrastructure/">Infrastructure README</a></strong> - Configuración de Oracle Cloud, Terraform, Docker</li>
+<li><strong><a href="../ci-cd/">CI/CD README</a></strong> - Automatización y procesos de deployment</li>
+<li><strong><a href="../ci-cd/jenkins/">Jenkins Pipelines</a></strong> - Configuración detallada de pipelines</li>
+</ul>
+<h3 id="testing-y-calidad"><strong>Testing y Calidad</strong><a class="headerlink" href="#testing-y-calidad" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong><a href="../tests/">Testing README</a></strong> - Guía completa de testing, health checks, y scripts</li>
+<li><strong><a href="../tests/scripts/">Test Scripts</a></strong> - Automatización de tests locales</li>
+</ul>
+<h3 id="componentes-especificos"><strong>Componentes Específicos</strong><a class="headerlink" href="#componentes-especificos" title="Permanent link">¶</a></h3>
+<blockquote>
+<p><strong>⚠️ Nota</strong>: Los READMEs de componentes individuales están en desarrollo o pendientes de creación. Los enlaces a continuación apuntan a las ubicaciones planificadas.</p>
+</blockquote>
+<ul>
+<li><strong><a href="../src/backend-csharp/">Backend C#</a></strong> - API Backend y lógica de negocio <em>(README pendiente)</em></li>
+<li><strong><a href="../src/data-science/">Data Science</a></strong> - Modelos ML y análisis de sentimiento <em>(README en desarrollo)</em></li>
+<li><strong><a href="../src/scrapper-rust/">Scrapper Rust</a></strong> - Servicio de scraping de alto rendimiento <em>(README pendiente)</em></li>
+<li><strong><a href="../src/frontend-web/">Frontend Web</a></strong> - Dashboard y UI web <em>(README pendiente)</em></li>
+<li><strong><a href="../src/mobile-apps/">Mobile Apps</a></strong> - Apps iOS y Android <em>(README pendiente)</em></li>
+</ul>
+<hr/>
+<h2 id="flujo-de-desarrollo">🔄 Flujo de Desarrollo<a class="headerlink" href="#flujo-de-desarrollo" title="Permanent link">¶</a></h2>
+<pre class="mermaid"><code>graph LR
+    A[Desarrollo Local] --&gt; B[Ejecutar Tests]
+    B --&gt; C[Push a Feature Branch]
+    C --&gt; D[Jenkins: Tests Automáticos]
+    D --&gt; E{Tests Pasan?}
+    E --&gt;|Sí| F[Merge a Dev]
+    E --&gt;|No| A
+    F --&gt; G[Deploy a Staging]
+    G --&gt; H[QA Manual]
+    H --&gt; I{Aprobado?}
+    I --&gt;|Sí| J[Merge a Main]
+    I --&gt;|No| A
+    J --&gt; K[Deploy a Producción]</code></pre>
+<h3 id="pasos-del-desarrollador"><strong>Pasos del Desarrollador</strong><a class="headerlink" href="#pasos-del-desarrollador" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Desarrollo Local</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/nombre-feature
+<a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="c1"># Desarrollar código...</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Testing Local</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a>./tests/scripts/run_all_tests.sh
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Push y PR</strong>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/nombre-feature
+<a href="#__codelineno-19-2" id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="c1"># Crear Pull Request en GitHub</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>CI/CD Automático</strong></p>
+</li>
+<li>Jenkins ejecuta tests automáticamente</li>
+<li>Reporta resultados en el PR</li>
+<li>Merge solo si todos los tests pasan</li>
+</ol>
+<hr/>
+<h2 id="getting-started">🚀 Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">¶</a></h2>
+<h3 id="prerrequisitos"><strong>Prerrequisitos</strong><a class="headerlink" href="#prerrequisitos" title="Permanent link">¶</a></h3>
+<p>Según tu componente, necesitarás:</p>
+<ul>
+<li><strong>.NET 8.0 SDK</strong> (Backend)</li>
+<li><strong>Python 3.12.3</strong> (Data Science)</li>
+<li><strong>Rust 1.75.0</strong> (Scrapper)</li>
+<li><strong>Node.js 18.19.1</strong> (Frontend)</li>
+<li><strong>Docker</strong> (Todos)</li>
+</ul>
+<h3 id="setup-rapido"><strong>Setup Rápido</strong><a class="headerlink" href="#setup-rapido" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="c1"># 1. Clonar repositorio</span>
+<a href="#__codelineno-20-2" id="__codelineno-20-2" name="__codelineno-20-2"></a>git<span class="w"> </span>clone<span class="w"> </span>&lt;repo-url&gt;
+<a href="#__codelineno-20-3" id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="nb">cd</span><span class="w"> </span>equine-lead
+<a href="#__codelineno-20-4" id="__codelineno-20-4" name="__codelineno-20-4"></a>
+<a href="#__codelineno-20-5" id="__codelineno-20-5" name="__codelineno-20-5"></a><span class="c1"># 2. Configurar entorno de testing</span>
+<a href="#__codelineno-20-6" id="__codelineno-20-6" name="__codelineno-20-6"></a>./tests/scripts/setup_test_env.sh
+<a href="#__codelineno-20-7" id="__codelineno-20-7" name="__codelineno-20-7"></a>
+<a href="#__codelineno-20-8" id="__codelineno-20-8" name="__codelineno-20-8"></a><span class="c1"># 3. Ejecutar tests para verificar setup</span>
+<a href="#__codelineno-20-9" id="__codelineno-20-9" name="__codelineno-20-9"></a>./tests/scripts/run_all_tests.sh
+<a href="#__codelineno-20-10" id="__codelineno-20-10" name="__codelineno-20-10"></a>
+<a href="#__codelineno-20-11" id="__codelineno-20-11" name="__codelineno-20-11"></a><span class="c1"># 4. Configurar tu componente específico</span>
+<a href="#__codelineno-20-12" id="__codelineno-20-12" name="__codelineno-20-12"></a><span class="c1"># Ver README de tu componente en src/&lt;componente&gt;/README.md</span>
+</code></pre></div>
+<h3 id="ejecutar-tests-localmente"><strong>Ejecutar Tests Localmente</strong><a class="headerlink" href="#ejecutar-tests-localmente" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-21-1" id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="c1"># Todos los tests</span>
+<a href="#__codelineno-21-2" id="__codelineno-21-2" name="__codelineno-21-2"></a>./tests/scripts/run_all_tests.sh
+<a href="#__codelineno-21-3" id="__codelineno-21-3" name="__codelineno-21-3"></a>
+<a href="#__codelineno-21-4" id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="c1"># Tests específicos por componente</span>
+<a href="#__codelineno-21-5" id="__codelineno-21-5" name="__codelineno-21-5"></a>./tests/scripts/run_backend_tests.sh
+<a href="#__codelineno-21-6" id="__codelineno-21-6" name="__codelineno-21-6"></a>./tests/scripts/run_ml_tests.sh
+<a href="#__codelineno-21-7" id="__codelineno-21-7" name="__codelineno-21-7"></a>./tests/scripts/run_scrapper_tests.sh
+<a href="#__codelineno-21-8" id="__codelineno-21-8" name="__codelineno-21-8"></a>./tests/scripts/run_frontend_tests.sh
+</code></pre></div>
+<hr/>
+<h2 id="infraestructura-de-testing">🧪 Infraestructura de Testing<a class="headerlink" href="#infraestructura-de-testing" title="Permanent link">¶</a></h2>
+<h3 id="estado-actual"><strong>Estado Actual</strong><a class="headerlink" href="#estado-actual" title="Permanent link">¶</a></h3>
+<p>✅ <strong>Completado</strong>:
+- Health checks para todos los componentes
+- Scripts de automatización de tests
+- Jenkinsfiles para CI/CD
+- Documentación completa de testing
+- Configuración de entornos de test</p>
+<h3 id="tipos-de-tests"><strong>Tipos de Tests</strong><a class="headerlink" href="#tipos-de-tests" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Descripción</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Health Checks</strong></td>
+<td>Verificación básica de compilación/ejecución</td>
+<td><code>tests/*/health_*</code></td>
+</tr>
+<tr>
+<td><strong>Unit Tests</strong></td>
+<td>Tests unitarios de componentes</td>
+<td><code>tests/*/UnitTests/</code></td>
+</tr>
+<tr>
+<td><strong>Integration Tests</strong></td>
+<td>Tests de integración entre servicios</td>
+<td><code>tests/*/IntegrationTests/</code></td>
+</tr>
+<tr>
+<td><strong>E2E Tests</strong></td>
+<td>Tests end-to-end del flujo completo</td>
+<td><code>tests/e2e/</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="analogia-el-auto-de-carreras"><strong>Analogía: El Auto de Carreras</strong><a class="headerlink" href="#analogia-el-auto-de-carreras" title="Permanent link">¶</a></h3>
+<p>Piensa en EquineLead como un <strong>auto de carreras de alta tecnología</strong>:</p>
+<ul>
+<li><strong>Testing</strong> = Inspección técnica antes de salir a la pista</li>
+<li><strong>Jenkins</strong> = Director del taller mecánico que coordina todas las revisiones</li>
+<li><strong>Scripts</strong> = Mecánicos automáticos especializados</li>
+<li><strong>Health Checks</strong> = Verificación rápida de que el motor enciende</li>
+<li><strong>Unit Tests</strong> = Revisión detallada de cada pieza</li>
+<li><strong>Integration Tests</strong> = Verificación de que todas las piezas trabajan juntas</li>
+<li><strong>Producción</strong> = La pista de carreras donde compites</li>
+</ul>
+<p>📖 <strong>Ver guía completa</strong>: <a href="../tests/">tests/README.md</a></p>
+<hr/>
+<h2 id="entregables">📦 Entregables<a class="headerlink" href="#entregables" title="Permanent link">¶</a></h2>
+<h3 id="fase-1-infraestructura-de-testing-completado"><strong>Fase 1: Infraestructura de Testing</strong> ✅ Completado<a class="headerlink" href="#fase-1-infraestructura-de-testing-completado" title="Permanent link">¶</a></h3>
+<ul>
+<li>[x] Health checks para todos los componentes</li>
+<li>[x] Scripts de automatización de tests</li>
+<li>[x] Jenkinsfiles para pipelines CI/CD</li>
+<li>[x] Documentación completa</li>
+<li>[x] Configuración de entornos</li>
+</ul>
+<h3 id="fase-2-implementacion-de-componentes-en-progreso"><strong>Fase 2: Implementación de Componentes</strong> 🔄 En Progreso<a class="headerlink" href="#fase-2-implementacion-de-componentes-en-progreso" title="Permanent link">¶</a></h3>
+<ul>
+<li>[ ] Backend API (.NET 8.0)</li>
+<li>[ ] Servicio ML (Python 3.12.3)</li>
+<li>[ ] Scrapper (Rust 1.75.0)</li>
+<li>[ ] Frontend Web (React + Node.js 18)</li>
+<li>[ ] Apps Móviles (iOS/Android)</li>
+</ul>
+<h3 id="fase-3-integracion-y-deployment-pendiente"><strong>Fase 3: Integración y Deployment</strong> ⏳ Pendiente<a class="headerlink" href="#fase-3-integracion-y-deployment-pendiente" title="Permanent link">¶</a></h3>
+<ul>
+<li>[ ] Integración completa de servicios</li>
+<li>[ ] Deployment a staging</li>
+<li>[ ] QA y testing end-to-end</li>
+<li>[ ] Deployment a producción</li>
+</ul>
+<hr/>
+<h2 id="soporte">🆘 Soporte<a class="headerlink" href="#soporte" title="Permanent link">¶</a></h2>
+<h3 id="documentacion"><strong>Documentación</strong><a class="headerlink" href="#documentacion" title="Permanent link">¶</a></h3>
+<ul>
+<li><a href="guides/DEVELOPER_ONBOARDING/">Guía de Onboarding</a> - Para nuevos developers</li>
+<li><a href="guides/DOCUMENTATION_FLOW/">Mapa de Documentación</a> - Navegación de docs</li>
+<li><a href="../tests/">Testing Guide</a> - Guía completa de testing</li>
+<li><a href="../infrastructure/">Infrastructure Guide</a> - Setup de infraestructura</li>
+<li><a href="../ci-cd/">CI/CD Guide</a> - Automatización y deployment</li>
+</ul>
+<h3 id="troubleshooting"><strong>Troubleshooting</strong><a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h3>
+<ul>
+<li>Ver <a href="../tests/#-troubleshooting">tests/README.md - Troubleshooting</a></li>
+<li>Ver <a href="../ci-cd/jenkins/#-troubleshooting">ci-cd/jenkins/README.md - Troubleshooting</a></li>
+</ul>
+<h3 id="contacto"><strong>Contacto</strong><a class="headerlink" href="#contacto" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>DevOps Lead</strong>: Diego Zapata Salhuana</li>
+<li><strong>Canal de equipo</strong>: [NoCountry/Whatsapp]</li>
+</ul>
+<hr/>
+<h2 id="licencia">📄 Licencia<a class="headerlink" href="#licencia" title="Permanent link">¶</a></h2>
+<p>[Especificar licencia]</p>
+<hr/>
+<blockquote>
+<p><strong>Última actualización</strong>: 2026-02-12<br>
+<strong>Versión</strong>: 2.0 - Documentación Técnica<br>
+<strong>Estado</strong>: Infraestructura de testing completada, implementación de componentes en progreso</br></br></p>
+</blockquote>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Volver al principio
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pie" class="md-footer__inner md-grid">
+<a aria-label="Anterior: 04. Verificación Local" class="md-footer__link md-footer__link--prev" href="guides/VERIFICACION_LOCAL_DESPLIEGUE/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Anterior
+              </span>
+<div class="md-ellipsis">
+                04. Verificación Local
+              </div>
+</div>
+</a>
+<a aria-label="Siguiente: Especificación v2" class="md-footer__link md-footer__link--next" href="database/especificacion-tecnica-db-v2/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Siguiente
+              </span>
+<div class="md-ellipsis">
+                Especificación v2
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+<script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+</body>
+</html>

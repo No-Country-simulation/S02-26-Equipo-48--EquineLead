@@ -1,0 +1,12 @@
+/* Standard Custom Styles for EquineLead */
+
+/* Ensure smooth transitions for sidebar menus */
+.md-nav__link {
+    transition: color 0.25s;
+}
+
+/* Mermaid diagram styling to prevent TOC overflow if any */
+.mermaid {
+    margin: 1.5em 0;
+    line-height: normal;
+}

@@ -1,0 +1,2143 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Motor de Crecimiento Basado en Datos para la Industria Ecuestre" name="description"/>
+<meta content="EquineLead Team" name="author"/>
+<link href="../docs/03-Automatizacion-Jenkins/" rel="prev"/>
+<link href="CONFIGURACION_PASO_A_PASO/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.3" name="generator"/>
+<title>General - EquineLead Documentation</title>
+<link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../custom.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#05-equinelead-jenkins-cicd-pipelines">
+          Saltar a contenido
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Cabecera" class="md-header__inner md-grid">
+<a aria-label="EquineLead Documentation" class="md-header__button md-logo" data-md-component="logo" href="../.." title="EquineLead Documentation">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            EquineLead Documentation
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              General
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Búsqueda" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Búsqueda" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Buscar" class="md-search__options">
+<button aria-label="Limpiar" class="md-search__icon md-icon" tabindex="-1" title="Limpiar" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/No-Country-simulation/equine-lead" title="Ir al repositorio">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    equine-lead
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Pestañas" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        
+  
+  
+    
+  
+  01. Inicio
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../infrastructure/">
+          
+  
+  
+  02. Infraestructura
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../tests/">
+          
+  
+  
+  03. Testing
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../">
+          
+  
+  
+  04. CI/CD &amp; DevOps
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../src/backend-csharp/">
+          
+  
+  
+  05. Componentes (Source)
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../docs/guides/DEVELOPER_ONBOARDING/">
+          
+  
+  
+  06. Documentación
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navegación" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="EquineLead Documentation" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="EquineLead Documentation">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    EquineLead Documentation
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/No-Country-simulation/equine-lead" title="Ir al repositorio">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    equine-lead
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    01. Inicio
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    02. Infraestructura
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    02. Infraestructura
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../infrastructure/">
+<span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../infrastructure/docker/">
+<span class="md-ellipsis">
+    
+  
+    Contenedores y Observabilidad
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../infrastructure/terraform/">
+<span class="md-ellipsis">
+    
+  
+    Terraform (IaC)
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../infrastructure/terraform/modules/jenkins/">
+<span class="md-ellipsis">
+    
+  
+    Jenkins Module
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../infrastructure/terraform/modules/app-server/">
+<span class="md-ellipsis">
+    
+  
+    App Server Module
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    03. Testing
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    03. Testing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tests/">
+<span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tests/scripts/">
+<span class="md-ellipsis">
+    
+  
+    03.1. Scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tests/backend-csharp/">
+<span class="md-ellipsis">
+    
+  
+    03.2. Backend Tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tests/data-science/">
+<span class="md-ellipsis">
+    
+  
+    03.3. Data Science Tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tests/scrapper-rust/">
+<span class="md-ellipsis">
+    
+  
+    03.4. Scrapper Tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tests/frontend-web/">
+<span class="md-ellipsis">
+    
+  
+    03.5. Frontend Tests
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    04. CI/CD &amp; DevOps
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    04. CI/CD &amp; DevOps
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    Guía Maestra
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../docs/01-Arquitectura-y-Vision/">
+<span class="md-ellipsis">
+    
+  
+    Arquitectura y Visión
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../docs/02-Flujo-Git-y-Responsabilidades/">
+<span class="md-ellipsis">
+    
+  
+    Flujo Git y Responsabilidades
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../docs/03-Automatizacion-Jenkins/">
+<span class="md-ellipsis">
+    
+  
+    Automatización Jenkins
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    05. Jenkins Pipelines
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_4_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    05. Jenkins Pipelines
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Tabla de contenidos" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#proposito">
+<span class="md-ellipsis">
+      
+        🎯 Propósito
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#jenkinsfiles-disponibles">
+<span class="md-ellipsis">
+      
+        📁 Jenkinsfiles Disponibles
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-analogia-del-director-de-taller">
+<span class="md-ellipsis">
+      
+        🚗 La Analogía del Director de Taller
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#como-funcionan-los-pipelines">
+<span class="md-ellipsis">
+      
+        🚀 Cómo Funcionan los Pipelines
+      
+    </span>
+</a>
+<nav aria-label="🚀 Cómo Funcionan los Pipelines" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pipeline-maestro-jenkinsfile">
+<span class="md-ellipsis">
+      
+        Pipeline Maestro (Jenkinsfile)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pipelines-individuales">
+<span class="md-ellipsis">
+      
+        Pipelines Individuales
+      
+    </span>
+</a>
+<nav aria-label="Pipelines Individuales" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#backend-c-jenkinsfilebackend">
+<span class="md-ellipsis">
+      
+        Backend C# (Jenkinsfile.backend)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-science-jenkinsfiledatascience">
+<span class="md-ellipsis">
+      
+        Data Science (Jenkinsfile.datascience)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#scrapper-rust-jenkinsfilescrapper">
+<span class="md-ellipsis">
+      
+        Scrapper Rust (Jenkinsfile.scrapper)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#frontend-web-jenkinsfilefrontend">
+<span class="md-ellipsis">
+      
+        Frontend Web (Jenkinsfile.frontend)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#para-principiantes">
+<span class="md-ellipsis">
+      
+        🎓 Para Principiantes
+      
+    </span>
+</a>
+<nav aria-label="🎓 Para Principiantes" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#que-es-un-jenkinsfile">
+<span class="md-ellipsis">
+      
+        ¿Qué es un Jenkinsfile?
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estructura-basica-de-un-pipeline">
+<span class="md-ellipsis">
+      
+        Estructura Básica de un Pipeline
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#conceptos-clave">
+<span class="md-ellipsis">
+      
+        Conceptos Clave
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flujo-de-trabajo-con-github">
+<span class="md-ellipsis">
+      
+        📊 Flujo de Trabajo con GitHub
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuracion-de-jenkins">
+<span class="md-ellipsis">
+      
+        🔧 Configuración de Jenkins
+      
+    </span>
+</a>
+<nav aria-label="🔧 Configuración de Jenkins" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#requisitos-previos">
+<span class="md-ellipsis">
+      
+        Requisitos Previos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#plugins-de-jenkins-necesarios">
+<span class="md-ellipsis">
+      
+        Plugins de Jenkins Necesarios
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configurar-un-job-en-jenkins">
+<span class="md-ellipsis">
+      
+        Configurar un Job en Jenkins
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estrategia-de-testing-por-rama">
+<span class="md-ellipsis">
+      
+        🎯 Estrategia de Testing por Rama
+      
+    </span>
+</a>
+<nav aria-label="🎯 Estrategia de Testing por Rama" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estado-actual">
+<span class="md-ellipsis">
+      
+        Estado Actual
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#credenciales-requeridas-para-deploy">
+<span class="md-ellipsis">
+      
+        🔑 Credenciales Requeridas para Deploy
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#-troubleshooting">
+<span class="md-ellipsis">
+      
+        🐛 Troubleshooting
+      
+    </span>
+</a>
+<nav aria-label="🐛 Troubleshooting" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-sh-command-not-found">
+<span class="md-ellipsis">
+      
+        Error: "sh: command not found"
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-permission-denied">
+<span class="md-ellipsis">
+      
+        Error: "Permission denied"
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pipeline-falla-pero-tests-pasan-localmente">
+<span class="md-ellipsis">
+      
+        Pipeline falla pero tests pasan localmente
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mejores-practicas">
+<span class="md-ellipsis">
+      
+        📈 Mejores Prácticas
+      
+    </span>
+</a>
+<nav aria-label="📈 Mejores Prácticas" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-manten-los-pipelines-simples">
+<span class="md-ellipsis">
+      
+        1. Mantén los Pipelines Simples
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-usa-variables-de-entorno">
+<span class="md-ellipsis">
+      
+        2. Usa Variables de Entorno
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-maneja-errores-apropiadamente">
+<span class="md-ellipsis">
+      
+        3. Maneja Errores Apropiadamente
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#integracion-con-github">
+<span class="md-ellipsis">
+      
+        🔗 Integración con GitHub
+      
+    </span>
+</a>
+<nav aria-label="🔗 Integración con GitHub" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configurar-webhook">
+<span class="md-ellipsis">
+      
+        Configurar Webhook
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#branch-protection-rules">
+<span class="md-ellipsis">
+      
+        Branch Protection Rules
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#recursos-adicionales">
+<span class="md-ellipsis">
+      
+        📚 Recursos Adicionales
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enlaces-relacionados">
+<span class="md-ellipsis">
+      
+        🔗 Enlaces Relacionados
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="CONFIGURACION_PASO_A_PASO/">
+<span class="md-ellipsis">
+    
+  
+    Configuración Paso a Paso
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="NOTIFICACIONES_WHATSAPP/">
+<span class="md-ellipsis">
+    
+  
+    Notificaciones WhatsApp
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    05. Componentes (Source)
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    05. Componentes (Source)
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../src/backend-csharp/">
+<span class="md-ellipsis">
+    
+  
+    Backend C#
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../src/data-science/">
+<span class="md-ellipsis">
+    
+  
+    Data Science
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../src/scrapper-rust/">
+<span class="md-ellipsis">
+    
+  
+    Scrapper Rust
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../src/mobile-apps/">
+<span class="md-ellipsis">
+    
+  
+    Mobile Apps
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../src/frontend-web/">
+<span class="md-ellipsis">
+    
+  
+    Frontend Web
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    06. Documentación
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    06. Documentación
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/guides/DEVELOPER_ONBOARDING/">
+<span class="md-ellipsis">
+    
+  
+    01. Onboarding
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/guides/DOCUMENTATION_FLOW/">
+<span class="md-ellipsis">
+    
+  
+    02. Mapa de Flujo
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/guides/GIT_WORKFLOW/">
+<span class="md-ellipsis">
+    
+  
+    03. Workflow de Git
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/guides/VERIFICACION_LOCAL_DESPLIEGUE/">
+<span class="md-ellipsis">
+    
+  
+    04. Verificación Local
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/">
+<span class="md-ellipsis">
+    
+  
+    05. Referencia Técnica
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    06. Base de Datos
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    06. Base de Datos
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/database/especificacion-tecnica-db-v2/">
+<span class="md-ellipsis">
+    
+  
+    Especificación v2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/database/db-commands/">
+<span class="md-ellipsis">
+    
+  
+    Comandos Útiles
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    07. Contratos y Datos
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    07. Contratos y Datos
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/data-contracts/contrato-json-scoring-v1/">
+<span class="md-ellipsis">
+    
+  
+    Contrato JSON Scoring
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/data/">
+<span class="md-ellipsis">
+    
+  
+    Gestión de Datos
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    08. Reuniones y Bitácoras
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    08. Reuniones y Bitácoras
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/meetings/estandar_reuniones/">
+<span class="md-ellipsis">
+    
+  
+    Estándar de Reuniones
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/meetings/2026-02-17-sprint-sync-mvp-leads/">
+<span class="md-ellipsis">
+    
+  
+    Sprint Sync (17-Feb)
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/meetings/2026-02-19-flujo-pipeline-narrado/">
+<span class="md-ellipsis">
+    
+  
+    Flujo Pipeline Narrado
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../docs/meetings/2026-02-19-week2out4-sprint-mvp-/">
+<span class="md-ellipsis">
+    
+  
+    Sprint MVP W2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Tabla de contenidos" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#proposito">
+<span class="md-ellipsis">
+      
+        🎯 Propósito
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#jenkinsfiles-disponibles">
+<span class="md-ellipsis">
+      
+        📁 Jenkinsfiles Disponibles
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-analogia-del-director-de-taller">
+<span class="md-ellipsis">
+      
+        🚗 La Analogía del Director de Taller
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#como-funcionan-los-pipelines">
+<span class="md-ellipsis">
+      
+        🚀 Cómo Funcionan los Pipelines
+      
+    </span>
+</a>
+<nav aria-label="🚀 Cómo Funcionan los Pipelines" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pipeline-maestro-jenkinsfile">
+<span class="md-ellipsis">
+      
+        Pipeline Maestro (Jenkinsfile)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pipelines-individuales">
+<span class="md-ellipsis">
+      
+        Pipelines Individuales
+      
+    </span>
+</a>
+<nav aria-label="Pipelines Individuales" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#backend-c-jenkinsfilebackend">
+<span class="md-ellipsis">
+      
+        Backend C# (Jenkinsfile.backend)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-science-jenkinsfiledatascience">
+<span class="md-ellipsis">
+      
+        Data Science (Jenkinsfile.datascience)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#scrapper-rust-jenkinsfilescrapper">
+<span class="md-ellipsis">
+      
+        Scrapper Rust (Jenkinsfile.scrapper)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#frontend-web-jenkinsfilefrontend">
+<span class="md-ellipsis">
+      
+        Frontend Web (Jenkinsfile.frontend)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#para-principiantes">
+<span class="md-ellipsis">
+      
+        🎓 Para Principiantes
+      
+    </span>
+</a>
+<nav aria-label="🎓 Para Principiantes" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#que-es-un-jenkinsfile">
+<span class="md-ellipsis">
+      
+        ¿Qué es un Jenkinsfile?
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estructura-basica-de-un-pipeline">
+<span class="md-ellipsis">
+      
+        Estructura Básica de un Pipeline
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#conceptos-clave">
+<span class="md-ellipsis">
+      
+        Conceptos Clave
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flujo-de-trabajo-con-github">
+<span class="md-ellipsis">
+      
+        📊 Flujo de Trabajo con GitHub
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuracion-de-jenkins">
+<span class="md-ellipsis">
+      
+        🔧 Configuración de Jenkins
+      
+    </span>
+</a>
+<nav aria-label="🔧 Configuración de Jenkins" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#requisitos-previos">
+<span class="md-ellipsis">
+      
+        Requisitos Previos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#plugins-de-jenkins-necesarios">
+<span class="md-ellipsis">
+      
+        Plugins de Jenkins Necesarios
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configurar-un-job-en-jenkins">
+<span class="md-ellipsis">
+      
+        Configurar un Job en Jenkins
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estrategia-de-testing-por-rama">
+<span class="md-ellipsis">
+      
+        🎯 Estrategia de Testing por Rama
+      
+    </span>
+</a>
+<nav aria-label="🎯 Estrategia de Testing por Rama" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#estado-actual">
+<span class="md-ellipsis">
+      
+        Estado Actual
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#credenciales-requeridas-para-deploy">
+<span class="md-ellipsis">
+      
+        🔑 Credenciales Requeridas para Deploy
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#-troubleshooting">
+<span class="md-ellipsis">
+      
+        🐛 Troubleshooting
+      
+    </span>
+</a>
+<nav aria-label="🐛 Troubleshooting" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-sh-command-not-found">
+<span class="md-ellipsis">
+      
+        Error: "sh: command not found"
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-permission-denied">
+<span class="md-ellipsis">
+      
+        Error: "Permission denied"
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pipeline-falla-pero-tests-pasan-localmente">
+<span class="md-ellipsis">
+      
+        Pipeline falla pero tests pasan localmente
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mejores-practicas">
+<span class="md-ellipsis">
+      
+        📈 Mejores Prácticas
+      
+    </span>
+</a>
+<nav aria-label="📈 Mejores Prácticas" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-manten-los-pipelines-simples">
+<span class="md-ellipsis">
+      
+        1. Mantén los Pipelines Simples
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-usa-variables-de-entorno">
+<span class="md-ellipsis">
+      
+        2. Usa Variables de Entorno
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-maneja-errores-apropiadamente">
+<span class="md-ellipsis">
+      
+        3. Maneja Errores Apropiadamente
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#integracion-con-github">
+<span class="md-ellipsis">
+      
+        🔗 Integración con GitHub
+      
+    </span>
+</a>
+<nav aria-label="🔗 Integración con GitHub" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configurar-webhook">
+<span class="md-ellipsis">
+      
+        Configurar Webhook
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#branch-protection-rules">
+<span class="md-ellipsis">
+      
+        Branch Protection Rules
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#recursos-adicionales">
+<span class="md-ellipsis">
+      
+        📚 Recursos Adicionales
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enlaces-relacionados">
+<span class="md-ellipsis">
+      
+        🔗 Enlaces Relacionados
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="05-equinelead-jenkins-cicd-pipelines">05. 🔧 EquineLead - Jenkins CI/CD Pipelines<a class="headerlink" href="#05-equinelead-jenkins-cicd-pipelines" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>📍 <strong>Navegación</strong>: <a href="../../">🏠 Inicio</a> → <a href="../">CI/CD</a> → Jenkins Pipelines
+📖 <strong>Guía Rápida</strong>: <a href="CONFIGURACION_PASO_A_PASO/">Configuración Paso a Paso (Unlock, Secrets, Webhooks)</a></p>
+<p><strong>Analogía</strong>: Jenkins es el <strong>director del taller mecánico</strong> de EquineLead. Coordina a todos los mecánicos automáticos (scripts), decide cuándo inspeccionar el auto (ejecutar tests), y asegura que solo vehículos en perfecto estado salgan a la pista (producción).</p>
+</blockquote>
+<hr/>
+<h2 id="proposito">🎯 <strong>Propósito</strong><a class="headerlink" href="#proposito" title="Permanent link">¶</a></h2>
+<p>Esta carpeta contiene los Jenkinsfiles que definen los pipelines de CI/CD para el proyecto EquineLead. Cada Jenkinsfile es como un "manual de procedimientos" que Jenkins sigue automáticamente.</p>
+<hr/>
+<h2 id="jenkinsfiles-disponibles">📁 <strong>Jenkinsfiles Disponibles</strong><a class="headerlink" href="#jenkinsfiles-disponibles" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>jenkins/
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>├── Jenkinsfile                   # 🚀 Pipeline maestro (ejecuta todos)
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>├── Jenkinsfile.backend           # 🔧 Pipeline para Backend C#
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>├── Jenkinsfile.datascience       # 🧠 Pipeline para Data Science
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>├── Jenkinsfile.scrapper          # 🦀 Pipeline para Scrapper Rust
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>├── Jenkinsfile.frontend          # 🎨 Pipeline para Frontend Web
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>├── Jenkinsfile.mobile-ios        # 📱 Pipeline para iOS (futuro)
+<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>├── Jenkinsfile.mobile-android    # 📱 Pipeline para Android (futuro)
+<a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>└── README.md                     # Este archivo
+</code></pre></div>
+<hr/>
+<h2 id="la-analogia-del-director-de-taller">🚗 <strong>La Analogía del Director de Taller</strong><a class="headerlink" href="#la-analogia-del-director-de-taller" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Jenkinsfile</th>
+<th>Rol del Director</th>
+<th>Qué Coordina</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Jenkinsfile</code></td>
+<td>👨‍💼 Director General</td>
+<td>Coordina todos los pipelines</td>
+</tr>
+<tr>
+<td><code>Jenkinsfile.backend</code></td>
+<td>🔧 Supervisor del Motor</td>
+<td>Inspección del Backend</td>
+</tr>
+<tr>
+<td><code>Jenkinsfile.datascience</code></td>
+<td>🧠 Jefe de Electrónica</td>
+<td>Inspección de IA/ML</td>
+</tr>
+<tr>
+<td><code>Jenkinsfile.scrapper</code></td>
+<td>📡 Coordinador de Sensores</td>
+<td>Inspección del Scrapper</td>
+</tr>
+<tr>
+<td><code>Jenkinsfile.frontend</code></td>
+<td>🎨 Diseñador Jefe</td>
+<td>Inspección de UI</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="como-funcionan-los-pipelines">🚀 <strong>Cómo Funcionan los Pipelines</strong><a class="headerlink" href="#como-funcionan-los-pipelines" title="Permanent link">¶</a></h2>
+<h3 id="pipeline-maestro-jenkinsfile"><strong>Pipeline Maestro</strong> (<code>Jenkinsfile</code>)<a class="headerlink" href="#pipeline-maestro-jenkinsfile" title="Permanent link">¶</a></h3>
+<p>Este es el pipeline principal que ejecuta todos los demás:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">pipeline</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">    </span><span class="n">agent</span><span class="w"> </span><span class="n">any</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">    </span><span class="n">stages</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">        </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Checkout'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">            </span><span class="c1">// Descarga el código del repositorio</span>
+<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">        </span><span class="o">}</span>
+<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a>
+<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">        </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Check Builds'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="w">            </span><span class="c1">// Verifica que todo compile</span>
+<a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">        </span><span class="o">}</span>
+<a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a>
+<a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="w">        </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Run All Tests'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="w">            </span><span class="n">parallel</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="w">                </span><span class="c1">// Ejecuta tests en paralelo</span>
+<a href="#__codelineno-1-16" id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="w">                </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Backend'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="o">}</span>
+<a href="#__codelineno-1-17" id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="w">                </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Data Science'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="o">}</span>
+<a href="#__codelineno-1-18" id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="w">                </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Scrapper'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="o">}</span>
+<a href="#__codelineno-1-19" id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="w">                </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Frontend'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="o">}</span>
+<a href="#__codelineno-1-20" id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="w">            </span><span class="o">}</span>
+<a href="#__codelineno-1-21" id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="w">        </span><span class="o">}</span>
+<a href="#__codelineno-1-22" id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-1-23" id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="o">}</span>
+</code></pre></div>
+<p><strong>Cuándo se ejecuta</strong>:
+- En cada Pull Request
+- En cada merge a <code>dev</code> o <code>main</code>
+- Manualmente desde Jenkins</p>
+<hr/>
+<h3 id="pipelines-individuales"><strong>Pipelines Individuales</strong><a class="headerlink" href="#pipelines-individuales" title="Permanent link">¶</a></h3>
+<p>Cada componente tiene su propio pipeline:</p>
+<h4 id="backend-c-jenkinsfilebackend"><strong>Backend C#</strong> (<code>Jenkinsfile.backend</code>)<a class="headerlink" href="#backend-c-jenkinsfilebackend" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="n">stages</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">    </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Build'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">        </span><span class="n">sh</span><span class="w"> </span><span class="s1">'dotnet build src/backend-csharp/'</span>
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">    </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Test'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">        </span><span class="n">sh</span><span class="w"> </span><span class="s1">'./tests/scripts/run_backend_tests.sh'</span>
+<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="o">}</span>
+</code></pre></div>
+<h4 id="data-science-jenkinsfiledatascience"><strong>Data Science</strong> (<code>Jenkinsfile.datascience</code>)<a class="headerlink" href="#data-science-jenkinsfiledatascience" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="n">stages</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">    </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Setup'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">        </span><span class="n">sh</span><span class="w"> </span><span class="s1">'pip install -r src/data-science/requirements.txt'</span>
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Test'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">        </span><span class="n">sh</span><span class="w"> </span><span class="s1">'./tests/scripts/run_datascience_tests.sh'</span>
+<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="o">}</span>
+</code></pre></div>
+<h4 id="scrapper-rust-jenkinsfilescrapper"><strong>Scrapper Rust</strong> (<code>Jenkinsfile.scrapper</code>)<a class="headerlink" href="#scrapper-rust-jenkinsfilescrapper" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="n">stages</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">    </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Build'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">        </span><span class="n">sh</span><span class="w"> </span><span class="s1">'cargo build --manifest-path src/scrapper-rust/Cargo.toml'</span>
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="w">    </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Test'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">        </span><span class="n">sh</span><span class="w"> </span><span class="s1">'./tests/scripts/run_scrapper_tests.sh'</span>
+<a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="o">}</span>
+</code></pre></div>
+<h4 id="frontend-web-jenkinsfilefrontend"><strong>Frontend Web</strong> (<code>Jenkinsfile.frontend</code>)<a class="headerlink" href="#frontend-web-jenkinsfilefrontend" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="n">stages</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">    </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Install'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">        </span><span class="n">sh</span><span class="w"> </span><span class="s1">'npm install --prefix src/frontend-web'</span>
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">    </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Build'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">        </span><span class="n">sh</span><span class="w"> </span><span class="s1">'npm run build --prefix src/frontend-web'</span>
+<a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">    </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Test'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">        </span><span class="n">sh</span><span class="w"> </span><span class="s1">'./tests/scripts/run_frontend_tests.sh'</span>
+<a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="o">}</span>
+</code></pre></div>
+<hr/>
+<h2 id="para-principiantes">🎓 <strong>Para Principiantes</strong><a class="headerlink" href="#para-principiantes" title="Permanent link">¶</a></h2>
+<h3 id="que-es-un-jenkinsfile"><strong>¿Qué es un Jenkinsfile?</strong><a class="headerlink" href="#que-es-un-jenkinsfile" title="Permanent link">¶</a></h3>
+<p>Un <strong>Jenkinsfile</strong> es un archivo que define un "pipeline" (flujo de trabajo) en Jenkins. Es como una receta que le dice a Jenkins:</p>
+<ol>
+<li><strong>Qué hacer</strong> (build, test, deploy)</li>
+<li><strong>Cuándo hacerlo</strong> (en cada push, PR, etc.)</li>
+<li><strong>Cómo reportar</strong> (éxito, fallo, warnings)</li>
+</ol>
+<h3 id="estructura-basica-de-un-pipeline"><strong>Estructura Básica de un Pipeline</strong><a class="headerlink" href="#estructura-basica-de-un-pipeline" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">pipeline</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="w">    </span><span class="n">agent</span><span class="w"> </span><span class="n">any</span><span class="w">  </span><span class="c1">// ← Dónde ejecutar (cualquier agente disponible)</span>
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">    </span><span class="n">environment</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="w">        </span><span class="c1">// Variables de entorno</span>
+<a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="w">        </span><span class="n">PROJECT_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'EquineLead'</span>
+<a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a>
+<a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="w">    </span><span class="n">stages</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="w">        </span><span class="c1">// Etapas del pipeline</span>
+<a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="w">        </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Build'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="w">            </span><span class="n">steps</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="w">                </span><span class="c1">// Comandos a ejecutar</span>
+<a href="#__codelineno-6-14" id="__codelineno-6-14" name="__codelineno-6-14"></a><span class="w">                </span><span class="n">sh</span><span class="w"> </span><span class="s1">'npm install'</span>
+<a href="#__codelineno-6-15" id="__codelineno-6-15" name="__codelineno-6-15"></a><span class="w">            </span><span class="o">}</span>
+<a href="#__codelineno-6-16" id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="w">        </span><span class="o">}</span>
+<a href="#__codelineno-6-17" id="__codelineno-6-17" name="__codelineno-6-17"></a>
+<a href="#__codelineno-6-18" id="__codelineno-6-18" name="__codelineno-6-18"></a><span class="w">        </span><span class="n">stage</span><span class="o">(</span><span class="s1">'Test'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-19" id="__codelineno-6-19" name="__codelineno-6-19"></a><span class="w">            </span><span class="n">steps</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-20" id="__codelineno-6-20" name="__codelineno-6-20"></a><span class="w">                </span><span class="n">sh</span><span class="w"> </span><span class="s1">'npm test'</span>
+<a href="#__codelineno-6-21" id="__codelineno-6-21" name="__codelineno-6-21"></a><span class="w">            </span><span class="o">}</span>
+<a href="#__codelineno-6-22" id="__codelineno-6-22" name="__codelineno-6-22"></a><span class="w">        </span><span class="o">}</span>
+<a href="#__codelineno-6-23" id="__codelineno-6-23" name="__codelineno-6-23"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-6-24" id="__codelineno-6-24" name="__codelineno-6-24"></a>
+<a href="#__codelineno-6-25" id="__codelineno-6-25" name="__codelineno-6-25"></a><span class="w">    </span><span class="n">post</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-26" id="__codelineno-6-26" name="__codelineno-6-26"></a><span class="w">        </span><span class="c1">// Qué hacer después</span>
+<a href="#__codelineno-6-27" id="__codelineno-6-27" name="__codelineno-6-27"></a><span class="w">        </span><span class="n">success</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-28" id="__codelineno-6-28" name="__codelineno-6-28"></a><span class="w">            </span><span class="n">echo</span><span class="w"> </span><span class="s1">'✅ Pipeline exitoso'</span>
+<a href="#__codelineno-6-29" id="__codelineno-6-29" name="__codelineno-6-29"></a><span class="w">        </span><span class="o">}</span>
+<a href="#__codelineno-6-30" id="__codelineno-6-30" name="__codelineno-6-30"></a><span class="w">        </span><span class="n">failure</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-6-31" id="__codelineno-6-31" name="__codelineno-6-31"></a><span class="w">            </span><span class="n">echo</span><span class="w"> </span><span class="s1">'❌ Pipeline falló'</span>
+<a href="#__codelineno-6-32" id="__codelineno-6-32" name="__codelineno-6-32"></a><span class="w">        </span><span class="o">}</span>
+<a href="#__codelineno-6-33" id="__codelineno-6-33" name="__codelineno-6-33"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-6-34" id="__codelineno-6-34" name="__codelineno-6-34"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="conceptos-clave"><strong>Conceptos Clave</strong><a class="headerlink" href="#conceptos-clave" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Qué es</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pipeline</strong></td>
+<td>Flujo de trabajo completo</td>
+<td>Build → Test → Deploy</td>
+</tr>
+<tr>
+<td><strong>Stage</strong></td>
+<td>Etapa del pipeline</td>
+<td>"Build", "Test", "Deploy"</td>
+</tr>
+<tr>
+<td><strong>Step</strong></td>
+<td>Acción individual</td>
+<td><code>sh 'npm test'</code></td>
+</tr>
+<tr>
+<td><strong>Agent</strong></td>
+<td>Dónde se ejecuta</td>
+<td><code>agent any</code></td>
+</tr>
+<tr>
+<td><strong>Post</strong></td>
+<td>Acciones finales</td>
+<td>Notificaciones, limpieza</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="flujo-de-trabajo-con-github">📊 <strong>Flujo de Trabajo con GitHub</strong><a class="headerlink" href="#flujo-de-trabajo-con-github" title="Permanent link">¶</a></h2>
+<pre class="mermaid"><code>graph LR
+    A[Developer hace Push] --&gt; B[GitHub Webhook]
+    B --&gt; C[Jenkins detecta cambio]
+    C --&gt; D{¿Qué rama?}
+    D --&gt;|feature/*| E[Ejecuta tests básicos]
+    D --&gt;|dev| F[Ejecuta todos los tests]
+    D --&gt;|main| G[Tests + Deploy]
+    E --&gt; H{¿Pasaron?}
+    F --&gt; H
+    G --&gt; H
+    H --&gt;|✅ Sí| I[Marca PR como aprobado]
+    H --&gt;|❌ No| J[Bloquea PR]</code></pre>
+<hr/>
+<h2 id="configuracion-de-jenkins">🔧 <strong>Configuración de Jenkins</strong><a class="headerlink" href="#configuracion-de-jenkins" title="Permanent link">¶</a></h2>
+<h3 id="requisitos-previos"><strong>Requisitos Previos</strong><a class="headerlink" href="#requisitos-previos" title="Permanent link">¶</a></h3>
+<p>Para que los Jenkinsfiles funcionen, Jenkins debe tener instalado:</p>
+<ul>
+<li>✅ <strong>.NET SDK 6.0+</strong> (para Backend C#)</li>
+<li>✅ <strong>Python 3.8+</strong> (para Data Science)</li>
+<li>✅ <strong>Rust/Cargo</strong> (para Scrapper)</li>
+<li>✅ <strong>Node.js 16+</strong> (para Frontend)</li>
+<li>✅ <strong>Git</strong> (para checkout de código)</li>
+</ul>
+<h3 id="plugins-de-jenkins-necesarios"><strong>Plugins de Jenkins Necesarios</strong><a class="headerlink" href="#plugins-de-jenkins-necesarios" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>- Pipeline Plugin
+<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a>- Git Plugin
+<a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a>- GitHub Plugin
+<a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a>- SSH Agent Plugin   ← requerido para deploy SSH a AWS
+<a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a>- Docker Pipeline (futuro)
+<a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a>- Blue Ocean (opcional, para UI mejorada)
+</code></pre></div>
+<h3 id="configurar-un-job-en-jenkins"><strong>Configurar un Job en Jenkins</strong><a class="headerlink" href="#configurar-un-job-en-jenkins" title="Permanent link">¶</a></h3>
+<ol>
+<li><strong>Crear nuevo Pipeline Job</strong></li>
+<li>
+<p>New Item → Pipeline → OK</p>
+</li>
+<li>
+<p><strong>Configurar GitHub</strong></p>
+</li>
+<li>
+<p>Build Triggers → GitHub hook trigger</p>
+</li>
+<li>
+<p><strong>Definir Pipeline</strong></p>
+</li>
+<li>Pipeline → Pipeline script from SCM</li>
+<li>SCM: Git</li>
+<li>Repository URL: <code>https://github.com/tu-org/equine-lead.git</code></li>
+<li>
+<p>Script Path: <code>ci-cd/jenkins/Jenkinsfile</code></p>
+</li>
+<li>
+<p><strong>Guardar y ejecutar</strong></p>
+</li>
+</ol>
+<hr/>
+<h2 id="estrategia-de-testing-por-rama">🎯 <strong>Estrategia de Testing por Rama</strong><a class="headerlink" href="#estrategia-de-testing-por-rama" title="Permanent link">¶</a></h2>
+<h3 id="estado-actual"><strong>Estado Actual</strong><a class="headerlink" href="#estado-actual" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Rama</th>
+<th>Trigger</th>
+<th>Jenkins Ejecuta</th>
+<th>Deploy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>feature/*</code></td>
+<td>Push</td>
+<td>Build + Tests</td>
+<td>❌ No</td>
+</tr>
+<tr>
+<td><code>dev</code></td>
+<td>Merge PR</td>
+<td>Build + Tests</td>
+<td>✅ AWS App Server (Mock)</td>
+</tr>
+<tr>
+<td><code>main</code></td>
+<td>Merge PR</td>
+<td>Build + Tests</td>
+<td>❌ No (futuro: producción)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>El deploy en <code>dev</code> actualmente levanta el <strong>Mock de Nginx</strong> en <code>44.202.43.214</code>.
+Cuando los servicios reales estén listos, se reemplazará <code>docker-compose.mock.yml</code> por <code>docker-compose.yml</code>.</p>
+</blockquote>
+<hr/>
+<h2 id="credenciales-requeridas-para-deploy">🔑 <strong>Credenciales Requeridas para Deploy</strong><a class="headerlink" href="#credenciales-requeridas-para-deploy" title="Permanent link">¶</a></h2>
+<p>Para que la etapa de deploy SSH a AWS funcione, Jenkins necesita estas credenciales
+registradas en <strong>Manage Jenkins → Credentials → System → Global credentials</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Tipo</th>
+<th>Descripción</th>
+<th>Cómo registrar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app-server-ip</code></td>
+<td>Secret text</td>
+<td>IP pública del App Server activo</td>
+<td>Valor: IP del servidor (ej. <code>44.202.43.214</code>)</td>
+</tr>
+<tr>
+<td><code>aws-app-server-key</code></td>
+<td>SSH Username with private key</td>
+<td>Acceso SSH al App Server</td>
+<td>Username: <code>ubuntu</code>, Key: contenido del <code>.pem</code></td>
+</tr>
+<tr>
+<td><code>db-name</code></td>
+<td>Secret text</td>
+<td>Nombre de la base de datos PostgreSQL</td>
+<td>Valor: Nombre de la base de datos (ej. <code>equine_db</code>)</td>
+</tr>
+<tr>
+<td><code>db-user</code></td>
+<td>Secret text</td>
+<td>Usuario administrador de PostgreSQL</td>
+<td>Valor: Nombre del usuario de la BD</td>
+</tr>
+<tr>
+<td><code>db-password</code></td>
+<td>Secret text</td>
+<td>Contraseña del usuario administrador</td>
+<td>Valor: Contraseña segura de la BD</td>
+</tr>
+<tr>
+<td><code>JWT_SECRET</code></td>
+<td>Secret text</td>
+<td>Clave secreta para el Backend C#</td>
+<td>Valor: Una cadena larga y segura de caracteres</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>Importante</strong>: Si el App Server cambia de IP (reinstalación de instancia, migración de AWS a OCI),
+basta con actualizar el valor de <code>app-server-ip</code> en Jenkins. No se necesita tocar el código.</p>
+</blockquote>
+<hr/>
+<h2 id="-troubleshooting">🐛 <strong>Troubleshooting</strong><a class="headerlink" href="#-troubleshooting" title="Permanent link">¶</a></h2>
+<h3 id="error-sh-command-not-found"><strong>Error: "sh: command not found"</strong><a class="headerlink" href="#error-sh-command-not-found" title="Permanent link">¶</a></h3>
+<p><strong>Causa</strong>: La herramienta no está instalada en el agente de Jenkins.</p>
+<p><strong>Solución</strong>: Instalar en el servidor de Jenkins
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1"># En el servidor de Jenkins</span>
+<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>dotnet-sdk-6.0<span class="w"> </span>nodejs<span class="w"> </span>npm
+</code></pre></div></p>
+<h3 id="error-permission-denied"><strong>Error: "Permission denied"</strong><a class="headerlink" href="#error-permission-denied" title="Permanent link">¶</a></h3>
+<p><strong>Causa</strong>: Los scripts no tienen permisos de ejecución.</p>
+<p><strong>Solución</strong>: Agregar permisos en el repositorio
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>tests/scripts/*.sh
+<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a>git<span class="w"> </span>add<span class="w"> </span>tests/scripts/*.sh
+<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Add execute permissions to scripts"</span>
+</code></pre></div></p>
+<h3 id="pipeline-falla-pero-tests-pasan-localmente"><strong>Pipeline falla pero tests pasan localmente</strong><a class="headerlink" href="#pipeline-falla-pero-tests-pasan-localmente" title="Permanent link">¶</a></h3>
+<p><strong>Posibles causas</strong>:
+- Variables de entorno diferentes
+- Rutas relativas vs absolutas
+- Dependencias no instaladas en Jenkins</p>
+<p><strong>Solución</strong>: Verificar logs de Jenkins y comparar con ambiente local</p>
+<hr/>
+<h2 id="mejores-practicas">📈 <strong>Mejores Prácticas</strong><a class="headerlink" href="#mejores-practicas" title="Permanent link">¶</a></h2>
+<h3 id="1-manten-los-pipelines-simples"><strong>1. Mantén los Pipelines Simples</strong><a class="headerlink" href="#1-manten-los-pipelines-simples" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c1">// ✅ BIEN: Delega lógica a scripts</span>
+<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="n">stage</span><span class="o">(</span><span class="s1">'Test'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">    </span><span class="n">sh</span><span class="w"> </span><span class="s1">'./tests/scripts/run_backend_tests.sh'</span>
+<a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="o">}</span>
+<a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a>
+<a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="c1">// ❌ MAL: Lógica compleja en Jenkinsfile</span>
+<a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="n">stage</span><span class="o">(</span><span class="s1">'Test'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="w">    </span><span class="n">sh</span><span class="w"> </span><span class="s1">'cd src &amp;&amp; dotnet restore &amp;&amp; dotnet build &amp;&amp; cd ../tests &amp;&amp; dotnet test'</span>
+<a href="#__codelineno-10-9" id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="2-usa-variables-de-entorno"><strong>2. Usa Variables de Entorno</strong><a class="headerlink" href="#2-usa-variables-de-entorno" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">environment</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="w">    </span><span class="n">PROJECT_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'EquineLead'</span>
+<a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="w">    </span><span class="n">BUILD_CONFIG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Release'</span>
+<a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="o">}</span>
+<a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a>
+<a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="n">stage</span><span class="o">(</span><span class="s1">'Build'</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="w">    </span><span class="n">sh</span><span class="w"> </span><span class="s2">"dotnet build --configuration ${BUILD_CONFIG}"</span>
+<a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="3-maneja-errores-apropiadamente"><strong>3. Maneja Errores Apropiadamente</strong><a class="headerlink" href="#3-maneja-errores-apropiadamente" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="n">post</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="w">    </span><span class="n">success</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="w">        </span><span class="n">echo</span><span class="w"> </span><span class="s1">'✅ Pipeline exitoso'</span>
+<a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="w">        </span><span class="c1">// Notificar al equipo</span>
+<a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="w">    </span><span class="n">failure</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="w">        </span><span class="n">echo</span><span class="w"> </span><span class="s1">'❌ Pipeline falló'</span>
+<a href="#__codelineno-12-8" id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="w">        </span><span class="c1">// Notificación de WhatsApp (Rich Summary)</span>
+<a href="#__codelineno-12-9" id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="w">        </span><span class="n">script</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-12-10" id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="w">            </span><span class="n">sh</span><span class="w"> </span><span class="s2">"./ci-cd/jenkins/scripts/notify_whatsapp.sh FAILURE ${BRANCH_NAME} ${commitHash} summary_wa.txt"</span>
+<a href="#__codelineno-12-11" id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="w">        </span><span class="o">}</span>
+<a href="#__codelineno-12-12" id="__codelineno-12-12" name="__codelineno-12-12"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-12-13" id="__codelineno-12-13" name="__codelineno-12-13"></a><span class="w">    </span><span class="n">always</span><span class="w"> </span><span class="o">{</span>
+<a href="#__codelineno-12-14" id="__codelineno-12-14" name="__codelineno-12-14"></a><span class="w">        </span><span class="n">cleanWs</span><span class="o">()</span><span class="w">  </span><span class="c1">// Limpiar workspace</span>
+<a href="#__codelineno-12-15" id="__codelineno-12-15" name="__codelineno-12-15"></a><span class="w">    </span><span class="o">}</span>
+<a href="#__codelineno-12-16" id="__codelineno-12-16" name="__codelineno-12-16"></a><span class="o">}</span>
+</code></pre></div>
+<hr/>
+<h2 id="integracion-con-github">🔗 <strong>Integración con GitHub</strong><a class="headerlink" href="#integracion-con-github" title="Permanent link">¶</a></h2>
+<h3 id="configurar-webhook"><strong>Configurar Webhook</strong><a class="headerlink" href="#configurar-webhook" title="Permanent link">¶</a></h3>
+<ol>
+<li>En GitHub: Settings → Webhooks → Add webhook</li>
+<li>Payload URL: <code>http://tu-jenkins.com/github-webhook/</code></li>
+<li>Content type: <code>application/json</code></li>
+<li>Events: <code>Push</code>, <code>Pull request</code></li>
+</ol>
+<h3 id="branch-protection-rules"><strong>Branch Protection Rules</strong><a class="headerlink" href="#branch-protection-rules" title="Permanent link">¶</a></h3>
+<p>Configurar en GitHub para requerir que Jenkins pase:</p>
+<ol>
+<li>Settings → Branches → Add rule</li>
+<li>Branch name pattern: <code>dev</code>, <code>main</code></li>
+<li>✅ Require status checks to pass</li>
+<li>✅ Require branches to be up to date</li>
+<li>Select: <code>continuous-integration/jenkins</code></li>
+</ol>
+<hr/>
+<h2 id="recursos-adicionales">📚 <strong>Recursos Adicionales</strong><a class="headerlink" href="#recursos-adicionales" title="Permanent link">¶</a></h2>
+<ul>
+<li><a href="https://www.jenkins.io/doc/">Documentación oficial de Jenkins</a></li>
+<li><a href="https://www.jenkins.io/doc/book/pipeline/syntax/">Pipeline Syntax Reference</a></li>
+<li><a href="https://www.jenkins.io/doc/book/pipeline/pipeline-best-practices/">Best Practices</a></li>
+</ul>
+<hr/>
+<h2 id="enlaces-relacionados">🔗 <strong>Enlaces Relacionados</strong><a class="headerlink" href="#enlaces-relacionados" title="Permanent link">¶</a></h2>
+<ul>
+<li><a href="../../">🏠 <strong>README Principal</strong></a> - Visión general del proyecto</li>
+<li><a href="../../infrastructure/">🏗️ <strong>Infraestructura</strong></a> - Arquitectura y deployment</li>
+<li><a href="../">🤖 <strong>CI/CD y DevOps</strong></a> - Guía maestra de automatización</li>
+<li><a href="../../tests/">🧪 <strong>Infraestructura de Testing</strong></a> - Guía completa de tests</li>
+<li><a href="../../tests/scripts/">📜 <strong>Scripts de Automatización</strong></a> - Scripts bash</li>
+<li><a href="../../tests/backend-csharp/">📖 <strong>Backend C# Tests</strong></a></li>
+<li><a href="../../tests/data-science/">📖 <strong>Data Science Tests</strong></a></li>
+<li><a href="../../tests/scrapper-rust/">📖 <strong>Scrapper Rust Tests</strong></a></li>
+<li><a href="../../tests/frontend-web/">📖 <strong>Frontend Web Tests</strong></a></li>
+</ul>
+<hr/>
+<blockquote>
+<p><strong>Recuerda</strong>: Un buen director de taller asegura que solo autos perfectos salgan a la pista. ¡Configura Jenkins correctamente! 🤖✨</p>
+</blockquote>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Volver al principio
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pie" class="md-footer__inner md-grid">
+<a aria-label="Anterior: Automatización Jenkins" class="md-footer__link md-footer__link--prev" href="../docs/03-Automatizacion-Jenkins/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Anterior
+              </span>
+<div class="md-ellipsis">
+                Automatización Jenkins
+              </div>
+</div>
+</a>
+<a aria-label="Siguiente: Configuración Paso a Paso" class="md-footer__link md-footer__link--next" href="CONFIGURACION_PASO_A_PASO/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Siguiente
+              </span>
+<div class="md-ellipsis">
+                Configuración Paso a Paso
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+</body>
+</html>
