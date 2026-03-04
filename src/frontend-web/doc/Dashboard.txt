@@ -1,0 +1,65 @@
+import { useEffect, useState } from "react";
+import {
+  getDashboardMetrics,
+  getInteractionSources,
+  getFunnelData,
+  getClassificationEvolution,
+} from "../services/api";
+
+import type {
+  DashboardMetrics,
+  InteractionSource,
+  FunnelData,
+  ClassificationData,
+} from "../services/api";
+
+import StatCard from "../components/StatCard";
+import InteractionChart from "../components/InteractionChart";
+import CustomFunnel from "../components/FunnelChart";
+import ClassificationChart from "../components/ClassificationChart";
+
+export default function Dashboard() {
+  const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
+  const [interactionData, setInteractionData] = useState<InteractionSource[]>([]);
+  const [funnelData, setFunnelData] = useState<FunnelData[]>([]);
+  const [classificationData, setClassificationData] =
+    useState<ClassificationData[]>([]);
+
+  useEffect(() => {
+    getDashboardMetrics().then(res => setMetrics(res.data));
+    getInteractionSources().then(res => setInteractionData(res.data));
+    getFunnelData().then(res => setFunnelData(res.data));
+    getClassificationEvolution().then(res => setClassificationData(res.data));
+  }, []);
+
+  if (!metrics) return <div className="p-8">Loading...</div>;
+
+  return (
+    <div className="p-8 space-y-8">
+      <h1 className="text-2xl font-bold">Analytics Dashboard</h1>
+
+      <div className="grid grid-cols-4 gap-6">
+        <StatCard title="Average Score" value={metrics.averageScore} percentage="+5%" />
+        <StatCard title="Number of Leads" value={metrics.totalLeads} percentage="+12%" />
+        <StatCard
+          title="Effectivity"
+          value={`${metrics.effectivity}%`}
+          percentage="-2%"
+          positive={false}
+        />
+        <StatCard
+          title="Average Ticket"
+          value={`$${metrics.averageTicket}`}
+          percentage="+8%"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-6">
+        <InteractionChart data={interactionData} />
+        <CustomFunnel data={funnelData} />
+      </div>
+
+      <ClassificationChart data={classificationData} />
+    </div>
+  );
+}

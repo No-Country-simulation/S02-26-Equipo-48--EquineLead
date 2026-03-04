@@ -1,14 +1,12 @@
-# 🔬 Guía de Verificación Local de Despliegue
+# 2. Verificación de Orquestación (Docker)
 
-Esta guía detalla cómo validar cada componente de la nueva infraestructura de despliegue sin necesidad de realizar constantes commits o disparar el pipeline de Jenkins innecesariamente.
+Esta guía detalla cómo validar que el empaquetado en contenedores y la comunicación entre ellos funciona correctamente, simulando el entorno final de AWS.
 
 > [!IMPORTANT]
-> Todos los comandos de esta guía deben ejecutarse desde la raíz del proyecto: `/home/degops/Projects/Repositorios/repo_NoCountryChallenges/work-simulation/equine-lead`.
+> **Paso Previo:** Antes de proceder con esta guía, asegúrate de haber completado la **[1. Verificación Local Nativa (Desarrollo)](/home/degops/Projects/Repositorios/repo_NoCountryChallenges/work-simulation/equine-lead/docs/guides/1_VERIFICACION_LOCAL_NATIVA.md)** para confirmar que la lógica del código es correcta.
 
----
-
-## 1. 🐳 Validación de Orquestación (Docker Compose)
-**Objetivo:** Asegurar que el `docker-compose.yml` y los `Dockerfile` de los servicios reales funcionan y se comunican entre sí.
+## Objetivo
+Asegurar que el `docker-compose.yml` y los `Dockerfile` de los servicios funcionan y se comunican entre sí en una red aislada.
 
 ### Pasos:
 1.  **Preparar Entorno:**
@@ -74,6 +72,16 @@ Esta guía detalla cómo validar cada componente de la nueva infraestructura de 
 3.  **Verificación:**
     - Accede a `http://44.202.43.214/WeatherForecast` para confirmar que el Backend está arriba y retorna datos JSON.
     - (Nota: Si accedías por el puerto 5286, este está bloqueado por el Firewall de AWS, por lo que usamos el puerto 80 por defecto).
+
+---
+
+## 4. 🛑 Cómo dar de baja los servicios
+Si deseas detener todos los contenedores y redes creados por la orquestación, ejecuta:
+```bash
+docker compose down
+```
+> [!TIP]
+> Si solo quieres detenerlos sin borrarlos, puedes usar `docker compose stop`. Si además quieres borrar los volúmenes de datos, usa `docker compose down -v`.
 
 ---
 

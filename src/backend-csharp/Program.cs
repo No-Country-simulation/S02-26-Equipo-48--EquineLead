@@ -42,7 +42,21 @@ builder.Services.AddHttpClient<ScoringApiService>(client =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ─── CORS ───────────────────────────────────────────────────────────────────
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
+
+// Habilitar CORS
+app.UseCors("AllowAll");
 
 // Habilitar Swagger siempre en este hito para validación
 app.UseSwagger();
