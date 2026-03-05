@@ -23,21 +23,31 @@ namespace Project_No_Country_E48.Controllers
         public async Task<IActionResult> GetDashboardMetrics()
         {
             var totalLeads = await _context.Users.CountAsync();
-            var scores = await _context.LeadScores.ToListAsync();
+            if (totalLeads == 0) return Ok(new { averageScore = 0, totalLeads = 0, effectivity = 0, pipelineValue = 0, winRate = 0 });
+
+            var avgScore = await _context.LeadScores.AverageAsync(s => s.LeadScoreValue);
+            var hotLeads = await _context.LeadScores.CountAsync(s => s.LeadScoreClassification == ScoreClassificationEnum.Hot);
             
-            var averageScore = scores.Any() ? (double)scores.Average(s => s.LeadScoreValue) : 0;
-            var hotLeads = scores.Count(s => s.LeadScoreClassification == ScoreClassificationEnum.Hot);
-            var effectivity = totalLeads > 0 ? (double)hotLeads / totalLeads * 100 : 0;
+            // Pipeline Value: Suma de presupuestos de leads Hot (SQL)
+            var hotLeadIds = await _context.LeadScores
+                .Where(s => s.LeadScoreClassification == ScoreClassificationEnum.Hot)
+                .Select(s => s.UserId)
+                .ToListAsync();
             
-            // Average ticket based on user budget
-            var averageTicket = await _context.Users.AnyAsync() ? (double)await _context.Users.AverageAsync(u => u.UserBudget) : 0;
+            var pipelineValue = await _context.Users
+                .Where(u => hotLeadIds.Contains(u.UserId))
+                .SumAsync(u => u.UserBudget);
+
+            // Win Rate Mock: Basado en la conversión 0.4 que usamos en el Funnel
+            var winRate = 40.0;
 
             return Ok(new
             {
-                averageScore = Math.Round(averageScore, 1),
+                averageScore = Math.Round(avgScore, 1),
                 totalLeads,
-                effectivity = Math.Round(effectivity, 1),
-                averageTicket = Math.Round(averageTicket, 0)
+                effectivity = Math.Round((double)hotLeads / totalLeads * 100, 1),
+                pipelineValue = Math.Round((double)pipelineValue, 0),
+                winRate
             });
         }
 
@@ -60,20 +70,25 @@ namespace Project_No_Country_E48.Controllers
         public async Task<IActionResult> GetFunnelData()
         {
             var totalLeads = await _context.Users.CountAsync();
-            var interactions = await _context.LeadInteractions.CountAsync();
-            var scoredLeads = await _context.LeadScores.CountAsync();
-            var hotLeads = await _context.LeadScores.CountAsync(s => s.LeadScoreClassification == ScoreClassificationEnum.Hot);
             
-            // Mocking a closed state since we don't have a clear "Sale" record yet
-            var closed = (int)(hotLeads * 0.4);
+            // MQL (Marketing Qualified Leads): Leads identificados como Warm o Hot
+            var mqls = await _context.LeadScores
+                .CountAsync(s => s.LeadScoreClassification == ScoreClassificationEnum.Warm || 
+                                 s.LeadScoreClassification == ScoreClassificationEnum.Hot);
+            
+            // SQL (Sales Qualified Leads): Leads identificados directamente como Hot
+            var sqls = await _context.LeadScores
+                .CountAsync(s => s.LeadScoreClassification == ScoreClassificationEnum.Hot);
+            
+            // Mock de cierre de ventas (oportunidades ganadas)
+            var closed = (int)(sqls * 0.4);
 
             var funnel = new[]
             {
-                new { name = "Leads", value = totalLeads },
-                new { name = "Interactions", value = interactions },
-                new { name = "Scored", value = scoredLeads },
-                new { name = "Hot Leads", value = hotLeads },
-                new { name = "Closed", value = closed }
+                new { name = "Total Registrados", value = totalLeads },
+                new { name = "MQLs (Leads Calificados)", value = mqls },
+                new { name = "SQLs (Listos para Venta)", value = sqls },
+                new { name = "Ventas Cerradas", value = closed }
             };
 
             return Ok(funnel);
@@ -103,6 +118,21 @@ namespace Project_No_Country_E48.Controllers
             });
 
             return Ok(result);
+        }
+
+        [HttpGet("lead-types")]
+        public async Task<IActionResult> GetLeadTypeDistribution()
+        {
+            var b2cCount = await _context.Users.CountAsync(u => u.UserType == UserTypeEnum.B2C);
+            var b2bCount = await _context.Users.CountAsync(u => u.UserType == UserTypeEnum.B2B);
+
+            var distribution = new[]
+            {
+                new { name = "B2C (Personas)", value = b2cCount },
+                new { name = "B2B (Empresas)", value = b2bCount }
+            };
+
+            return Ok(distribution);
         }
 
         [HttpGet("../reports/download")]

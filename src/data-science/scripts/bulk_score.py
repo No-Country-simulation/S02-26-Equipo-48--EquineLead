@@ -147,11 +147,21 @@ def score_all(users: dict, interactions: dict, already_scored: set, overwrite: b
         score_value = lead.calculate_score()
         classification = lead.get_classification()
 
+        # Usar la fecha de la última interacción como fecha del score
+        # para que la gráfica de evolución muestre datos históricos reales
+        score_date = now
+        if user_interactions:
+            score_date = max(i["date"] for i in user_interactions)
+        elif user["created_at"]:
+             score_date = user["created_at"]
+             if score_date.tzinfo is None:
+                 score_date = score_date.replace(tzinfo=timezone.utc)
+
         results.append((
             uid,
             score_value,
             CLASS_MAP[classification],
-            now.isoformat(),
+            score_date.isoformat(),
             SCORE_VERSION,
         ))
 

@@ -70,6 +70,28 @@ services:
     networks:
       - equine-net
 
+  # ─── 4. SCRAPPER (Rust) ───────────────────────────────────────────────────────
+  scrapper:
+    build:
+      context: ./src/scrapper-rust
+      dockerfile: Dockerfile
+    container_name: equine-scrapper
+    restart: "no" # El scrapper termina su ejecución al finalizar
+    environment:
+      - BACKEND_URL=http://backend:80
+      - TARGET_URL=https://tierragro.com/collections/equinos
+      - WEIGHT_FACEBOOK=10
+      - WEIGHT_INSTAGRAM=50
+      - WEIGHT_FORMULARIO=10
+      - WEIGHT_WEB=20
+      - WEIGHT_EVENTO=5
+      - WEIGHT_OTRO=5
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - equine-net
+
 # ─── VOLÚMENES Y REDES ──────────────────────────────────────────────────────────
 volumes:
   postgres_data:

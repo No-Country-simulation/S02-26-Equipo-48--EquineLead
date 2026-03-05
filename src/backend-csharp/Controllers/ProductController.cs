@@ -24,6 +24,16 @@ namespace Project_No_Country_E48.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] Product product)
         {
+            // Evitar duplicados por nombre o URL
+            var existingProduct = await _context.Products.FirstOrDefaultAsync(p => 
+                p.ProductName == product.ProductName || 
+                p.ProductUrl == product.ProductUrl);
+
+            if (existingProduct != null)
+            {
+                return Ok(existingProduct); // Retornar el existente en lugar de crear uno nuevo
+            }
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 

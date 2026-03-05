@@ -41,6 +41,13 @@ namespace Project_No_Country_E48.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] User user)
         {
+            // Evitar duplicados por teléfono
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserPhone == user.UserPhone);
+            if (existingUser != null)
+            {
+                return Ok(existingUser);
+            }
+
             user.UserCreatedAt = DateTime.UtcNow;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

@@ -20,6 +20,7 @@ Asegurar que el `docker-compose.yml` y los `Dockerfile` de los servicios funcion
     - `docker ps`: Deben aparecer `equine-backend`, `equine-data-science` y `equine-postgres`.
     - **Backend:** Accede a `http://localhost/swagger` (puerto 80 por defecto).
     - **Data Science:** Accede a `http://localhost:8090`.
+    - **Scrapper:** Revisa los logs con `docker logs -f equine-scrapper`. El contenedor se detendrá al terminar el proceso de scraping.
 
 ---
 

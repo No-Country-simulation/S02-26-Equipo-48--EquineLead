@@ -35,6 +35,11 @@ rng = np.random.default_rng(SEED)
 # Valores enteros alineados con C# Enums (src/backend-csharp/Enums/)
 # InteractionSourceEnum: Facebook=1,Instagram=2,Formulario=3,Web=4,Evento=5,Otro=6
 SOURCES = np.array([1, 2, 3, 4, 5, 6])
+
+# Pesos realistas de fuentes (ej: Instagram y Web dominan, Evento es mínimo)
+SRC_WEIGHTS = np.array([15, 40, 10, 25, 5, 5], dtype=float)
+SRC_WEIGHTS /= SRC_WEIGHTS.sum()
+
 # InteractionTypeEnum: View=1,Click=2,Download=3,Consult=4,ContactRequest=5
 TYPES   = np.array([1, 2, 3, 4, 5])
 WEIGHTS = np.array([4, 3, 2, 2, 1], dtype=float)
@@ -130,9 +135,9 @@ budgets = np.where(is_b2b,
     rng.integers(10_000, 100_001, NUM_USERS),
     rng.integers(500, 20_001, NUM_USERS)).astype(float)
 
-# Fechas como strings directamente (más rápido que datetime objects)
-base_date = np.datetime64("2026-02-28", "D")
-creation_days = rng.integers(30, 366, NUM_USERS)
+# Fechas concentradas en los últimos 4 meses (120 días) para ver tendencia
+base_date = np.datetime64("2026-03-01", "D")
+creation_days = rng.integers(0, 120, NUM_USERS)
 created_dates = (base_date - creation_days.astype("timedelta64[D]")).astype(str)
 
 # Teléfonos como strings
@@ -156,9 +161,11 @@ total  = int(n_ints.sum())
 
 rep_uids  = np.repeat(np.arange(1, NUM_USERS+1), n_ints)
 prod_ids  = rng.integers(1, NUM_PRODUCTS+1, total)
-src_idx   = rng.integers(0, len(SOURCES), total)
+src_idx   = rng.choice(len(SOURCES), total, p=SRC_WEIGHTS)
 typ_idx   = rng.choice(len(TYPES), total, p=WEIGHTS)
-int_days  = rng.integers(1, 401, total)
+
+# Interacciones también concentradas en los últimos 4 meses
+int_days  = rng.integers(0, 120, total)
 int_dates = (base_date - int_days.astype("timedelta64[D]")).astype(str)
 
 df_int = pd.DataFrame({

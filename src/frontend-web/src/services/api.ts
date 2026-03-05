@@ -20,7 +20,8 @@ export interface DashboardMetrics {
   averageScore: number;
   totalLeads: number;
   effectivity: number;
-  averageTicket: number;
+  pipelineValue: number;
+  winRate: number;
 }
 
 export interface InteractionSource {
@@ -40,6 +41,11 @@ export interface ClassificationData {
   hot: number;
 }
 
+export interface LeadTypeData {
+  name: string;
+  value: number;
+}
+
 export const getDashboardMetrics = () =>
   api.get<DashboardMetrics>("/metrics/dashboard");
 
@@ -51,5 +57,11 @@ export const getFunnelData = () =>
 
 export const getClassificationEvolution = () =>
   api.get<ClassificationData[]>("/metrics/classification");
+
+export const getLeadTypes = () =>
+  api.get<LeadTypeData[]>("/metrics/lead-types");
+
+export const syncLeads = () =>
+  api.post("/scrapper/sync");
 
 export default api;

@@ -34,6 +34,15 @@ Para que el Frontend encuentre al Backend en modo nativo, debes ajustar la URL e
 >
 > Al volver al flujo de **Docker (Despliegue)**, deberás revertir este cambio a `http://localhost/api`.
 
+## 🐳 Limpieza de Contenedores Previos (Opcional)
+Antes de iniciar la verificación nativa, es recomendable asegurarse de que no haya contenedores de Docker activos que puedan entrar en conflicto con los puertos locales.
+
+1. **Verificar contenedores:** Ejecuta `docker ps` para identificar qué contenedores están activos en el sistema.
+2. **Detener si es necesario:** Al apreciar el nombre de los contenedores que estén activos y que puedan interferir, puedes detenerlos con:
+   ```bash
+   docker stop [nombre_del_contenedor]
+   ```
+
 ---
 
 ## Pasos de Verificación
@@ -41,7 +50,6 @@ Para que el Frontend encuentre al Backend en modo nativo, debes ajustar la URL e
 ### 1. Base de Datos (Único componente en Docker)
 La base de datos se mantiene en Docker por comodidad de persistencia y limpieza.
 - **Levantar:** `docker compose up -d db`
-- **Frenar:** `docker compose stop db` (o `docker compose down` para limpiar todo).
 
 ### 2. Motor de Data Science (Python)
 1. Ve a la carpeta del motor: `cd src/data-science`
@@ -69,8 +77,21 @@ dotnet run
 npm run dev
 ```
 - **Validación:** Accede a [http://localhost:5173](http://localhost:5173).
+  
+### 5. Scrapper Rust (Alimentación de Datos)
+1. Ve a la carpeta del scrapper: `cd src/scrapper-rust`
+2. **Configurar entorno de Rust**:
+   ```bash
+   source $HOME/.cargo/env
+   ```
+3. Asegúrate de que el `.env` apunte a `http://localhost:5286`.
+4. Ejecuta el scrapper:
+   ```bash
+   cargo run
+   ```
+- **Validación:** Observa los logs de la terminal. Deberías ver mensajes como `Lead enviado correctamente desde fuente ID X`.
 
-### 5. Verificación de Puertos Activos
+### 6. Verificación de Puertos Activos
 Para confirmar que todos los servicios están escuchando en sus respectivos puertos, ejecuta:
 ```bash
 lsof -i :5432,8090,5286,5173

@@ -38,6 +38,13 @@ builder.Services.AddHttpClient<ScoringApiService>(client =>
     client.Timeout = TimeSpan.FromSeconds(10);
 });
 
+// ─── SCRAPPER HTTP CLIENT ───────────────────────────────────────────────────
+builder.Services.AddHttpClient("ScrapperClient", client =>
+{
+    var baseUrl = builder.Configuration["Scrapper:BaseUrl"] ?? "http://localhost:8081";
+    client.BaseAddress = new Uri(baseUrl);
+});
+
 // ─── SWAGGER / OPENAPI ─────────────────────────────────────────────────────────
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
