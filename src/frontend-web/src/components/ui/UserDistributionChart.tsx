@@ -2,14 +2,16 @@ import {
     PieChart,
     Pie,
     Cell,
-    Tooltip,
+    Tooltip as RechartsTooltip,
     ResponsiveContainer,
     Legend,
 } from "recharts";
 import type { LeadTypeData } from "../../services/api";
+import Tooltip from "./Tooltip";
 
 interface Props {
     data: LeadTypeData[];
+    helpText?: string;
 }
 
 // Colores acordados: Indigo corporativo (B2B) y Cian vibrante (B2C)
@@ -34,13 +36,16 @@ const CustomTooltip = ({ active, payload }: any) => {
     return null;
 };
 
-export default function UserDistributionChart({ data }: Props) {
+export default function UserDistributionChart({ data, helpText }: Props) {
     if (!Array.isArray(data) || data.length === 0) return null;
 
     return (
-        <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg flex flex-col h-full">
-            <div className="mb-4">
-                <h2 className="text-lg font-semibold text-white">Distribución de Usuarios</h2>
+        <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg flex flex-col h-full relative">
+            <div className="mb-4 pr-8">
+                <div className="flex items-center gap-2">
+                    <h2 className="text-lg font-semibold text-white">Distribución de Usuarios</h2>
+                    {helpText && <Tooltip content={helpText} />}
+                </div>
                 <p className="text-xs text-slate-400 mt-1">
                     Proporción entre empresas (B2B) e individuos (B2C)
                 </p>
@@ -63,7 +68,7 @@ export default function UserDistributionChart({ data }: Props) {
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                         </Pie>
-                        <Tooltip content={<CustomTooltip />} />
+                        <RechartsTooltip content={<CustomTooltip />} />
                         <Legend
                             verticalAlign="bottom"
                             height={36}

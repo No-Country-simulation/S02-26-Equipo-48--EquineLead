@@ -3,15 +3,17 @@ import {
   Area,
   XAxis,
   YAxis,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   Legend,
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
 import type { ClassificationData } from "../../services/api";
+import Tooltip from "./Tooltip";
 
 interface Props {
   data: ClassificationData[];
+  helpText?: string;
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -38,11 +40,14 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-export default function ClassificationChart({ data }: Props) {
+export default function ClassificationChart({ data, helpText }: Props) {
   return (
-    <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg">
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-white">Evolución de Clasificación</h2>
+    <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg relative">
+      <div className="mb-6 pr-8">
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-white">Evolución de Clasificación</h2>
+          {helpText && <Tooltip content={helpText} />}
+        </div>
         <p className="text-xs text-slate-400 mt-1">Tendencia histórica de leads por temperatura</p>
       </div>
 
@@ -74,7 +79,7 @@ export default function ClassificationChart({ data }: Props) {
             axisLine={false}
             tickLine={false}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <RechartsTooltip content={<CustomTooltip />} />
           <Legend
             iconType="circle"
             formatter={(value) =>

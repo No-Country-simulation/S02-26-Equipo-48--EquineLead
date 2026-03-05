@@ -10,3 +10,14 @@ body {
   margin: 0;
   background-color: #0f172a; /* slate-900 */
 }
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

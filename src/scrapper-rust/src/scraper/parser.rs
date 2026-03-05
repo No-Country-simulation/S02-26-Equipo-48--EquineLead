@@ -17,7 +17,7 @@ pub fn parse_page(html: &str) -> Vec<ParsedProduct> {
     // 1. Intentar con JSON-LD (Standard)
     let ld_selector = Selector::parse("script[type='application/ld+json']").unwrap();
     for element in document.select(&ld_selector) {
-        if let Ok(value) = serde_json::from_str::<serde_json::Value>(&element.inner_html()) {
+        if let Ok(value) = serde_json::from_str::<Value>(&element.inner_html()) {
             let items = if value.is_array() { value.as_array().unwrap().clone() } else { vec![value] };
             for item in items {
                 if item["@type"].as_str() == Some("Product") {
@@ -107,7 +107,7 @@ pub fn parse_page(html: &str) -> Vec<ParsedProduct> {
     products
 }
 
-fn extract_from_json(item: &serde_json::Value) -> Option<ParsedProduct> {
+fn extract_from_json(item: &Value) -> Option<ParsedProduct> {
     let name = item["name"].as_str()?.to_string();
     let price = item["offers"]["price"].as_f64()
         .or_else(|| item["offers"]["price"].as_str()?.parse().ok())?;
@@ -125,8 +125,8 @@ pub fn extract_product_links(html: &str) -> Vec<String> {
     use regex::Regex;
     // Capturar el slug de producto de cualquier href que contenga /products/
     // Cubre: /products/slug y /collections/*/products/slug
-    let re = Regex::new(r#"href=["'][^"']*?/products/([^"'?#/]+)["']"#).unwrap();
-    let mut unique_links = std::collections::HashSet::new();
+    let re = Regex::new(r#"href=["'][^"'][^"']*?/products/([^"'?#/]+)["']"#).unwrap();
+    let mut unique_links = HashSet::new();
 
     for cap in re.captures_iter(html) {
         let slug = &cap[1];

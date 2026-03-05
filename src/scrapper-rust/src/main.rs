@@ -3,8 +3,6 @@ mod api;
 mod models;
 mod utils;
 
-use rand::seq::SliceRandom;
-use std::collections::HashSet;
 use tokio::time::{sleep, Duration}; 
 use rand::Rng;
 use reqwest::Client;

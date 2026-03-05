@@ -3,15 +3,17 @@ import {
   Bar,
   XAxis,
   YAxis,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   ResponsiveContainer,
   Cell,
 } from "recharts";
 
 import type { FunnelData } from "../../services/api";
+import Tooltip from "./Tooltip";
 
 interface Props {
   data: FunnelData[];
+  helpText?: string;
 }
 
 // Escala monocromática de Indigo para representar el flujo sin confundir con otros gráficos
@@ -49,13 +51,16 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
-export default function CustomFunnel({ data }: Props) {
+export default function CustomFunnel({ data, helpText }: Props) {
   if (!Array.isArray(data) || data.length === 0) return null;
 
   return (
-    <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg">
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold text-white">Embudo de Conversión</h2>
+    <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg relative">
+      <div className="mb-4 pr-8">
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-white">Embudo de Conversión</h2>
+          {helpText && <Tooltip content={helpText} />}
+        </div>
         <p className="text-xs text-slate-400 mt-1">
           Flujo de leads a través de las etapas del pipeline
         </p>
@@ -74,7 +79,7 @@ export default function CustomFunnel({ data }: Props) {
             tick={{ fill: "#94a3b8", fontSize: 11 }}
             width={100}
           />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: "transparent" }} />
+          <RechartsTooltip content={<CustomTooltip />} cursor={{ fill: "transparent" }} />
           <Bar
             dataKey="value"
             radius={[0, 4, 4, 0]}

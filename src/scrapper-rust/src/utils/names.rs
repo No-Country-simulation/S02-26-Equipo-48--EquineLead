@@ -1,5 +1,4 @@
 use rand::seq::SliceRandom;
-use rand::Rng;
 
 pub fn generate_latam_name(rng: &mut rand::rngs::ThreadRng) -> String {
     let first_names = vec![

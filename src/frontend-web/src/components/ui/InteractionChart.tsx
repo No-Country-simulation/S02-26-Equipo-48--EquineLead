@@ -3,14 +3,16 @@ import {
   Bar,
   XAxis,
   YAxis,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   Cell,
   ResponsiveContainer,
 } from "recharts";
 import type { InteractionSource } from "../../services/api";
+import Tooltip from "./Tooltip";
 
 interface Props {
   data: InteractionSource[];
+  helpText?: string;
 }
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -36,18 +38,21 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-export default function InteractionChart({ data }: Props) {
+export default function InteractionChart({ data, helpText }: Props) {
   return (
-    <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg">
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold text-white">Fuente de Interacciones</h2>
+    <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg relative">
+      <div className="mb-4 pr-8">
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-white">Fuente de Interacciones</h2>
+          {helpText && <Tooltip content={helpText} />}
+        </div>
         <p className="text-xs text-slate-400 mt-1">Distribución de leads por canal de origen</p>
       </div>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data} barCategoryGap="30%">
           <XAxis dataKey="source" tick={{ fill: "#94a3b8", fontSize: 12 }} />
           <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
-          <Tooltip content={<CustomTooltip />} />
+          <RechartsTooltip content={<CustomTooltip />} />
           <Bar dataKey="value" radius={[4, 4, 0, 0]}>
             {data.map((entry) => (
               <Cell

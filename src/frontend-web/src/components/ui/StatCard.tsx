@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import Tooltip from "./Tooltip";
 
 interface StatCardProps {
   title: string;
@@ -6,6 +7,7 @@ interface StatCardProps {
   subtitle?: string;
   icon: LucideIcon;
   iconColor?: string;
+  helpText?: string;
 }
 
 export default function StatCard({
@@ -14,9 +16,15 @@ export default function StatCard({
   subtitle,
   icon: Icon,
   iconColor = "text-indigo-400",
+  helpText,
 }: StatCardProps) {
   return (
-    <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg flex items-start gap-4 hover:border-slate-600 transition-colors">
+    <div className="relative bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg flex items-start gap-4 hover:border-slate-600 transition-colors">
+      {helpText && (
+        <div className="absolute top-4 right-4 outline-none">
+          <Tooltip content={helpText} />
+        </div>
+      )}
       <div className={`p-3 rounded-xl bg-slate-700 ${iconColor}`}>
         <Icon size={22} />
       </div>

@@ -97,24 +97,30 @@ namespace Project_No_Country_E48.Controllers
         [HttpGet("classification")]
         public async Task<IActionResult> GetClassificationEvolution()
         {
-            // Group lead scores by month and classification
+            // Group lead scores by year, month and classification
             var data = await _context.LeadScores
-                .GroupBy(s => new { s.LeadScoreDate.Month, s.LeadScoreClassification })
+                .GroupBy(s => new { s.LeadScoreDate.Year, s.LeadScoreDate.Month, s.LeadScoreClassification })
                 .Select(g => new
                 {
+                    Year = g.Key.Year,
                     Month = g.Key.Month,
                     Classification = g.Key.LeadScoreClassification,
                     Count = g.Count()
                 })
                 .ToListAsync();
 
-            var months = data.Select(d => d.Month).Distinct().OrderBy(m => m);
-            var result = months.Select(m => new
+            var periods = data
+                .Select(d => new { d.Year, d.Month })
+                .Distinct()
+                .OrderBy(p => p.Year)
+                .ThenBy(p => p.Month);
+
+            var result = periods.Select(p => new
             {
-                month = new DateTime(2024, m, 1).ToString("MMM"),
-                cold = data.FirstOrDefault(d => d.Month == m && d.Classification == ScoreClassificationEnum.Cold)?.Count ?? 0,
-                warm = data.FirstOrDefault(d => d.Month == m && d.Classification == ScoreClassificationEnum.Warm)?.Count ?? 0,
-                hot = data.FirstOrDefault(d => d.Month == m && d.Classification == ScoreClassificationEnum.Hot)?.Count ?? 0
+                month = new DateTime(p.Year, p.Month, 1).ToString("MMM yy"),
+                cold = data.FirstOrDefault(d => d.Year == p.Year && d.Month == p.Month && d.Classification == ScoreClassificationEnum.Cold)?.Count ?? 0,
+                warm = data.FirstOrDefault(d => d.Year == p.Year && d.Month == p.Month && d.Classification == ScoreClassificationEnum.Warm)?.Count ?? 0,
+                hot = data.FirstOrDefault(d => d.Year == p.Year && d.Month == p.Month && d.Classification == ScoreClassificationEnum.Hot)?.Count ?? 0
             });
 
             return Ok(result);

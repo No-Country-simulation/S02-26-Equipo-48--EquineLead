@@ -46,6 +46,14 @@ export interface LeadTypeData {
   value: number;
 }
 
+export interface TopLead {
+  userId: number;
+  userName: string;
+  score: number;
+  classification: string;
+  date: string;
+}
+
 export const getDashboardMetrics = () =>
   api.get<DashboardMetrics>("/metrics/dashboard");
 
@@ -60,6 +68,9 @@ export const getClassificationEvolution = () =>
 
 export const getLeadTypes = () =>
   api.get<LeadTypeData[]>("/metrics/lead-types");
+
+export const getTopLeads = (take: number = 10) =>
+  api.get<TopLead[]>(`/score/top?take=${take}`);
 
 export const syncLeads = () =>
   api.post("/scrapper/sync");
