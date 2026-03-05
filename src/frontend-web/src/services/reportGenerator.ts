@@ -52,7 +52,7 @@ export function generateLeadReport(
     doc.text(`ID: ${reportID} | REPORTE EJECUTIVO DE RENDIMIENTO`, MARGIN, 26);
 
     const now = new Date();
-    const dateStr = now.toLocaleString("es-CO", { day: "2-digit", month: "long", year: "numeric" });
+    const dateStr = now.toLocaleString("en-US", { day: "2-digit", month: "long", year: "numeric" });
     doc.text(`Fecha: ${dateStr}`, W - MARGIN, 26, { align: "right" });
 
     y = 52;
@@ -211,6 +211,6 @@ export function generateLeadReport(
 }
 
 function formatPipelineValue(val: number) {
-    if (val >= 1000000) return `$${(val / 1000000).toFixed(1)} M`;
-    return `$${val.toLocaleString()}`;
+    if (val >= 1000000) return `USD $${(val / 1000000).toFixed(1)} M`;
+    return `USD $${val.toLocaleString("en-US")}`;
 }

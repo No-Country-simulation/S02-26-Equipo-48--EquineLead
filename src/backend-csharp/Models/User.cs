@@ -13,6 +13,7 @@ namespace Project_No_Country_E48.Models
         public string UserPhone { get; set; }
         public string? UserEmail { get; set; }
         public string? UserCity { get; set; }
+        public string? UserCountry { get; set; }
         public DateTime UserCreatedAt { get; set; }
 
         //Relaciones entre tablas

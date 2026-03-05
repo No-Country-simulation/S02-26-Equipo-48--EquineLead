@@ -313,10 +313,10 @@ export default function Dashboard() {
           <StatCard
             title="Valor del Pipeline"
             value={formatPipelineValue(metrics.pipelineValue)}
-            subtitle="Suma presupuestos SQL (Hot)"
+            subtitle="Suma presupuestos SQL (Hot) — USD"
             icon={HandCoins}
             iconColor="text-emerald-400"
-            helpText="Representa la suma proyectada de los presupuestos de todos los leads actualmente clasificados como 'Hot'. Es una proyección del valor monetario listo para ser gestionado por su alta probabilidad de conversión."
+            helpText="Representa la suma proyectada de los presupuestos de todos los leads actualmente clasificados como 'Hot'. Es una proyección del valor monetario (en USD) listo para ser gestionado por su alta probabilidad de conversión."
           />
           <StatCard
             title="Tasa de Cierre Global"

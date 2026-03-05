@@ -70,6 +70,7 @@ namespace Project_No_Country_E48.Controllers
             user.UserPhone = updatedUser.UserPhone;
             user.UserEmail = updatedUser.UserEmail;
             user.UserCity = updatedUser.UserCity;
+            user.UserCountry = updatedUser.UserCountry;
             user.UserBudget = updatedUser.UserBudget;
             user.UserType = updatedUser.UserType;
 

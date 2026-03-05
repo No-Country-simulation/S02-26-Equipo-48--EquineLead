@@ -131,6 +131,9 @@ namespace Project_No_Country_E48.Migrations
                     b.Property<string>("UserCity")
                         .HasColumnType("text");
 
+                    b.Property<string>("UserCountry")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("UserCreatedAt")
                         .HasColumnType("timestamp without time zone");
 
