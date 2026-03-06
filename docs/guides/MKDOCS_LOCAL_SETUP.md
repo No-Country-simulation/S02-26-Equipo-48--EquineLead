@@ -20,33 +20,31 @@ git clone https://github.com/No-Country-simulation/equine-lead.git
 cd equine-lead
 ```
 
-### 2. Crear un entorno virtual (Recomendado)
+### 2. Activar el entorno virtual existente
+Ya existe un entorno virtual configurado en la raíz del proyecto que contiene todas las dependencias:
 ```bash
-python3 -m venv .venv_docs
-source .venv_docs/bin/activate  # En Linux/macOS
-# .venv_docs\Scripts\activate   # En Windows
+source venv/bin/activate  # En Linux/macOS
+# venv\Scripts\activate   # En Windows
 ```
 
-### 3. Instalar dependencias necesarias
-Para que MkDocs funcione con el tema Material y los diagramas Mermaid, instala todo lo necesario desde el archivo de requerimientos:
+### 3. Instalar dependencias (Si es necesario)
+Si prefieres usar un entorno nuevo o falta algún componente:
 ```bash
 pip install -r requirements.txt
 ```
 
-*Nota: Alternativamente puedes instalar solo los componentes de documentación con:*
-`pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin mkdocs-exclude`
-
 ### 4. Preparar el Staging de Documentos
-Debido a que nuestro `mkdocs.yml` está configurado para leer desde `.docs_staging` (para poder incluir archivos de fuera de la carpeta `docs/`), necesitamos asegurar que los enlaces existan:
+Debido a que nuestro `mkdocs.yml` está configurado para leer desde `.docs_build` (para evitar conflictos de permisos con Docker), necesitamos sincronizar los archivos:
 
-> [!NOTE]
-> En entornos Linux, puedes usar el script de preparación si está disponible, o simplemente apuntar el `docs_dir` en tu `mkdocs.yml` local a la raíz temporalmente si prefieres no usar el staging.
-
-Para una previsualización rápida sin staging manual:
 ```bash
-# Editar temporalmente mkdocs.yml: cambiar `docs_dir: .docs_staging` por `docs_dir: .`
-# Luego ejecutar:
-mkdocs serve
+# Crear directorio de staging (si no existe)
+mkdir -p .docs_build
+
+# Sincronizar archivos ignorando carpetas pesadas
+rsync -a --exclude="node_modules" --exclude=".git" --exclude="venv" --exclude="__pycache__" --exclude="site" --exclude="target" --exclude="bin" --exclude="obj" --exclude=".next" --exclude="dist" --exclude="build" --exclude=".terraform" README.md infrastructure tests ci-cd src docs mkdocs.yml .docs_build/
+
+# O usa el script automatizado (Recomendado, ejecutar desde la raíz del proyecto):
+python3 ci-cd/scripts/build_docs.py
 ```
 
 ### 5. Iniciar el servidor de previsualización

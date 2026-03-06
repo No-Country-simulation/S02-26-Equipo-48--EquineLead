@@ -67,7 +67,7 @@ site/
 .cache/
 
 # --- MkDocs Staging (Technical) ---
-.docs_staging/
+.docs_build/
 
 # --- Datasets Sintéticos (Archivos grandes, no commitear) ---
 # Ver: docs/data/README.md para instrucciones de uso

@@ -53,5 +53,5 @@ docker restart equine-docs
 ---
 
 ## 🔐 Notas de Configuración
-- La carpeta `.docs_staging` es ignorada por Git y se recrea en cada inicio del contenedor.
-- Se han optimizado las exclusiones (`exclude` plugin) para ignorar `node_modules` y `venv`, bajando el tiempo de compilación de 30s a <6s.
+- La carpeta `.docs_build` es ignorada por Git y se recrea/sincroniza en cada inicio del contenedor o manualmente para builds nativas.
+- Se han optimizado las exclusiones (`exclude` plugin) para ignorar `node_modules`, `venv`, `target`, `bin`, `obj`, etc., bajando el tiempo de compilación a <2s.

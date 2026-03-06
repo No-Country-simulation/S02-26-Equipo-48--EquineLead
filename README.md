@@ -650,6 +650,7 @@ equine-lead/
 
 ### **Para Nuevos Developers**
 - **[Guía de Onboarding](./docs/guides/DEVELOPER_ONBOARDING.md)** - Ruta de aprendizaje paso a paso desde cero hasta productividad completa
+- **[MkDocs Local](./docs/guides/MKDOCS_LOCAL_SETUP.md)** - Cómo levantar el servidor de documentación localmente
 - **[Mapa de Documentación](./docs/guides/DOCUMENTATION_FLOW.md)** - Navegación visual de todos los READMEs y orden de lectura recomendado
 
 ### **Infraestructura y Deployment**
