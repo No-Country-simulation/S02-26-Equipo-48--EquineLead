@@ -142,31 +142,33 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 
 ### **Backend**
 - **Runtime**: .NET 8.0 ✅ (SDK 8.0.407)
-- **Framework**: ASP.NET Core 8.0 💡 _(pendiente de confirmación)_
-- **ORM**: Entity Framework Core 8.0 💡 _(pendiente de confirmación)_
-- **Documentación API**: Swagger/OpenAPI 💡 _(pendiente de confirmación)_
+- **Framework**: ASP.NET Core 8.0 ✅
+- **ORM**: Entity Framework Core 8.0 ✅
+- **Documentación API**: Swagger/OpenAPI ✅
 - **Testing**: xUnit 2.4.2 ✅
 
 ### **Data Science / Machine Learning**
 - **Runtime**: Python 3.12.3 ✅
 - **Framework API**: FastAPI ✅
 - **Modelo de Scoring**: Basado en Reglas (Rule-Based) ✅ (Lógica: I + B + T - P)
-- **Análisis de Sentimiento**: BERT (Integración planeada) 💡
+- **Análisis de Sentimiento**: spaCy (En evaluación para v2) 💡
 - **Testing**: pytest 7.4+ ✅
 
 ### **Scrapper / Servicios de Alto Rendimiento**
 - **Lenguaje**: Rust 1.75.0 ✅ (Edition 2021)
-- **Runtime Async**: tokio 💡 _(pendiente de confirmación)_
-- **Cliente HTTP**: reqwest 💡 _(pendiente de confirmación)_
-- **Parsing HTML**: scraper 💡 _(pendiente de confirmación)_
+- **Runtime Async**: tokio ✅
+- **Cliente HTTP**: reqwest ✅
+- **Parsing HTML**: scraper ✅
 - **Testing**: Framework de testing integrado de Rust ✅
 
 ### **Frontend Web**
 - **Runtime**: Node.js 20.x (LTS) ✅
-- **Framework**: React 18.2+ 💡 _(pendiente de confirmación)_
-- **Gestión de Estado**: Redux Toolkit 💡 _(pendiente de confirmación)_
-- **Librería UI**: Material-UI (MUI) 5.0+ 💡 _(pendiente de confirmación)_
-- **Build Tool**: Vite 4.0+ 💡 _(pendiente de confirmación)_
+- **Framework**: React 18.2+ ✅
+- **Estándar i18n**: i18next + react-i18next ✅ (ES, EN, PT)
+- **Librería UI**: TailwindCSS ✅
+- **Gráficos**: Recharts ✅
+- **Iconografía**: Lucide React ✅
+- **Build Tool**: Vite 5.0+ ✅
 - **Testing**: Jest 29.5.0 ✅ + React Testing Library 14.0.0 ✅
 
 ### **Móvil**
@@ -195,6 +197,28 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 - **Calidad de Código**: ESLint, Prettier (Frontend), dotnet format (Backend)
 - **Testing de API**: Postman, Thunder Client
 
+### **Gestión de Dependencias (Manifiestos)**
+| Componente | Archivo de Manifiesto | Comando de Instalación |
+|-----------|-----------------------|-----------------------|
+| **Backend** | `src/backend-csharp/*.csproj` | `dotnet restore` |
+| **Data Science** | `src/data-science/requirements.txt` | `pip install -r requirements.txt` |
+| **Scrapper** | `src/scrapper-rust/Cargo.toml` | `cargo build` |
+| **Frontend** | `src/frontend-web/package.json` | `npm install` |
+
+---
+
+## 🧩 Estrategia de Datos Híbrida (Concepto MVP)
+
+Para este MVP, EquineLead utiliza un **Motor de Demostración Híbrido** que permite validar el sistema completo sin requerir tráfico real inmediato:
+
+1.  **Recolección Real (Tierragro)**: El Scrapper Rust está optimizado actualmente para extraer productos, categorías y precios reales desde un único sitio fuente (**Tierragro.com**). Esto garantiza que el catálogo tenga datos de mercado verídicos.
+2.  **Generación de Leads Sintéticos**: Para demostrar la funcionalidad del Dashboard y el Scoring, el sistema genera leads ficticios (nombres Latam, teléfonos y presupuestos) de forma automática.
+3.  **Vínculo Inteligente**: Al sincronizar, el sistema vincula estos leads sintéticos con los productos reales recién escaneados. Los presupuestos de los leads se calculan de forma dinámica basándose en el precio del producto capturado, creando escenarios de negocio realistas para el motor de **Machine Learning**.
+
+> **⚠️ Nota sobre fuentes sociales**: Aunque el sistema está diseñado para procesar leads provenientes de redes sociales, la implementación de un scrapper directo para **Instagram** se ha postergado. Debido a su alta sofisticación y la complejidad técnica requerida para evadir bloqueos, su desarrollo completo habría excedido el marco de tiempo de esta hackathon. Por ello, se ha priorizado el flujo híbrido (Tierragro + Generación Sintética) para garantizar una demostración sólida de la arquitectura.
+
+> **💡 Propósito**: Esta arquitectura permite "poblar" el sistema con un solo clic (botón Sincronizar) y ver cómo el Dashboard cobra vida con métricas, gráficos y clasificaciones de leads (Hot/Warm/Cold) basadas en datos reales de productos.
+
 ---
 
 ## 🗄️ Esquema de Base de Datos
@@ -205,44 +229,60 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 
 ```mermaid
 erDiagram
-    Leads ||--o{ LeadInteractions : registra
-    Leads ||--|| LeadScores : posee
+    Users ||--o{ LeadInteractions : registra
+    Users ||--o{ LeadScores : posee
+    Products ||--o{ LeadInteractions : incluye
     
-    Leads {
-        INT id PK
-        VARCHAR email
-        VARCHAR name
-        TIMESTAMP_TZ created_at
+    Users {
+        INT UserId PK
+        INT UserType
+        DECIMAL UserBudget
+        VARCHAR UserName
+        VARCHAR UserPhone
+        VARCHAR UserEmail
+        VARCHAR UserCity
+        VARCHAR UserCountry
+        TIMESTAMP_TZ UserCreatedAt
+    }
+    
+    Products {
+        INT ProductId PK
+        DECIMAL ProductPrice
+        VARCHAR ProductName
+        VARCHAR ProductCategory
+        VARCHAR ProductUrl
     }
     
     LeadInteractions {
-        INT id PK
-        INT lead_id FK
-        INT interaction_type_id
-        JSONB metadata
-        TIMESTAMP_TZ interaction_date
+        INT InteractionId PK
+        INT UserId FK
+        INT ProductId FK
+        INT InteractionSource
+        INT InteractionType
+        TIMESTAMP_TZ InteractionDate
+        JSONB InteractionMetadataJson
     }
     
     LeadScores {
-        INT id PK
-        INT lead_id FK
-        INT score_value
-        INT classification_id
-        TIMESTAMP_TZ updated_at
+        INT LeadScoreId PK
+        INT UserId FK
+        DECIMAL LeadScoreValue
+        INT LeadScoreClassification
+        VARCHAR ScoreModelVersion
+        TIMESTAMP_TZ LeadScoreDate
     }
 ```
 
-### **Tablas Principales**
+### **Tablas Principales (Persistencia)**
 
 | Tabla | Propósito | Campos Clave |
 |-------|-----------|--------------|
-| `Leads` | Almacenar leads capturados | email, name, status, created_at |
-| `InteractionTypes` | Catálogo maestro de tipos de interacción | id, description (INT mapping) |
-| `LeadInteractions` | Historial completo de actividad del lead | lead_id, type_id, metadata, interaction_date |
-| `LeadScoreClassifications` | Catálogo maestro de estados (1-Cold, 2-Warm, 3-Hot) | id, description |
-| `LeadScores` | Almacenamiento del scoring vigente por lead | lead_id, value, classification_id |
+| `Users` | Perfiles de leads capturados | UserId, UserType, UserBudget, UserCountry |
+| `Products` | Catálogo de productos (scrapped) | ProductId, ProductPrice, ProductCategory, ProductUrl |
+| `LeadInteractions` | Historial de actividad y eventos | InteractionSource, InteractionType, InteractionMetadataJson |
+| `LeadScores` | Resultados del motor de Scoring AI | LeadScoreValue, LeadScoreClassification, ScoreModelVersion |
 
-### **Clasificación de Leads (Maestro)**
+### **Clasificación de Leads (Maestro en Enums)**
 | Valor INT | Clasificación | Significado |
 |-----------|---------------|-------------|
 | **1** | **Cold** | Bajo interés inicial / Inactivo |
@@ -773,7 +813,7 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 - [ ] Backend API (.NET 8.0)
 - [ ] Servicio ML (Python 3.12.3)
 - [ ] Scrapper (Rust 1.75.0)
-- [ ] Frontend Web (React + Node.js 18)
+- [x] Frontend Web (React + Node.js 18) — **Internacionalización completa (ES/EN/PT)**
 - [ ] Apps Móviles (iOS/Android)
 
 ### **Fase 3: Integración y Deployment** ⏳ Pendiente

@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { Send, ChevronDown, Sparkles, Heart, Trophy, X, ShieldCheck, HelpCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import api from "../../services/api";
 import { LATAM_COUNTRIES, getCitiesForCountry } from "../../data/geoLatam";
 
@@ -26,51 +27,53 @@ const initialForm: FormData = {
 };
 
 // ─── Per-field validators ────────────────────────────────────────────────────
-const validators = {
+const getValidators = (t: any) => ({
     userName: (v: string) => {
-        if (!v.trim()) return "El nombre es requerido.";
-        if (v.trim().length < 3) return "Debe tener al menos 3 caracteres.";
-        if (/\d/.test(v)) return "El nombre no puede contener números.";
-        if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]/.test(v)) return "Solo se permiten letras y espacios.";
+        if (!v.trim()) return t("clientLanding.form.errors.nameRequired");
+        if (v.trim().length < 3) return t("clientLanding.form.errors.nameShort");
+        if (/\d/.test(v)) return t("clientLanding.form.errors.nameNumbers");
+        if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]/.test(v)) return t("clientLanding.form.errors.nameFormat");
         return null;
     },
     userPhone: (v: string) => {
-        if (!v.trim()) return "El teléfono es requerido.";
-        if (/[a-zA-Z]/.test(v)) return "El teléfono no puede contener letras.";
-        if (!/^\+?[\d\s\-().]{7,20}$/.test(v)) return "Formato inválido. Ej: +57 300 000 0000";
+        if (!v.trim()) return t("clientLanding.form.errors.phoneRequired");
+        if (/[a-zA-Z]/.test(v)) return t("clientLanding.form.errors.phoneNumbers");
+        if (!/^\+?[\d\s\-().]{7,20}$/.test(v)) return t("clientLanding.form.errors.phoneFormat");
         return null;
     },
     userEmail: (v: string) => {
         if (!v) return null;
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return "Formato de correo inválido.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return t("clientLanding.form.errors.emailFormat");
         return null;
     },
     userCountry: (v: string) => {
-        if (!v) return "Selecciona un país.";
+        if (!v) return t("clientLanding.form.errors.countryRequired");
         return null;
     },
     userCountryOther: (v: string, country: string) => {
-        if (country === "Otro" && !v.trim()) return "Por favor especifica tu país.";
-        if (country === "Otro" && /\d/.test(v)) return "El país no puede contener números.";
+        if (country === "Otro" && !v.trim()) return t("clientLanding.form.errors.countrySpecify");
+        if (country === "Otro" && /\d/.test(v)) return t("clientLanding.form.errors.countryNumbers");
         return null;
     },
     userCity: (v: string, country: string) => {
-        if (!v.trim()) return "La ciudad es requerida.";
-        if (country !== "Otro" && v.trim().length < 2) return "Debe tener al menos 2 caracteres.";
-        if (country === "Otro" && /\d/.test(v)) return "La ciudad no puede contener números.";
+        if (!v.trim()) return t("clientLanding.form.errors.cityRequired");
+        if (country !== "Otro" && v.trim().length < 2) return t("clientLanding.form.errors.cityShort");
+        if (country === "Otro" && /\d/.test(v)) return t("clientLanding.form.errors.cityNumbers");
         return null;
     },
     userBudget: (v: string) => {
-        if (!v) return "El presupuesto es requerido.";
+        if (!v) return t("clientLanding.form.errors.budgetRequired");
         const num = Number(v);
-        if (isNaN(num) || num <= 0) return "Ingresa un valor mayor a 0.";
+        if (isNaN(num) || num <= 0) return t("clientLanding.form.errors.budgetPositive");
         return null;
     },
-};
+});
 
 type FieldName = "userName" | "userPhone" | "userEmail" | "userCountry" | "userCountryOther" | "userCity" | "userBudget";
 
 export default function ClientLandingPage() {
+    const { t } = useTranslation();
+    const validators = useMemo(() => getValidators(t), [t]);
     const [form, setForm] = useState<FormData>(initialForm);
     const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -167,7 +170,7 @@ export default function ClientLandingPage() {
             setSubmitted(true);
             setIsModalOpen(false);
         } catch {
-            setApiError("Hubo un error al enviar tus datos. Intenta de nuevo.");
+            setApiError(t("clientLanding.form.errors.apiError"));
         } finally {
             setLoading(false);
         }
@@ -195,12 +198,12 @@ export default function ClientLandingPage() {
                 <div className="mx-auto w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center">
                     <Sparkles className="text-emerald-400 w-10 h-10" />
                 </div>
-                <h1 className="text-4xl font-extrabold text-white">¡Registro Exitoso!</h1>
+                <h1 className="text-4xl font-extrabold text-white">{t("clientLanding.success.title")}</h1>
                 <p className="text-xl text-slate-400 leading-relaxed">
-                    Tus datos han sido recibidos. Nuestro equipo se pondrá en contacto contigo con las mejores oportunidades del mundo ecuestre.
+                    {t("clientLanding.success.msg")}
                 </p>
                 <button onClick={() => setSubmitted(false)} className="text-blue-400 hover:underline font-medium">
-                    Volver al inicio
+                    {t("common.backToStart")}
                 </button>
             </div>
         );
@@ -211,23 +214,23 @@ export default function ClientLandingPage() {
             {/* Hero */}
             <section className="text-center space-y-6">
                 <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
-                    Tu Conexión con el Mundo Ecuestre
+                    {t("clientLanding.heroTitle")}
                 </h1>
                 <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                    Descubre oportunidades exclusivas en caballos, monturas y equipamiento premium. Regístrate y recibe ofertas personalizadas.
+                    {t("clientLanding.heroSubtitle")}
                 </p>
                 <div className="flex justify-center gap-4 pt-4">
                     <button
                         onClick={openModal}
                         className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full font-bold transition flex items-center gap-2 shadow-lg shadow-blue-500/20"
                     >
-                        Registrarme <Send size={18} />
+                        {t("clientLanding.ctaRegister")} <Send size={18} />
                     </button>
                     <button
                         onClick={scrollToFeatures}
                         className="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-8 py-3 rounded-full font-bold transition flex items-center gap-2"
                     >
-                        Descubre Más <ChevronDown size={18} />
+                        {t("clientLanding.ctaDiscover")} <ChevronDown size={18} />
                     </button>
                 </div>
             </section>
@@ -238,22 +241,22 @@ export default function ClientLandingPage() {
                     <div className="bg-blue-500/20 p-3 rounded-2xl w-fit mx-auto mb-4">
                         <Trophy className="text-blue-400" size={24} />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Caballos de Élite</h3>
-                    <p className="text-slate-400">Accede a un catálogo seleccionado de ejemplares de alto valor, verificados y evaluados por expertos del sector.</p>
+                    <h3 className="text-xl font-bold mb-2">{t("clientLanding.hooks.elite.title")}</h3>
+                    <p className="text-slate-400">{t("clientLanding.hooks.elite.desc")}</p>
                 </div>
                 <div className="bg-slate-800 p-8 rounded-3xl border border-slate-700 hover:border-indigo-500/50 transition text-center">
                     <div className="bg-indigo-500/20 p-3 rounded-2xl w-fit mx-auto mb-4">
                         <Heart className="text-indigo-400" size={24} />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Ofertas Personalizadas</h3>
-                    <p className="text-slate-400">Nuestro sistema de inteligencia artificial encuentra las mejores oportunidades según tu perfil y presupuesto.</p>
+                    <h3 className="text-xl font-bold mb-2">{t("clientLanding.hooks.personalized.title")}</h3>
+                    <p className="text-slate-400">{t("clientLanding.hooks.personalized.desc")}</p>
                 </div>
                 <div className="bg-slate-800 p-8 rounded-3xl border border-slate-700 hover:border-teal-500/50 transition text-center">
                     <div className="bg-teal-500/20 p-3 rounded-2xl w-fit mx-auto mb-4">
                         <Sparkles className="text-teal-400" size={24} />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Conexión Directa</h3>
-                    <p className="text-slate-400">Conecta directamente con criadores, proveedores y establos premium sin intermediarios.</p>
+                    <h3 className="text-xl font-bold mb-2">{t("clientLanding.hooks.direct.title")}</h3>
+                    <p className="text-slate-400">{t("clientLanding.hooks.direct.desc")}</p>
                 </div>
             </section>
 
@@ -264,8 +267,8 @@ export default function ClientLandingPage() {
                         {/* Modal Header */}
                         <div className="p-6 border-b border-slate-700 flex justify-between items-center bg-slate-800 sticky top-0 z-10">
                             <div>
-                                <h2 className="text-2xl font-bold text-white">Regístrate Ahora</h2>
-                                <p className="text-sm text-slate-400">Acceso exclusivo a oportunidades premium</p>
+                                <h2 className="text-2xl font-bold text-white">{t("clientLanding.modal.title")}</h2>
+                                <p className="text-sm text-slate-400">{t("clientLanding.modal.subtitle")}</p>
                             </div>
                             <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-slate-700 rounded-full transition text-slate-400 hover:text-white">
                                 <X size={24} />
@@ -277,18 +280,18 @@ export default function ClientLandingPage() {
                             <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-3 flex gap-3 items-start">
                                 <ShieldCheck className="text-blue-400 shrink-0 mt-0.5" size={18} />
                                 <p className="text-xs text-blue-200 leading-relaxed">
-                                    Tratamos tus datos con estricta confidencialidad. Tu información personal está protegida y solo se utilizará para enviarte ofertas relevantes del sector ecuestre.
+                                    {t("clientLanding.modal.privacyNote")}
                                 </p>
                             </div>
 
                             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                                 {/* Nombre */}
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">Nombre Completo *</label>
+                                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">{t("clientLanding.form.name")}</label>
                                     <input
                                         type="text" name="userName" value={form.userName}
                                         onChange={handleChange} onBlur={() => handleBlur("userName")}
-                                        placeholder="Ej. Juan Pérez" className={inputClass("userName")}
+                                        placeholder={t("clientLanding.form.placeholderName")} className={inputClass("userName")}
                                     />
                                     <FieldError name="userName" />
                                 </div>
@@ -296,22 +299,22 @@ export default function ClientLandingPage() {
                                 {/* Teléfono + Email */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">Teléfono *</label>
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">{t("clientLanding.form.phone")}</label>
                                         <input
                                             type="tel" name="userPhone" value={form.userPhone}
                                             onChange={handleChange} onBlur={() => handleBlur("userPhone")}
-                                            placeholder="+57 300 000 0000" className={inputClass("userPhone")}
+                                            placeholder={t("clientLanding.form.placeholderPhone")} className={inputClass("userPhone")}
                                         />
                                         <FieldError name="userPhone" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">
-                                            Email <span className="text-slate-500 normal-case font-normal">(opcional)</span>
+                                            {t("clientLanding.form.email")} <span className="text-slate-500 normal-case font-normal">{t("clientLanding.form.emailOptional")}</span>
                                         </label>
                                         <input
                                             type="email" name="userEmail" value={form.userEmail}
                                             onChange={handleChange} onBlur={() => handleBlur("userEmail")}
-                                            placeholder="persona@ejemplo.com" className={inputClass("userEmail")}
+                                            placeholder={t("clientLanding.form.placeholderEmail")} className={inputClass("userEmail")}
                                         />
                                         <FieldError name="userEmail" />
                                     </div>
@@ -320,13 +323,13 @@ export default function ClientLandingPage() {
                                 {/* País */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">País *</label>
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">{t("clientLanding.form.country")}</label>
                                         <select
                                             name="userCountry" value={form.userCountry}
                                             onChange={handleChange} onBlur={() => handleBlur("userCountry")}
                                             className={`${inputClass("userCountry")} appearance-none cursor-pointer`}
                                         >
-                                            <option value="">— Selecciona —</option>
+                                            <option value="">{t("clientLanding.form.placeholderCountry")}</option>
                                             {LATAM_COUNTRIES.map((c) => (
                                                 <option key={c.name} value={c.name}>{c.name}</option>
                                             ))}
@@ -335,11 +338,11 @@ export default function ClientLandingPage() {
                                     </div>
                                     {isOtro && (
                                         <div className="animate-in slide-in-from-left-2 duration-300">
-                                            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">Especificar País *</label>
+                                            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">{t("clientLanding.form.specifyCountry")}</label>
                                             <input
                                                 type="text" name="userCountryOther" value={form.userCountryOther}
                                                 onChange={handleChange} onBlur={() => handleBlur("userCountryOther")}
-                                                placeholder="Nombre del país"
+                                                placeholder={t("clientLanding.form.placeholderCountryOther")}
                                                 className={inputClass("userCountryOther")}
                                             />
                                             <FieldError name="userCountryOther" />
@@ -350,12 +353,12 @@ export default function ClientLandingPage() {
                                 {/* Ciudad — cascading */}
                                 {form.userCountry && (
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">Ciudad *</label>
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">{t("clientLanding.form.city")}</label>
                                         {isOtro ? (
                                             <input
                                                 type="text" name="userCity" value={form.userCity}
                                                 onChange={handleChange} onBlur={() => handleBlur("userCity")}
-                                                placeholder="Ingresa tu ciudad"
+                                                placeholder={t("clientLanding.form.placeholderCityOther")}
                                                 className={inputClass("userCity")}
                                             />
                                         ) : (
@@ -364,7 +367,7 @@ export default function ClientLandingPage() {
                                                 onChange={handleChange} onBlur={() => handleBlur("userCity")}
                                                 className={`${inputClass("userCity")} appearance-none cursor-pointer`}
                                             >
-                                                <option value="">— Selecciona tu ciudad —</option>
+                                                <option value="">{t("clientLanding.form.placeholderCity")}</option>
                                                 {availableCities.map((city) => (
                                                     <option key={city} value={city}>{city}</option>
                                                 ))}
@@ -390,9 +393,9 @@ export default function ClientLandingPage() {
                                                 </button>
                                                 {showTypeTooltip && (
                                                     <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-slate-900/95 backdrop-blur-sm border border-slate-700 rounded-xl p-3 text-xs text-slate-300 shadow-xl animate-in fade-in zoom-in-95 duration-150 text-left normal-case tracking-normal font-normal">
-                                                        <p className="font-semibold text-white mb-1">¿Cuál es tu perfil?</p>
-                                                        <p className="mb-1.5"><span className="text-blue-400 font-semibold">Individual (B2C):</span> Persona natural que busca caballos, equipos o servicios ecuestres para uso personal o familiar.</p>
-                                                        <p><span className="text-indigo-400 font-semibold">Empresa (B2B):</span> Establo, hacienda, proveedor o empresa que adquiere en volumen o con fines comerciales.</p>
+                                                        <p className="font-semibold text-white mb-1">{t("clientLanding.form.tooltip.title")}</p>
+                                                        <p className="mb-1.5"><span className="text-blue-400 font-semibold">{t("clientLanding.form.typeIndividual")}:</span> {t("clientLanding.form.tooltip.b2c")}</p>
+                                                        <p><span className="text-indigo-400 font-semibold">{t("clientLanding.form.typeBusiness")}:</span> {t("clientLanding.form.tooltip.b2b")}</p>
                                                         <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-900 border-r border-b border-slate-700 rotate-45" />
                                                     </div>
                                                 )}
@@ -402,20 +405,20 @@ export default function ClientLandingPage() {
                                             name="userType" value={form.userType} onChange={handleChange}
                                             className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition appearance-none cursor-pointer"
                                         >
-                                            <option value={1}>Individual (B2C)</option>
-                                            <option value={2}>Empresa (B2B)</option>
+                                            <option value={1}>{t("clientLanding.form.typeIndividual")}</option>
+                                            <option value={2}>{t("clientLanding.form.typeBusiness")}</option>
                                         </select>
                                     </div>
                                     <div>
                                         <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">
-                                            Presupuesto Equino * <span className="text-slate-500 normal-case font-normal">(USD)</span>
+                                            {t("clientLanding.form.budget")} <span className="text-slate-500 normal-case font-normal">{t("clientLanding.form.budgetCurrency")}</span>
                                         </label>
                                         <div className="relative">
                                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-sm pointer-events-none">$</span>
                                             <input
                                                 type="number" name="userBudget" value={form.userBudget}
                                                 onChange={handleChange} onBlur={() => handleBlur("userBudget")}
-                                                min="1" placeholder="5,000"
+                                                min="1" placeholder={t("clientLanding.form.placeholderBudget")}
                                                 className={`${inputClass("userBudget")} pl-7`}
                                             />
                                         </div>
@@ -431,8 +434,8 @@ export default function ClientLandingPage() {
                                     <button
                                         type="submit" disabled={loading}
                                         className={`w-full py-4 rounded-2xl font-bold text-white transition-all shadow-xl flex items-center justify-center gap-2 ${loading
-                                                ? "bg-slate-700 text-slate-500 cursor-not-allowed"
-                                                : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-blue-500/25 active:scale-[0.98]"
+                                            ? "bg-slate-700 text-slate-500 cursor-not-allowed"
+                                            : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-blue-500/25 active:scale-[0.98]"
                                             }`}
                                     >
                                         {loading ? (
@@ -441,10 +444,10 @@ export default function ClientLandingPage() {
                                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                                                 </svg>
-                                                Procesando...
+                                                {t("common.processing")}
                                             </span>
                                         ) : (
-                                            <>Enviar Registro <Send size={18} /></>
+                                            <>{t("clientLanding.form.submit")} <Send size={18} /></>
                                         )}
                                     </button>
                                 </div>

@@ -23,6 +23,7 @@ EquineLead es como un **auto de carreras de alta tecnología**. Antes de salir a
 - ✅ ¿Cuál es el objetivo del proyecto?
 - ✅ ¿Qué tecnologías usamos?
 - ✅ ¿Cómo está organizado el código?
+- ✅ Soporte multi-idioma (i18n) para mercados globales
 
 **Puntos clave:**
 - Somos un motor de crecimiento para la industria ecuestre

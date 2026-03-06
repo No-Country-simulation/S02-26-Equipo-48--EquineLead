@@ -1,8 +1,10 @@
 import { Smartphone, Download, CheckCircle2, AlertCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { downloadApk } from "../../services/api";
 import { useState } from "react";
 
 export default function AppDownload() {
+    const { t } = useTranslation();
     const [downloading, setDownloading] = useState(false);
 
     const handleDownload = async () => {
@@ -18,7 +20,7 @@ export default function AppDownload() {
             document.body.removeChild(link);
         } catch (err) {
             console.error("APK download failed", err);
-            alert("Failed to download APK. Please check your connection.");
+            alert(t("downloadPage.downloadFailed"));
         } finally {
             setDownloading(false);
         }
@@ -29,36 +31,36 @@ export default function AppDownload() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
                 {/* Left: Info */}
                 <div className="space-y-6 text-center md:text-left">
-                    <h1 className="text-4xl font-bold leading-tight">
-                        Take EquineLead <br />
-                        <span className="text-blue-500">Everywhere</span>
+                    <div className="bg-blue-600/10 border border-blue-500/20 text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold inline-block mb-4">
+                        {t("downloadPage.beta")}
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+                        {t("downloadPage.title")} <span className="text-blue-500">{t("downloadPage.titleBlue")}</span>
                     </h1>
-                    <p className="text-slate-400 text-lg">
-                        Manage your leads on the go. Get real-time notifications when a high-value buyer is identified.
+                    <p className="text-lg text-slate-400 max-w-md mx-auto mb-8">
+                        {t("downloadPage.desc")}
                     </p>
 
-                    <div className="space-y-4 pt-4">
-                        <div className="flex items-center gap-3 text-slate-300">
-                            <CheckCircle2 className="text-green-500" size={20} />
-                            <span>Real-time Scoring Alerts</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-slate-300">
-                            <CheckCircle2 className="text-green-500" size={20} />
-                            <span>Contact Management</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-slate-300">
-                            <CheckCircle2 className="text-green-500" size={20} />
-                            <span>Offline Access</span>
-                        </div>
-                    </div>
+                    <ul className="space-y-4 mb-10 text-left max-w-xs mx-auto">
+                        {[
+                            t("downloadPage.features.scoring"),
+                            t("downloadPage.features.contact"),
+                            t("downloadPage.features.offline")
+                        ].map((text, i) => (
+                            <li key={i} className="flex items-center gap-3 text-slate-300">
+                                <CheckCircle2 className="text-emerald-400" size={20} />
+                                <span className="font-medium">{text}</span>
+                            </li>
+                        ))}
+                    </ul>
 
                     <button
                         onClick={handleDownload}
                         disabled={downloading}
-                        className="w-full sm:w-auto mt-6 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 px-10 py-4 rounded-2xl font-bold transition flex items-center justify-center gap-3 shadow-lg shadow-blue-500/20"
+                        className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-2xl transition flex items-center justify-center gap-3 shadow-xl shadow-blue-500/20 ${downloading ? 'opacity-70 cursor-not-allowed' : ''}`}
                     >
-                        {downloading ? "Preparing Build..." : "Download Android APK"}
-                        <Download size={22} />
+                        <Download size={22} className={downloading ? 'animate-bounce' : ''} />
+                        {downloading ? t("downloadPage.preparing") : t("downloadPage.button")}
                     </button>
                 </div>
 

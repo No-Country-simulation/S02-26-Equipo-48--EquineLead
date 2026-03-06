@@ -10,6 +10,7 @@ import {
 
 import type { FunnelData } from "../../services/api";
 import Tooltip from "./Tooltip";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: FunnelData[];
@@ -25,24 +26,18 @@ const INDIGO_SHADES = [
   "#a5b4fc", // indigo-300
 ];
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload, t }: any) => {
   if (active && payload && payload.length) {
     const item = payload[0].payload;
-    // El gráfico horizontal no pasa chartData fácilmente en el payload de Tooltip.
-    // Usamos el payload que contiene el dato individual y obtenemos el valor base
-    // desde una referencia que pasaremos al componente o calcularemos aquí.
-    // Como siempre el primer elemento es el total (Leads), lo buscamos en el contexto si es posible
-    // o comparamos contra el valor máximo del set actual.
-
     return (
       <div className="bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm shadow-xl">
         <p className="font-semibold text-white mb-1">{item.name}</p>
         <p className="text-slate-300">
-          Cantidad: <span className="font-bold text-white">{item.value.toLocaleString()}</span>
+          {t("dashboard.charts.funnel.quantity")}: <span className="font-bold text-white">{item.value.toLocaleString()}</span>
         </p>
         {(payload[0] as any).chartData && (
           <p className="text-indigo-400 text-xs mt-1 font-medium">
-            Retención: {((item.value / (payload[0] as any).chartData[0].value) * 100).toFixed(1)}% del total
+            {t("dashboard.charts.funnel.retention")}: {((item.value / (payload[0] as any).chartData[0].value) * 100).toFixed(1)}% {t("dashboard.charts.funnel.ofTotal")}
           </p>
         )}
       </div>
@@ -52,17 +47,18 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 export default function CustomFunnel({ data, helpText }: Props) {
+  const { t } = useTranslation();
   if (!Array.isArray(data) || data.length === 0) return null;
 
   return (
     <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg relative">
       <div className="mb-4 pr-8">
         <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold text-white">Embudo de Conversión</h2>
+          <h2 className="text-lg font-semibold text-white">{t("dashboard.charts.funnel.title")}</h2>
           {helpText && <Tooltip content={helpText} />}
         </div>
         <p className="text-xs text-slate-400 mt-1">
-          Flujo de leads a través de las etapas del pipeline
+          {t("dashboard.charts.funnel.subtitle")}
         </p>
       </div>
 
@@ -79,7 +75,7 @@ export default function CustomFunnel({ data, helpText }: Props) {
             tick={{ fill: "#94a3b8", fontSize: 11 }}
             width={100}
           />
-          <RechartsTooltip content={<CustomTooltip />} cursor={{ fill: "transparent" }} />
+          <RechartsTooltip content={<CustomTooltip t={t} />} cursor={{ fill: "transparent" }} />
           <Bar
             dataKey="value"
             radius={[0, 4, 4, 0]}

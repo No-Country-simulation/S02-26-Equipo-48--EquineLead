@@ -39,21 +39,46 @@ graph LR
     S -- Generar Lead Simulado --> A
     A -- POST /api/Interaction --> BE
     BE --> DB
+    BE -- POST /sync --> S
 ```
+
+> [!NOTE]
+> La comunicación es bidireccional: El Dashboard (vía Backend) solicita la sincronización al Scrapper, y el Scrapper envía los leads detectados al Backend.
 
 ---
 
 ## ⚙️ Configuración (.env)
 
-El scrapper es altamente configurable mediante variables de entorno. Crea un archivo `.env` basado en `.env.example`:
+El scrapper es altamente configurable mediante variables de entorno. El servicio escucha por defecto en el puerto **8081**.
+
+Crea un archivo `.env` basado en `.env.example`:
 
 | Variable | Descripción | Valor por Defecto |
 | :--- | :--- | :--- |
 | `BACKEND_URL` | URL del Backend C# | `http://localhost:5286` |
-| `TARGET_URL` | URL de la categoría a scrapear | `https://tierragro.com/...` |
-| `WEIGHT_INSTAGRAM` | Peso (0-100) para fuente Instagram | `50` |
-| `WEIGHT_WEB` | Peso (0-100) para fuente Web | `20` |
+| `TARGET_URL` | URL de la categoría a scrapear | `https://tierragro.com/collections/caballos` |
+| `MAX_PRODUCTS_PER_CAT` | Cantidad máxima de productos a procesar | `5` |
 | `SCRAP_DELAY_SEC` | Delay entre productos para evitar bloqueos | `2` |
+| `WEIGHT_FACEBOOK` | Peso (0-100) para fuente Facebook | `0` |
+| `WEIGHT_INSTAGRAM` | Peso (0-100) para fuente Instagram | `0` |
+| `WEIGHT_FORMULARIO` | Peso (0-100) para fuente Formulario | `0` |
+| `WEIGHT_WEB` | Peso (0-100) para fuente Web | `0` |
+| `WEIGHT_EVENTO` | Peso (0-100) para fuente Evento | `0` |
+
+---
+
+## 📡 Endpoints del Servicio
+
+### `POST /sync`
+Inicia un ciclo de scraping en segundo plano utilizando la configuración actual del `.env`.
+
+**Respuesta exitosa**:
+```json
+{
+    "message": "Scraping cycle started in background",
+    "status": "success"
+}
+```
 
 ---
 

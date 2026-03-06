@@ -10,13 +10,14 @@ import {
 } from "recharts";
 import type { ClassificationData } from "../../services/api";
 import Tooltip from "./Tooltip";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: ClassificationData[];
   helpText?: string;
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label, t }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm shadow-xl">
@@ -26,7 +27,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             <div key={entry.name} className="flex items-center justify-between gap-4">
               <span className="flex items-center gap-2" style={{ color: entry.color }}>
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-                {entry.name === "cold" ? "Frío" : entry.name === "warm" ? "Tibio" : "Caliente"}:
+                {t(`dashboard.charts.classification.temperatures.${entry.name}`, { defaultValue: entry.name })}:
               </span>
               <span className="font-bold text-white text-right">
                 {entry.value.toLocaleString()}
@@ -41,14 +42,16 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function ClassificationChart({ data, helpText }: Props) {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-lg relative">
       <div className="mb-6 pr-8">
         <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold text-white">Evolución de Clasificación</h2>
+          <h2 className="text-lg font-semibold text-white">{t("dashboard.charts.classification.title")}</h2>
           {helpText && <Tooltip content={helpText} />}
         </div>
-        <p className="text-xs text-slate-400 mt-1">Tendencia histórica de leads por temperatura</p>
+        <p className="text-xs text-slate-400 mt-1">{t("dashboard.charts.classification.subtitle")}</p>
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
@@ -79,12 +82,10 @@ export default function ClassificationChart({ data, helpText }: Props) {
             axisLine={false}
             tickLine={false}
           />
-          <RechartsTooltip content={<CustomTooltip />} />
+          <RechartsTooltip content={<CustomTooltip t={t} />} />
           <Legend
             iconType="circle"
-            formatter={(value) =>
-              value === "cold" ? "Frío" : value === "warm" ? "Tibio" : "Caliente"
-            }
+            formatter={(value) => t(`dashboard.charts.classification.temperatures.${value}`, { defaultValue: value })}
             wrapperStyle={{ fontSize: "13px", paddingTop: "20px" }}
           />
           <Area

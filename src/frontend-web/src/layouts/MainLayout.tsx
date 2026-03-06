@@ -1,7 +1,10 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { LayoutDashboard, Home, Download, TrendingUp, LogOut } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../components/ui/LanguageSwitcher";
 
 export default function MainLayout() {
+    const { t } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
     const isAuthenticated = sessionStorage.getItem("admin_auth") === "true";
@@ -14,11 +17,11 @@ export default function MainLayout() {
     // Define nav items based on auth status
     const navItems = isAuthenticated
         ? [
-            { name: "Home", path: "/", icon: Home },
-            { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-            { name: "Download App", path: "/download", icon: Download },
+            { name: t("common.home"), path: "/", icon: Home },
+            { name: t("common.dashboard"), path: "/dashboard", icon: LayoutDashboard },
+            { name: t("common.downloadApp"), path: "/download", icon: Download },
         ]
-        : [{ name: "Home", path: "/", icon: Home }];
+        : [{ name: t("common.home"), path: "/", icon: Home }];
 
     return (
         <div className="min-h-screen bg-slate-900 text-white flex">
@@ -49,17 +52,20 @@ export default function MainLayout() {
                     })}
                 </nav>
 
-                <div className="p-4 border-t border-slate-700 space-y-3">
+                <div className="p-4 border-t border-slate-700 space-y-4">
+                    <div className="px-4 py-1">
+                        <LanguageSwitcher />
+                    </div>
                     {isAuthenticated && (
                         <button
                             onClick={handleLogout}
                             className="flex items-center gap-2 text-slate-500 hover:text-red-400 transition text-sm w-full px-4 py-2 rounded-xl hover:bg-slate-700"
                         >
                             <LogOut size={16} />
-                            <span>Cerrar sesión</span>
+                            <span>{t("common.logout")}</span>
                         </button>
                     )}
-                    <p className="text-xs text-slate-500 text-center">v1.0.0-beta</p>
+                    <p className="text-xs text-slate-500 text-center">{t("common.version")}</p>
                 </div>
             </aside>
 

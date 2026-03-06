@@ -25,6 +25,7 @@ import UserDistributionChart from "../../components/ui/UserDistributionChart";
 import Toast, { type ToastMessage, type ToastType } from "../../components/ui/Toast";
 import SyncHistoryPanel, { type SyncEvent } from "../../components/ui/SyncHistoryPanel";
 import { Loader2, AlertCircle, FileDown, Target, Users, TrendingUp, HandCoins, PercentCircle, History } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const HISTORY_KEY = "sync_history_events";
 
@@ -42,6 +43,7 @@ function saveHistory(events: SyncEvent[]) {
 }
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
   const [interactionData, setInteractionData] = useState<InteractionSource[]>([]);
   const [funnelData, setFunnelData] = useState<FunnelData[]>([]);
@@ -100,7 +102,7 @@ export default function Dashboard() {
       setError(null);
     } catch (err) {
       console.error("Failed to load dashboard data", err);
-      setError("No se pudo conectar al API. Asegúrate de que el backend esté activo.");
+      setError(t("common.errorMsg"));
     } finally {
       setLoading(false);
     }
@@ -111,13 +113,14 @@ export default function Dashboard() {
   }, []);
 
   const handleSync = async () => {
+    if (isSyncing) return;
     try {
       setIsSyncing(true);
 
       // Capturar total de leads ANTES de sincronizar
       const leadsBefore = metrics?.totalLeads ?? 0;
 
-      pushToast("Iniciando sincronización de leads desde Tierragro...", "info");
+      pushToast(t("dashboard.messages.syncStart"), "info");
 
       // Agregar entrada provisional al historial mientras procesa
       const pendingId = Date.now().toString();
@@ -125,7 +128,7 @@ export default function Dashboard() {
         id: pendingId,
         timestamp: new Date().toISOString(),
         status: "pending",
-        message: "Sincronización en curso...",
+        message: t("dashboard.syncHistory.pending"),
       };
       setSyncHistory(prev => {
         const updated = [pendingEvent, ...prev];
@@ -135,7 +138,7 @@ export default function Dashboard() {
 
       await syncLeads();
 
-      pushToast("Scrapper activo. Calculando nuevos leads en 10 segundos...", "info");
+      pushToast(t("dashboard.messages.syncActive"), "info");
 
       // Esperar a que el scrapper termine (ajustar según MAX_PRODUCTS * SCRAP_DELAY)
       setTimeout(async () => {
@@ -146,8 +149,8 @@ export default function Dashboard() {
 
           const message =
             delta === 0
-              ? "Sincronización completada: 0 leads nuevos (sin cambios)"
-              : `Sincronización completada: ${delta} lead${delta !== 1 ? "s" : ""} nuevo${delta !== 1 ? "s" : ""} agregado${delta !== 1 ? "s" : ""}`;
+              ? t("dashboard.messages.syncNoChange")
+              : t("dashboard.messages.syncComplete", { count: delta });
 
           // Actualizar la entrada pendiente con el resultado real
           setSyncHistory(prev => {
@@ -166,7 +169,7 @@ export default function Dashboard() {
           setSyncHistory(prev => {
             const updated = prev.map(ev =>
               ev.id === pendingId
-                ? { ...ev, status: "error" as const, message: "No se pudo verificar el resultado de la sincronización." }
+                ? { ...ev, status: "error" as const, message: t("dashboard.messages.syncVerifyError") }
                 : ev
             );
             saveHistory(updated);
@@ -177,8 +180,8 @@ export default function Dashboard() {
 
     } catch (err) {
       console.error("Sync failed", err);
-      pushToast("No se pudo conectar al scrapper. Verifica que esté activo en el puerto 8081.", "error");
-      addHistoryEvent("error", "Error de conexión al scrapper (puerto 8081 no disponible).");
+      pushToast(t("dashboard.messages.syncError"), "error");
+      addHistoryEvent("error", t("dashboard.syncHistory.connectionError"));
     } finally {
       setIsSyncing(false);
     }
@@ -188,16 +191,16 @@ export default function Dashboard() {
     try {
       if (!metrics) return;
 
-      pushToast("Generando reporte ejecutivo con datos actualizados...", "info");
+      pushToast(t("dashboard.messages.reportStart"), "info");
 
       // Obtener Top Leads para el reporte
       const topLeadsRes = await getTopLeads(10);
 
       generateLeadReport(metrics, interactionData, funnelData, topLeadsRes.data);
-      pushToast("Reporte PDF ejecutivo descargado correctamente.", "success");
+      pushToast(t("dashboard.messages.reportSuccess"), "success");
     } catch (err) {
       console.error("Report generation failed", err);
-      pushToast("No se pudo generar el reporte PDF profesional.", "error");
+      pushToast(t("dashboard.messages.reportError"), "error");
     }
   };
 
@@ -205,7 +208,7 @@ export default function Dashboard() {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
         <Loader2 className="animate-spin text-indigo-500 w-12 h-12" />
-        <p className="text-slate-400 font-medium tracking-wide">Analizando Leads y Métricas...</p>
+        <p className="text-slate-400 font-medium tracking-wide">{t("common.loading")}</p>
       </div>
     );
   }
@@ -214,13 +217,13 @@ export default function Dashboard() {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-4 text-center">
         <AlertCircle className="text-red-500 w-16 h-16" />
-        <h2 className="text-2xl font-bold">Error de Conexión</h2>
+        <h2 className="text-2xl font-bold">{t("common.errorTitle")}</h2>
         <p className="text-slate-400 max-w-md">{error}</p>
         <button
           onClick={() => window.location.reload()}
           className="mt-4 bg-indigo-600 hover:bg-indigo-700 px-6 py-2 rounded-xl transition font-medium"
         >
-          Reintentar
+          {t("common.retry")}
         </button>
       </div>
     );
@@ -252,8 +255,8 @@ export default function Dashboard() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white">Analíticas de Crecimiento</h1>
-            <p className="text-slate-400 mt-1">Métricas en tiempo real para análisis de flujo y valor</p>
+            <h1 className="text-3xl font-bold text-white">{t("dashboard.title")}</h1>
+            <p className="text-slate-400 mt-1">{t("dashboard.subtitle")}</p>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
@@ -271,17 +274,17 @@ export default function Dashboard() {
               ) : (
                 <TrendingUp size={18} />
               )}
-              <span>{isSyncing ? "Sincronizando..." : "Sincronizar Leads"}</span>
+              <span>{isSyncing ? t("dashboard.syncing") : t("dashboard.syncBtn")}</span>
             </button>
 
             {/* History button */}
             <button
               onClick={() => setHistoryOpen(true)}
               className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4 py-2.5 rounded-xl transition text-slate-300 relative"
-              title="Ver historial de sincronizaciones"
+              title={t("dashboard.history")}
             >
               <History size={18} />
-              <span>Historial</span>
+              <span>{t("dashboard.history")}</span>
               {syncHistory.length > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 bg-indigo-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">
                   {syncHistory.length > 9 ? "9+" : syncHistory.length}
@@ -295,7 +298,7 @@ export default function Dashboard() {
               className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 px-5 py-2.5 rounded-xl transition text-slate-200"
             >
               <FileDown size={18} />
-              <span>Descargar Reporte PDF</span>
+              <span>{t("dashboard.reportBtn")}</span>
             </button>
           </div>
         </div>
@@ -303,44 +306,44 @@ export default function Dashboard() {
         {/* Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6">
           <StatCard
-            title="Total Registrados"
+            title={t("dashboard.stats.total.title")}
             value={metrics.totalLeads.toLocaleString()}
-            subtitle="Base total en CRM"
+            subtitle={t("dashboard.stats.total.subtitle")}
             icon={Users}
             iconColor="text-sky-400"
-            helpText="Volumen acumulado de todos los prospectos capturados en el ecosistema EquineLead. Consolida tanto la base histórica del CRM como los nuevos ingresos capturados en tiempo real por el motor de scrapping."
+            helpText={t("dashboard.stats.total.help")}
           />
           <StatCard
-            title="Valor del Pipeline"
+            title={t("dashboard.stats.pipeline.title")}
             value={formatPipelineValue(metrics.pipelineValue)}
-            subtitle="Suma presupuestos SQL (Hot) — USD"
+            subtitle={t("dashboard.stats.pipeline.subtitle")}
             icon={HandCoins}
             iconColor="text-emerald-400"
-            helpText="Representa la suma proyectada de los presupuestos de todos los leads actualmente clasificados como 'Hot'. Es una proyección del valor monetario (en USD) listo para ser gestionado por su alta probabilidad de conversión."
+            helpText={t("dashboard.stats.pipeline.help")}
           />
           <StatCard
-            title="Tasa de Cierre Global"
+            title={t("dashboard.stats.winRate.title")}
             value={`${metrics.winRate}% `}
-            subtitle="Conversión SQL a Ganado"
+            subtitle={t("dashboard.stats.winRate.subtitle")}
             icon={PercentCircle}
             iconColor="text-rose-400"
-            helpText="Refleja el porcentaje histórico de efectividad en el cierre de negocios. Indica cuánto de los leads calificados que ingresaron al embudo terminaron exitosamente en una transacción."
+            helpText={t("dashboard.stats.winRate.help")}
           />
           <StatCard
-            title="Score Promedio"
+            title={t("dashboard.stats.score.title")}
             value={metrics.averageScore}
-            subtitle="Calidad base (0–100)"
+            subtitle={t("dashboard.stats.score.subtitle")}
             icon={Target}
             iconColor="text-indigo-400"
-            helpText="Es la calificación promedio de calidad (escala 0-100) de toda tu base de datos, evaluada por nuestro motor de Data Science. Un promedio alto indica leads alineados a tu catálogo premium."
+            helpText={t("dashboard.stats.score.help")}
           />
           <StatCard
-            title="Leads Hot"
+            title={t("dashboard.stats.hotLeads.title")}
             value={`${metrics.effectivity}% `}
-            subtitle="Proporción sobre el total"
+            subtitle={t("dashboard.stats.hotLeads.subtitle")}
             icon={TrendingUp}
             iconColor="text-amber-400"
-            helpText="Muestra la proporción porcentual de leads identificados por la IA con una intención de compra crítica. Prospectos que han superado los umbrales de presupuesto y actividad necesarios para prioridad máxima."
+            helpText={t("dashboard.stats.hotLeads.help")}
           />
         </div>
 
@@ -349,13 +352,13 @@ export default function Dashboard() {
           <div className="lg:col-span-1 border border-slate-700 bg-slate-800 rounded-2xl overflow-hidden p-1">
             <UserDistributionChart
               data={leadTypesData}
-              helpText="Desglose de la base de datos entre B2B (Empresas) y B2C (Consumidores finales). Fundamental para ajustar el discurso comercial y entender los ciclos de venta."
+              helpText={t("dashboard.charts.userDistribution.help")}
             />
           </div>
           <div className="lg:col-span-2">
             <CustomFunnel
               data={funnelData}
-              helpText="Visualización del viaje del cliente desde la captura hasta el cierre. Permite detectar puntos de fuga y cuellos de botella en el proceso de ventas."
+              helpText={t("dashboard.charts.funnel.help")}
             />
           </div>
         </div>
@@ -364,11 +367,11 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 gap-6">
           <InteractionChart
             data={interactionData}
-            helpText="Identifica el origen de los leads y sus canales de interacción preferidos. Brújula para optimizar la inversión en publicidad y marketing."
+            helpText={t("dashboard.charts.interaction.help")}
           />
           <ClassificationChart
             data={classificationData}
-            helpText="Tendencia histórica de la calidad de leads. Permite visualizar si el volumen de prospectos 'Calientes' aumenta con el tiempo gracias a las estrategias de nutrición."
+            helpText={t("dashboard.charts.classification.help")}
           />
         </div>
       </div>

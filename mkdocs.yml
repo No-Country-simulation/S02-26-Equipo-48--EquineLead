@@ -33,7 +33,7 @@ theme:
     - content.code.copy
 
 extra_css:
-  - custom.css
+  - extra.css
 
 plugins:
   - search
@@ -118,15 +118,18 @@ nav:
     - "01. Onboarding": docs/guides/DEVELOPER_ONBOARDING.md
     - "02. Mapa de Flujo": docs/guides/DOCUMENTATION_FLOW.md
     - "03. Workflow de Git": docs/guides/GIT_WORKFLOW.md
-    - "04. Verificación Local": docs/guides/VERIFICACION_LOCAL_DESPLIEGUE.md
-    - "05. Referencia Técnica": docs/README.md
-    - "06. Base de Datos":
+    - "04. Verificación Local (Nativa)": docs/guides/1_VERIFICACION_LOCAL_NATIVA.md
+    - "05. Verificación Local (Docker)": docs/guides/2_VERIFICACION_ORQUESTACION_DOCKER.md
+    - "06. MkDocs (Local)": docs/guides/MKDOCS_LOCAL_SETUP.md
+    - "07. Referencia Técnica": docs/README.md
+    - "08. Base de Datos":
       - "Especificación v2": docs/database/especificacion-tecnica-db-v2.md
       - "Comandos Útiles": docs/database/db-commands.md
-    - "07. Contratos y Datos":
+      - "Consultas MVP": docs/database/VERIFICACION_PRESENTACION.md
+    - "09. Contratos y Datos":
       - "Contrato JSON Scoring": docs/data-contracts/contrato-json-scoring-v1.md
       - "Gestión de Datos": docs/data/README.md
-    - "08. Reuniones y Bitácoras":
+    - "10. Reuniones y Bitácoras":
       - "Estándar de Reuniones": docs/meetings/estandar_reuniones.md
       - "Sprint Sync (17-Feb)": docs/meetings/2026-02-17-sprint-sync-mvp-leads.md
       - "Flujo Pipeline Narrado": docs/meetings/2026-02-19-flujo-pipeline-narrado.md

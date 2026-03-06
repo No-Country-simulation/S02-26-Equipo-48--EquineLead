@@ -10,12 +10,14 @@ Este documento actúa como el **Hub de Referencia Técnica** para los desarrolla
 
 ### **Diccionarios y Datos**
 - **[Diccionario de Datos (Data Dictionary)](./data-dictionary/)**: Definición exhaustiva de variables para Lead Scoring y Esquema DB.
+- **[Verificación de Base de Datos (MVP)](./database/VERIFICACION_PRESENTACION.md)**: Comandos SQL rápidos para demostraciones.
 - **[Guía de Sincronización de Git (Git Workflow)](./guides/GIT_WORKFLOW.md)**: Guía para el flujo de trabajo de Git.
 - **[Modelos ML](./machine-learning/)**: Documentación de hiperparámetros y versiones de modelos BERT/RandomForest.
 
 ### **Flujos y Procesos**
 - **[Mapa de Navegación de Documentación](./guides/DOCUMENTATION_FLOW.md)**: Cómo se conectan todos los archivos `.md`.
 - **[Guía de Onboarding para desarrolladores](./guides/DEVELOPER_ONBOARDING.md)**: Ruta de aprendizaje paso a paso.
+- **[MkDocs (Local Preview)](./guides/MKDOCS_LOCAL_SETUP.md)**: Cómo previsualizar este portal de documentación localmente.
 
 ### **APIs e Integración**
 - **[Referencia de API (API Reference)](./api-reference.md)**: Documentación detallada de endpoints (Swagger/OpenAPI). *[Pendiente de implementación]*
@@ -148,23 +150,19 @@ graph TB
 ### **Componentes de Arquitectura**
 
 #### **Capa de Cliente**
-- **Dashboard Web**: Interfaz de analíticas y gestión basada en React
-- **Apps Móviles**: Apps nativas iOS (Swift) y Android (Kotlin) para equipo de ventas
-- **Landing Page**: Formularios de captura de leads con tracking de sentimiento
-
-#### **API Gateway**
-- **Tecnología**: ASP.NET Core 8.0
-- **Propósito**: Punto de entrada único, autenticación, rate limiting, enrutamiento
+- **Dashboard Web**: Interfaz de analíticas y gestión basada en **React 18** con soporte multi-idioma.
+- **Apps Móviles**: Apps nativas iOS (Swift) y Android (Kotlin) para equipo de ventas.
+- **Landing Page**: Formularios de captura de leads con soporte multi-idioma.
 
 #### **Servicios Backend**
-- **API Backend (.NET 8.0)**: Lógica de negocio core, orquestación de datos, endpoints API
-- **Servicio ML (Python 3.12.3)**: Análisis de sentimiento, scoring de leads, predicciones
-- **Scrapper (Rust 1.75.0)**: Recolección de datos de alto rendimiento desde fuentes externas
+- **API Backend (.NET 8.0)**: Punto de entrada único + lógica de negocio. Recibe leads del scrapper, llama al servicio ML para scoring y persiste resultados en DB.
+- **Servicio ML (Python 3.12.3 / FastAPI)**: Análisis de sentimiento, scoring de leads, predicciones.
+- **Scrapper (Rust 1.75.0)**: Recolección de datos de alto rendimiento y envío al API Backend.
 
 #### **Capa de Datos**
-- **PostgreSQL**: Base de datos relacional primaria para datos estructurados
-- **Redis**: Capa de caché para optimización de rendimiento
-- **RabbitMQ**: Cola de mensajes para procesamiento asíncrono y comunicación entre servicios
+- **PostgreSQL**: Base de datos relacional primaria. Única fuente de verdad persistida por el Backend C#.
+- **Caché (Redis)**: Capa opcional para optimización futura.
+- **Cola de Mensajes (RabbitMQ)**: Comunicación asíncrona para procesamiento de volumen.
 
 #### **CI/CD**
 - **Jenkins**: Testing, building y deployment automatizados
@@ -205,11 +203,12 @@ Las tecnologías marcadas con 💡 son propuestas técnicas que el equipo aún n
 - **Testing**: Framework de testing integrado de Rust ✅
 
 ### **Frontend Web**
-- **Runtime**: Node.js 18.19.1 ✅
-- **Framework**: React 18.2+ 💡 _(pendiente de confirmación)_
-- **Gestión de Estado**: Redux Toolkit 💡 _(pendiente de confirmación)_
-- **Librería UI**: Material-UI (MUI) 5.0+ 💡 _(pendiente de confirmación)_
-- **Build Tool**: Vite 4.0+ 💡 _(pendiente de confirmación)_
+- **Runtime**: Node.js 20.x ✅
+- **Framework**: React 18.2+ ✅
+- **Estándar i18n**: i18next + react-i18next ✅ (ES, EN, PT)
+- **Librería UI**: TailwindCSS ✅
+- **Gráficos**: Recharts ✅
+- **Build Tool**: Vite 5.0+ ✅
 - **Testing**: Jest 29.5.0 ✅ + React Testing Library 14.0.0 ✅
 
 ### **Móvil**
@@ -835,8 +834,11 @@ Piensa en EquineLead como un **auto de carreras de alta tecnología**:
 
 ## 🆘 Soporte
 
-### **Documentación**
-- [Guía de Onboarding](./guides/DEVELOPER_ONBOARDING.md) - Para nuevos developers
+### **Guías de Configuración y Despliegue**
+- **[Onboarding de Desarrolladores](./guides/DEVELOPER_ONBOARDING.md)**: Configuración inicial del entorno y arquitectura.
+- **[Verificación Local (Nativa)](./guides/1_VERIFICACION_LOCAL_NATIVA.md)**: Cómo probar el sistema sin Docker.
+- **[Verificación con Docker](./guides/2_VERIFICACION_ORQUESTACION_DOCKER.md)**: Cómo levantar el stack con Docker Compose.
+- **[MkDocs (Local Preview)](./guides/MKDOCS_LOCAL_SETUP.md)**: Cómo previsualizar este portal de documentación localmente.
 - [Mapa de Documentación](./guides/DOCUMENTATION_FLOW.md) - Navegación de docs
 - [Testing Guide](../tests/README.md) - Guía completa de testing
 - [Infrastructure Guide](../infrastructure/README.md) - Setup de infraestructura

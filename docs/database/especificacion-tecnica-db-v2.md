@@ -23,6 +23,7 @@ erDiagram
         string UserEmail
         string UserPhone
         string UserCity
+        string UserCountry
         timestamptz UserCreatedAt
     }
     
@@ -31,6 +32,7 @@ erDiagram
         decimal ProductPrice
         string ProductName
         string ProductCategory
+        string ProductUrl
     }
     
     LeadInteractions {

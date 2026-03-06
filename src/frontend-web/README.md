@@ -1,75 +1,72 @@
-# React + TypeScript + Vite
+# 📊 EquineLead Analytics Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend moderno desarrollado para la gestión y análisis de leads en la industria ecuestre. Esta aplicación permite visualizar métricas críticas, tendencias de clasificación y fuentes de interacción, todo con soporte completo multi-idioma.
 
-Currently, two official plugins are available:
+## 🚀 Características Principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Dashboard en Tiempo Real**: Visualización de métricas clave como Pipeline Value, Win Rate y Score promedio.
+- **Gráficas Interactivas**:
+  - Distribución de Usuarios (B2B vs B2C).
+  - Embudo de Conversión.
+  - Fuente de Interacciones (Redes sociales, web, formularios).
+  - Evolución de Clasificación (Frío, Tibio, Caliente).
+- **Internacionalización (i18n)**: Soporte completo para **Español, Inglés y Portugués**. Cambio de idioma instantáneo con persistencia en `localStorage`.
+- **Gestión de Sincronización**: Botón de sincronización con el Scrapper de Rust y panel de historial de actividad.
+- **Generación de Reportes**: Exportación de datos de leads a formato PDF/Excel (generación local).
 
-## React Compiler
+## 🛠 Stack Tecnológico
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- **Core**: React 18 + TypeScript + Vite
+- **Estilo**: TailwindCSS
+- **Gráficos**: Recharts
+- **Iconos**: Lucide React
+- **i18n**: i18next + react-i18next
+- **Notificaciones**: React Toastify
 
-Note: This will impact Vite dev & build performances.
+## 📥 Instalación y Setup
 
-## Expanding the ESLint configuration
+1. Navegar al directorio del frontend:
+   ```bash
+   cd src/frontend-web
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+3. Configurar variables de entorno (archivo `.env`):
+   ```bash
+   VITE_API_URL=http://localhost:8000/api
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+4. Iniciar servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🌍 Internacionalización
+
+La aplicación utiliza un sistema centralizado de traducciones ubicado en `src/i18n/locales/`. 
+
+- `es.json`: Español (Predeterminado)
+- `en.json`: Inglés
+- `pt.json`: Portugués
+
+Para añadir nuevos textos, edite los archivos JSON y utilice el hook `useTranslation` de `react-i18next` en los componentes:
+
+```tsx
+const { t } = useTranslation();
+return <h1>{t('dashboard.title')}</h1>;
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 Estructura del Proyecto
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `src/components/`: Componentes UI reutilizables (Botones, Gráficas, Layouts).
+- `src/pages/`: Páginas principales (Dashboard, Landing, App Download).
+- `src/services/`: Clientes API y lógica de reportes.
+- `src/i18n/`: Configuración y archivos de traducción.
+- `src/assets/`: Imágenes y recursos estáticos.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+**Desarrollado por el equipo EquineLead**

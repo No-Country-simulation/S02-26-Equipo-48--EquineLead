@@ -1,0 +1,234 @@
+{
+    "common": {
+        "home": "Início",
+        "dashboard": "Painel de Controle",
+        "downloadApp": "Baixar App",
+        "login": "Iniciar Sessão",
+        "logout": "Iniciar Sessão",
+        "version": "v1.0.0-beta",
+        "brand": "EquineLead",
+        "copyright": "© 2026 EquineLead — Motor de Crescimento Equestre",
+        "loading": "Carregando...",
+        "retry": "Repetir",
+        "errorTitle": "Erro de Conexão",
+        "errorMsg": "Não foi possível conectar à API. Verifique se o backend está ativo.",
+        "backToStart": "Voltar ao início",
+        "processing": "Processando..."
+    },
+    "landing": {
+        "heroTitle": "Equine Growth Engine",
+        "heroSubtitle": "A plataforma definitiva para administradores de estábulos e distribuidores atacadistas. Identifique clientes em potencial de alto valor e automatize seu funil de vendas com ciência de dados.",
+        "ctaButton": "Acessar Painel",
+        "features": {
+            "scraping": {
+                "title": "Escaneamento Automático",
+                "desc": "Identifique milhares de compradores em potencial na indústria automaticamente."
+            },
+            "scoring": {
+                "title": "Pontuação de Leads",
+                "desc": "Nossos modelos de machine learning classificam cada prospecto para que você se concentre no que importa."
+            },
+            "analytics": {
+                "title": "Análiticas de Desempenho",
+                "desc": "Acompanhe seu funil de conversão e ROI em um painel de controle em tempo real."
+            }
+        }
+    },
+    "clientLanding": {
+        "heroTitle": "Sua Conexão com o Mundo Equestre",
+        "heroSubtitle": "Descubra oportunidades exclusivas em cavalos, selas e equipamentos premium. Registre-se e receba ofertas personalizadas.",
+        "ctaRegister": "Registrar-me",
+        "ctaDiscover": "Descobrir Mais",
+        "hooks": {
+            "elite": {
+                "title": "Cavalos de Elite",
+                "desc": "Acesse um catálogo selecionado de exemplares de alto valor, verificados e avaliados por especialistas do setor."
+            },
+            "personalized": {
+                "title": "Ofertas Personalizadas",
+                "desc": "Nosso sistema de inteligência artificial encontra as melhores oportunidades de acordo com seu perfil e orçamento."
+            },
+            "direct": {
+                "title": "Conexão Direta",
+                "desc": "Conecte-se diretamente com criadores, fornecedores e estábulos premium sem intermediários."
+            }
+        },
+        "modal": {
+            "title": "Registre-se Agora",
+            "subtitle": "Acesso exclusivo a oportunidades premium",
+            "privacyNote": "Tratamos seus dados com estrita confidencialidade. Suas informações pessoais estão protegidas e serão usadas apenas para enviar ofertas relevantes do setor equestre."
+        },
+        "form": {
+            "name": "Nome Completo *",
+            "phone": "Telefone *",
+            "email": "E-mail",
+            "emailOptional": "(opcional)",
+            "country": "País *",
+            "specifyCountry": "Especificar País *",
+            "city": "Cidade *",
+            "clientType": "Tipo de Cliente",
+            "budget": "Orçamento Equino *",
+            "budgetCurrency": "(USD)",
+            "placeholderName": "Ex. João Silva",
+            "placeholderPhone": "+57 300 000 0000",
+            "placeholderEmail": "pessoa@exemplo.com",
+            "placeholderCountry": "— Selecione —",
+            "placeholderCountryOther": "Nome do país",
+            "placeholderCity": "— Selecione sua cidade —",
+            "placeholderCityOther": "Digite sua cidade",
+            "placeholderBudget": "5,000",
+            "typeIndividual": "Individual (B2C)",
+            "typeBusiness": "Empresa (B2B)",
+            "submit": "Enviar Registro",
+            "tooltip": {
+                "title": "Qual é o seu perfil?",
+                "b2c": "Pessoa física em busca de cavalos, equipamentos ou servicios equestres para uso pessoal ou familiar.",
+                "b2b": "Estábulo, fazenda, fornecedor ou empresa que adquire em volume ou para fins comerciais."
+            },
+            "errors": {
+                "nameRequired": "O nome é obrigatório.",
+                "nameShort": "Deve ter pelo menos 3 caracteres.",
+                "nameNumbers": "O nome não pode conter números.",
+                "nameFormat": "Apenas letras e espaços são permitidos.",
+                "phoneRequired": "O telefone é obrigatório.",
+                "phoneLetters": "O telefone não pode conter letras.",
+                "phoneFormat": "Formato inválido. Ex: +57 300 000 0000",
+                "emailFormat": "Formato de e-mail inválido.",
+                "countryRequired": "Selecione um país.",
+                "countrySpecify": "Por favor, especifique seu país.",
+                "countryNumbers": "O país não pode conter números.",
+                "cityRequired": "A cidade é obrigatória.",
+                "cityShort": "Deve ter pelo menos 2 caracteres.",
+                "cityNumbers": "A cidade não pode conter números.",
+                "budgetRequired": "O orçamento é obrigatório.",
+                "budgetPositive": "Insira um valor maior que 0.",
+                "apiError": "Houve um erro ao enviar seus dados. Tente novamente."
+            }
+        },
+        "success": {
+            "title": "Registro de Sucesso!",
+            "msg": "Seus dados foram recebidos. Nossa equipe entrará em contato com você com as melhores oportunidades do mundo equestre."
+        }
+    },
+    "dashboard": {
+        "title": "Analíticas de Crescimento",
+        "subtitle": "Métricas em tempo real para análise de fluxo e valor",
+        "syncBtn": "Sincronizar Leads",
+        "syncing": "Sincronizando...",
+        "history": "Histórico",
+        "reportBtn": "Baixar Relatório PDF",
+        "stats": {
+            "total": {
+                "title": "Total Registrados",
+                "subtitle": "Base total no CRM",
+                "help": "Volume acumulado de todos os prospectos capturados no ecossistema EquineLead. Consolida tanto o banco de dados histórico do CRM quanto as novas entradas capturadas em tempo real pelo motor de scraping."
+            },
+            "pipeline": {
+                "title": "Valor do Funil",
+                "subtitle": "Soma dos orçamentos SQL (Hot) — USD",
+                "help": "Representa a soma projetada dos orçamentos para todos os leads atualmente classificados como 'Hot'. É uma projeção do valor monetário (em USD) pronto para ser gerenciado devido à sua alta probabilidade de conversão."
+            },
+            "winRate": {
+                "title": "Taxa de Vitória Global",
+                "subtitle": "Conversão SQL para Ganho",
+                "help": "Reflete a porcentagem histórica de eficácia no fechamento de negócios. Indica quantos dos leads qualificados que entraram no funil terminaram com sucesso em uma transação."
+            },
+            "score": {
+                "title": "Pontuação Média",
+                "subtitle": "Qualidade base (0–100)",
+                "help": "É a classificação média de qualidade (escala 0-100) de todo o seu banco de dados, avaliada pelo nosso motor de Data Science. Uma média alta indica leads alinhados ao seu catálogo premium."
+            },
+            "hotLeads": {
+                "title": "Leads Hot",
+                "subtitle": "Proporção do total",
+                "help": "Mostra a proporção percentual de leads identificados pela IA com uma intenção de compra crítica. Prospectos que excederam os limites de orçamento e atividade necessários para prioridade máxima."
+            }
+        },
+        "charts": {
+            "userDistribution": {
+                "title": "Distribuição de Usuários",
+                "subtitle": "Proporção entre empresas (B2B) e indivíduos (B2C)",
+                "help": "Detalhamento do banco de dados entre B2B (Empresas) and B2C (Consumidores finais). Fundamental para ajustar o discurso comercial e entender os ciclos de vendas.",
+                "quantity": "Quantidade"
+            },
+            "funnel": {
+                "title": "Funil de Conversão",
+                "subtitle": "Fluxo de leads através das etapas do pipeline",
+                "help": "Visualização da jornada do cliente da captura ao fechamento. Permite detectar pontos de fuga e gargalos no processo de vendas.",
+                "quantity": "Quantidade",
+                "retention": "Retenção",
+                "ofTotal": "do total"
+            },
+            "interaction": {
+                "title": "Fontes de Interação",
+                "subtitle": "Distribuição de leads por canal de origem",
+                "help": "Identifica a origem dos leads e seus canais de interação preferidos. Bússola para otimizar o investimento em publicidade e marketing.",
+                "quantity": "Interações",
+                "sources": {
+                    "Facebook": "Facebook",
+                    "Instagram": "Instagram",
+                    "Formulario": "Formulário",
+                    "Web": "Web",
+                    "Evento": "Evento",
+                    "Otro": "Outro"
+                }
+            },
+            "classification": {
+                "title": "Evolução da Classificação",
+                "subtitle": "Tendência histórica de leads por temperatura",
+                "help": "Tendência histórica da qualidade do lead. Permite visualizar se o volume de prospectos 'Quentes' aumenta ao longo do tempo graças às estratégias de nutrição.",
+                "temperatures": {
+                    "cold": "Frio",
+                    "warm": "Morno",
+                    "hot": "Quente"
+                }
+            }
+        },
+        "messages": {
+            "analyzing": "Analisando Leads e Métricas...",
+            "syncStart": "Iniciando a sincronização de leads de Tierragro...",
+            "syncActive": "Scrapper ativo. Calculando novos leads em 10 segundos...",
+            "syncComplete": "Sincronização concluída: {{count}} novo(s) lead(s) adicionado(s)",
+            "syncNoChange": "Sincronização concluída: 0 novos leads (sem alterações)",
+            "syncVerifyError": "Não foi possível verificar o resultado da sincronização.",
+            "syncError": "Não foi possível conectar ao scrapper. Verifique se ele está ativo na porta 8081.",
+            "reportStart": "Gerando relatório executivo com datos atualizados...",
+            "reportSuccess": "Relatório PDF executivo baixado corretamente.",
+            "reportError": "Não foi possível gerar um relatório PDF profissional."
+        },
+        "syncHistory": {
+            "title": "Histórico de Sincronização",
+            "empty": "Ainda não há eventos de sincronização.",
+            "clear": "Limpar histórico",
+            "clearConfirm": "Tem certeza de que deseja limpar o histórico?",
+            "clearSuccess": "Histórico limpo com sucesso.",
+            "clearError": "Erro ao limpar o histórico.",
+            "fetchError": "Erro ao carregar o histórico.",
+            "loading": "Carregando histórico...",
+            "pending": "Sincronização em andamento...",
+            "connectionError": "Erro de conexão com o scrapper (porta 8081 não disponível)."
+        }
+    },
+    "adminGate": {
+        "title": "Acesso ao Painel",
+        "subtitle": "Digite a chave do administrador para continuar",
+        "placeholder": "Chave de acesso",
+        "error": "Chave incorreta. Tente novamente.",
+        "submit": "Entrar",
+        "close": "Fechar"
+    },
+    "downloadPage": {
+        "title": "Leve o EquineLead",
+        "titleBlue": "para Qualquer Lugar",
+        "desc": "Gerencie seus leads em qualquer lugar. Receba notificações em tempo real quando um comprador de alto valor for identificado.",
+        "features": {
+            "scoring": "Alertas de Scoring em Tempo Real",
+            "contact": "Gestão de Contatos",
+            "offline": "Acesso Offline"
+        },
+        "button": "Baixar APK Android",
+        "preparing": "Preparando Build...",
+        "error": "Falha ao baixar o APK. Por favor, verifique sua conexão.",
+        "beta": "BETA 1.0"
+    }
+}

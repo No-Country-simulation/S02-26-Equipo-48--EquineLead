@@ -1,13 +1,16 @@
 import { useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { TrendingUp, LogIn } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import AdminGate from "../components/ui/AdminGate";
+import LanguageSwitcher from "../components/ui/LanguageSwitcher";
 
 interface Props {
     children: ReactNode;
 }
 
 export default function PublicLayout({ children }: Props) {
+    const { t } = useTranslation();
     const [showGate, setShowGate] = useState(false);
     const navigate = useNavigate();
 
@@ -19,12 +22,11 @@ export default function PublicLayout({ children }: Props) {
     return (
         <div className="min-h-screen bg-slate-900 text-white">
             {/* AdminGate modal triggered from this layout */}
-            {showGate && (
-                <AdminGate
-                    onAuthenticated={handleAuthenticated}
-                    onClose={() => setShowGate(false)}
-                />
-            )}
+            <AdminGate
+                isOpen={showGate}
+                onSuccess={handleAuthenticated}
+                onClose={() => setShowGate(false)}
+            />
 
             {/* Minimal header — branding + login */}
             <header className="bg-slate-800/80 backdrop-blur-md border-b border-slate-700 sticky top-0 z-30">
@@ -34,13 +36,16 @@ export default function PublicLayout({ children }: Props) {
                         <span className="text-lg font-bold tracking-tight">EquineLead</span>
                     </div>
 
-                    <button
-                        onClick={() => setShowGate(true)}
-                        className="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition bg-slate-700/50 hover:bg-slate-700 px-4 py-2 rounded-lg border border-slate-600"
-                    >
-                        <LogIn size={16} />
-                        <span>Iniciar sesión</span>
-                    </button>
+                    <div className="flex items-center gap-4">
+                        <LanguageSwitcher />
+                        <button
+                            onClick={() => setShowGate(true)}
+                            className="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition bg-slate-700/50 hover:bg-slate-700 px-4 py-2 rounded-lg border border-slate-600"
+                        >
+                            <LogIn size={16} />
+                            <span>{t("common.login")}</span>
+                        </button>
+                    </div>
                 </div>
             </header>
 
@@ -51,7 +56,7 @@ export default function PublicLayout({ children }: Props) {
 
             {/* Footer */}
             <footer className="border-t border-slate-700 py-6 text-center text-xs text-slate-500">
-                © 2026 EquineLead — Motor de Crecimiento Ecuestre
+                {t("common.copyright")}
             </footer>
         </div>
     );

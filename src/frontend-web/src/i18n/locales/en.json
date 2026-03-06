@@ -1,0 +1,234 @@
+{
+    "common": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "downloadApp": "Download App",
+        "login": "Log In",
+        "logout": "Log Out",
+        "version": "v1.0.0-beta",
+        "brand": "EquineLead",
+        "copyright": "© 2026 EquineLead — Equine Growth Engine",
+        "loading": "Loading...",
+        "retry": "Retry",
+        "errorTitle": "Connection Error",
+        "errorMsg": "Could not connect to the API. Make sure the backend is active.",
+        "backToStart": "Back to start",
+        "processing": "Processing..."
+    },
+    "landing": {
+        "heroTitle": "Equine Growth Engine",
+        "heroSubtitle": "The ultimate platform for stable managers and wholesale dealers. Identify high-value leads and automate your sales funnel with data science.",
+        "ctaButton": "Access Panel",
+        "features": {
+            "scraping": {
+                "title": "Automated Scraping",
+                "desc": "Identify thousands of potential buyers across the industry automatically."
+            },
+            "scoring": {
+                "title": "Lead Scoring",
+                "desc": "Our machine learning models rank every lead so you focus on what matters."
+            },
+            "analytics": {
+                "title": "Performance Analytics",
+                "desc": "Track your conversion funnel and ROI in a real-time dashboard."
+            }
+        }
+    },
+    "clientLanding": {
+        "heroTitle": "Your Connection to the Equestrian World",
+        "heroSubtitle": "Discover exclusive opportunities in horses, saddles and premium equipment. Register and receive personalized offers.",
+        "ctaRegister": "Register Me",
+        "ctaDiscover": "Discover More",
+        "hooks": {
+            "elite": {
+                "title": "Elite Horses",
+                "desc": "Access a selected catalog of high-value specimens, verified and evaluated by industry experts."
+            },
+            "personalized": {
+                "title": "Personalized Offers",
+                "desc": "Our AI system finds the best opportunities according to your profile and budget."
+            },
+            "direct": {
+                "title": "Direct Connection",
+                "desc": "Connect directly with breeders, suppliers and premium stables without intermediaries."
+            }
+        },
+        "modal": {
+            "title": "Register Now",
+            "subtitle": "Exclusive access to premium opportunities",
+            "privacyNote": "We treat your data with strict confidentiality. Your personal information is protected and will only be used to send you relevant offers from the equestrian sector."
+        },
+        "form": {
+            "name": "Full Name *",
+            "phone": "Phone *",
+            "email": "Email",
+            "emailOptional": "(optional)",
+            "country": "Country *",
+            "specifyCountry": "Specify Country *",
+            "city": "City *",
+            "clientType": "Customer Type",
+            "budget": "Equine Budget *",
+            "budgetCurrency": "(USD)",
+            "placeholderName": "Ex. John Doe",
+            "placeholderPhone": "+57 300 000 0000",
+            "placeholderEmail": "person@example.com",
+            "placeholderCountry": "— Select —",
+            "placeholderCountryOther": "Country name",
+            "placeholderCity": "— Select your city —",
+            "placeholderCityOther": "Enter your city",
+            "placeholderBudget": "5,000",
+            "typeIndividual": "Individual (B2C)",
+            "typeBusiness": "Company (B2B)",
+            "submit": "Send Registration",
+            "tooltip": {
+                "title": "What is your profile?",
+                "b2c": "Natural person looking for horses, equipment or equestrian services for personal or family use.",
+                "b2b": "Stable, ranch, supplier or company that acquires in volume or for commercial purposes."
+            },
+            "errors": {
+                "nameRequired": "Name is required.",
+                "nameShort": "Must be at least 3 characters long.",
+                "nameNumbers": "Name cannot contain numbers.",
+                "nameFormat": "Only letters and spaces are allowed.",
+                "phoneRequired": "Phone is required.",
+                "phoneLetters": "Phone cannot contain letters.",
+                "phoneFormat": "Invalid format. Ex: +57 300 000 0000",
+                "emailFormat": "Invalid email format.",
+                "countryRequired": "Select a country.",
+                "countrySpecify": "Please specify your country.",
+                "countryNumbers": "Country cannot contain numbers.",
+                "cityRequired": "City is required.",
+                "cityShort": "Must be at least 2 characters long.",
+                "cityNumbers": "City cannot contain numbers.",
+                "budgetRequired": "Budget is required.",
+                "budgetPositive": "Enter a value greater than 0.",
+                "apiError": "There was an error sending your data. Try again."
+            }
+        },
+        "success": {
+            "title": "Registration Successful!",
+            "msg": "Your data has been received. Our team will contact you with the best opportunities in the equestrian world."
+        }
+    },
+    "dashboard": {
+        "title": "Growth Analytics",
+        "subtitle": "Real-time metrics for flow and value analysis",
+        "syncBtn": "Sync Leads",
+        "syncing": "Syncing...",
+        "history": "History",
+        "reportBtn": "Download PDF Report",
+        "stats": {
+            "total": {
+                "title": "Total Registered",
+                "subtitle": "Total base in CRM",
+                "help": "Cumulative volume of all prospects captured in the EquineLead ecosystem. Consolidates both the historical CRM database and new entries captured in real-time by the scraping engine."
+            },
+            "pipeline": {
+                "title": "Pipeline Value",
+                "subtitle": "Sum of SQL budgets (Hot) — USD",
+                "help": "Represents the projected sum of budgets for all leads currently classified as 'Hot'. It is a projection of the monetary value (in USD) ready to be managed due to its high conversion probability."
+            },
+            "winRate": {
+                "title": "Global Win Rate",
+                "subtitle": "SQL to Won conversion",
+                "help": "Reflects the historical percentage of effectiveness in closing deals. Indicates how many of the qualified leads that entered the funnel ended successfully in a transaction."
+            },
+            "score": {
+                "title": "Average Score",
+                "subtitle": "Base quality (0–100)",
+                "help": "It is the average quality rating (scale 0-100) of your entire database, evaluated by our Data Science engine. A high average indicates leads aligned to your premium catalog."
+            },
+            "hotLeads": {
+                "title": "Hot Leads",
+                "subtitle": "Proportion of the total",
+                "help": "Shows the percentage proportion of leads identified by the AI with a critical purchase intent. Prospects that have exceeded the budget and activity thresholds necessary for top priority."
+            }
+        },
+        "charts": {
+            "userDistribution": {
+                "title": "User Distribution",
+                "subtitle": "Proportion between companies (B2B) and individuals (B2C)",
+                "help": "Breakdown of the database between B2B (Companies) and B2C (Final consumers). Fundamental to adjust the commercial discourse and understand sales cycles.",
+                "quantity": "Quantity"
+            },
+            "funnel": {
+                "title": "Conversion Funnel",
+                "subtitle": "Lead flow through pipeline stages",
+                "help": "Visualization of the customer journey from capture to closure. Allows detecting leakage points and bottlenecks in the sales process.",
+                "quantity": "Quantity",
+                "retention": "Retention",
+                "ofTotal": "of total"
+            },
+            "interaction": {
+                "title": "Interaction Sources",
+                "subtitle": "Distribution of leads by origin channel",
+                "help": "Identifies the origin of leads and their preferred interaction channels. Compass to optimize investment in advertising and marketing.",
+                "quantity": "Interactions",
+                "sources": {
+                    "Facebook": "Facebook",
+                    "Instagram": "Instagram",
+                    "Formulario": "Form",
+                    "Web": "Web",
+                    "Evento": "Event",
+                    "Otro": "Other"
+                }
+            },
+            "classification": {
+                "title": "Classification Evolution",
+                "subtitle": "Historical trend of leads by temperature",
+                "help": "Historical trend of lead quality. Allows visualizing if the volume of 'Hot' prospects increases over time thanks to nutrition strategies.",
+                "temperatures": {
+                    "cold": "Cold",
+                    "warm": "Warm",
+                    "hot": "Hot"
+                }
+            }
+        },
+        "messages": {
+            "analyzing": "Analyzing Leads and Metrics...",
+            "syncStart": "Starting lead synchronization from Tierragro...",
+            "syncActive": "Scrapper active. Calculating new leads in 10 seconds...",
+            "syncComplete": "Sync completed: {{count}} new lead(s) added",
+            "syncNoChange": "Sync completed: 0 new leads (no changes)",
+            "syncVerifyError": "Could not verify synchronization result.",
+            "syncError": "Could not connect to the scrapper. Verify it is active on port 8081.",
+            "reportStart": "Generating executive report with updated data...",
+            "reportSuccess": "Executive PDF report downloaded correctly.",
+            "reportError": "Could not generate professional PDF report."
+        },
+        "syncHistory": {
+            "title": "Sync History",
+            "empty": "No sync events yet.",
+            "clear": "Clear history",
+            "clearConfirm": "Are you sure you want to clear the history?",
+            "clearSuccess": "History cleared successfully.",
+            "clearError": "Failed to clear history.",
+            "fetchError": "Failed to load history.",
+            "loading": "Loading history...",
+            "pending": "Sync in progress...",
+            "connectionError": "Scrapper connection error (port 8081 not available)."
+        }
+    },
+    "adminGate": {
+        "title": "Panel Access",
+        "subtitle": "Enter the administrator key to continue",
+        "placeholder": "Access key",
+        "error": "Incorrect key. Try again.",
+        "submit": "Enter",
+        "close": "Close"
+    },
+    "downloadPage": {
+        "title": "Take EquineLead",
+        "titleBlue": "Everywhere",
+        "desc": "Manage your leads on the go. Get real-time notifications when a high-value buyer is identified.",
+        "features": {
+            "scoring": "Real-time Scoring Alerts",
+            "contact": "Contact Management",
+            "offline": "Offline Access"
+        },
+        "button": "Download Android APK",
+        "preparing": "Preparing Build...",
+        "error": "Failed to download APK. Please check your connection.",
+        "beta": "BETA 1.0"
+    }
+}

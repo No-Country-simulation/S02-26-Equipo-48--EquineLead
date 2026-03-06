@@ -1,5 +1,12 @@
 import axios from "axios";
 
+export interface SyncHistoryEntry {
+  id: string;
+  timestamp: string;
+  status: "success" | "error" | "pending";
+  message: string;
+}
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
@@ -74,5 +81,14 @@ export const getTopLeads = (take: number = 10) =>
 
 export const syncLeads = () =>
   api.post("/scrapper/sync");
+
+export const getSyncHistory = async (): Promise<SyncHistoryEntry[]> => {
+  const response = await api.get<SyncHistoryEntry[]>("/scrapper/sync-history");
+  return response.data;
+};
+
+export const clearSyncHistory = async (): Promise<void> => {
+  await api.delete("/scrapper/sync-history");
+};
 
 export default api;
